@@ -1,0 +1,84 @@
+table dim_organization
+	lineageTag: d47ab440-9793-4579-8e34-61a6065ed1b2
+
+	column organization_id
+		dataType: string
+		lineageTag: 278cb8d6-6b9a-45d0-8311-7aad56199ef2
+		summarizeBy: none
+		sourceColumn: organization_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column organization_name
+		dataType: string
+		lineageTag: 230bbe03-dd0a-4249-a06d-5d0c9ce1db39
+		summarizeBy: none
+		sourceColumn: organization_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column address
+		dataType: string
+		lineageTag: 1208e4a5-9f2b-4b8c-b27d-20e6c7974a85
+		summarizeBy: none
+		sourceColumn: address
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 4af3380c-f291-4de8-afd0-95897fc0ab30
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: b21bde19-bbd3-4496-b9d9-e9d5fa37da51
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column zip
+		dataType: string
+		lineageTag: 41888e62-b864-4691-8e8c-bb2c8ea5233e
+		summarizeBy: none
+		sourceColumn: zip
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 206dc877-d6aa-48c3-a08a-38f2d36b8df0
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 7cd613da-5138-4927-871b-1b84e8f19532
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_organization = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("enttp6kntu2ehgoeuir6zm24ma-u4jxrrwwocpu7atyrga2mu6hi4.datawarehouse.fabric.microsoft.com", "HealthLakehouse"),
+				    gold_dim_organization = Source{[Schema="gold",Item="dim_organization"]}[Data]
+				in
+				    gold_dim_organization
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

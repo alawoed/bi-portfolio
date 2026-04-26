@@ -1,0 +1,165 @@
+table dim_patient
+	lineageTag: 599b6afb-2d44-42c8-a5e1-36c9fdcb5767
+
+	column patient_id
+		dataType: string
+		lineageTag: 9522faa3-593a-4370-9592-c8965d86ec20
+		summarizeBy: none
+		sourceColumn: patient_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column birth_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 80b1d2af-8f13-4015-8896-13fe9ce9d817
+		summarizeBy: none
+		sourceColumn: birth_date
+
+		variation Variation
+			isDefault
+			relationship: f8e8a8c0-5265-4d62-b88f-420d840fb21e
+			defaultHierarchy: LocalDateTable_58dd5739-4876-411d-81e3-0824b67e0382.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column death_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a8d76047-75fa-4384-bf00-41c2f012cedf
+		summarizeBy: none
+		sourceColumn: death_date
+
+		variation Variation
+			isDefault
+			relationship: 9caa01c1-55c7-4993-8d9e-d6d6696ac743
+			defaultHierarchy: LocalDateTable_feb5c6c6-42b6-48c9-89d9-d1af3ac64a64.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column first_name
+		dataType: string
+		lineageTag: 60942d4e-3362-4554-94a2-afc1f2405645
+		summarizeBy: none
+		sourceColumn: first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_name
+		dataType: string
+		lineageTag: b8e30e9b-7802-4799-b154-5da2de55fb02
+		summarizeBy: none
+		sourceColumn: last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		lineageTag: a3ee3369-4313-4d9c-810c-63a04775310a
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column race
+		dataType: string
+		lineageTag: 02845fdc-b11e-4fbd-8252-925f6d59842b
+		summarizeBy: none
+		sourceColumn: race
+
+		annotation SummarizationSetBy = Automatic
+
+	column ethnicity
+		dataType: string
+		lineageTag: bb919889-fe14-4fc8-a46d-9bcff7317b7b
+		summarizeBy: none
+		sourceColumn: ethnicity
+
+		annotation SummarizationSetBy = Automatic
+
+	column marital_status
+		dataType: string
+		lineageTag: 7ba764eb-52af-42dc-9380-d169e665b965
+		summarizeBy: none
+		sourceColumn: marital_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 0dee8147-f029-4fed-8814-78848a865564
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: f1fefc2d-951f-43c3-9d66-7a4baf8331d5
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column county
+		dataType: string
+		lineageTag: 76c9bb7c-ba1b-4fed-9fd7-996b83138b24
+		summarizeBy: none
+		sourceColumn: county
+
+		annotation SummarizationSetBy = Automatic
+
+	column zip
+		dataType: string
+		lineageTag: 0428310c-3807-4630-b3f4-6c8c805baa3b
+		summarizeBy: none
+		sourceColumn: zip
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 4ea2e4b1-c841-481e-a6af-9dac213cbf4e
+		summarizeBy: sum
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 62d199dd-4670-4ad7-96af-8b821c4e6b0a
+		summarizeBy: sum
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_deceased
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 02e0252e-b2d4-43af-b824-16a0d0c1f7b0
+		summarizeBy: none
+		sourceColumn: is_deceased
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_patient = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("enttp6kntu2ehgoeuir6zm24ma-u4jxrrwwocpu7atyrga2mu6hi4.datawarehouse.fabric.microsoft.com", "HealthLakehouse"),
+				    gold_dim_patient = Source{[Schema="gold",Item="dim_patient"]}[Data]
+				in
+				    gold_dim_patient
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,279 @@
+table fact_encounters
+	lineageTag: b0e40775-a7ef-403c-8013-0860b1c45c0f
+
+	column encounter_id
+		dataType: string
+		lineageTag: 2f37522c-235f-498e-9c8f-b30289544abd
+		summarizeBy: none
+		sourceColumn: encounter_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 42353d8e-807a-49d3-b2c1-25ad44199a9a
+		summarizeBy: none
+		sourceColumn: encounter_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 248444f9-68e3-4d78-a2cc-ef8fa4c7e169
+		summarizeBy: none
+		sourceColumn: start_timestamp
+
+		variation Variation
+			isDefault
+			relationship: 6f1d4441-ad09-40bc-99e1-9ed5f3c26a58
+			defaultHierarchy: LocalDateTable_fd1400c9-30f7-4631-8fed-375f65fb0a29.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column stop_timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9e884c1d-9194-4fdd-ba93-2324d207ce0c
+		summarizeBy: none
+		sourceColumn: stop_timestamp
+
+		variation Variation
+			isDefault
+			relationship: a258d809-d7d7-4194-b7a6-48d324a91893
+			defaultHierarchy: LocalDateTable_dab4f83c-f477-4199-9579-5496a9927133.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_id
+		dataType: string
+		lineageTag: 22d2ba8f-9e5c-46af-8347-cf4f76876dc3
+		summarizeBy: none
+		sourceColumn: patient_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column organization_id
+		dataType: string
+		lineageTag: 4d0f520d-b3d3-4056-834a-002525b43b7e
+		summarizeBy: none
+		sourceColumn: organization_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_id
+		dataType: string
+		lineageTag: 8404d731-efea-4ad3-9162-d2d9588b2068
+		summarizeBy: none
+		sourceColumn: payer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_class
+		dataType: string
+		lineageTag: f099b4c4-1629-4f60-b48b-d713dd9ae4e7
+		summarizeBy: none
+		sourceColumn: encounter_class
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_code
+		dataType: string
+		lineageTag: cd103eeb-687e-4a94-92a0-a30058295e71
+		summarizeBy: none
+		sourceColumn: encounter_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_description
+		dataType: string
+		lineageTag: b845915d-436b-4fa1-afc5-2288f3eedd8a
+		summarizeBy: none
+		sourceColumn: encounter_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column base_encounter_cost
+		dataType: double
+		lineageTag: 184c8555-d7eb-4a0e-bccf-20210c716048
+		summarizeBy: sum
+		sourceColumn: base_encounter_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_claim_cost
+		dataType: double
+		lineageTag: b410f751-77e9-4e1e-a5a0-717a773773b3
+		summarizeBy: sum
+		sourceColumn: total_claim_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column payer_coverage
+		dataType: double
+		lineageTag: 416f63e3-9cbf-463a-b31b-f15a69f61499
+		summarizeBy: sum
+		sourceColumn: payer_coverage
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column patient_responsibility_amount
+		dataType: double
+		lineageTag: 5efb6ee2-0bff-4ab2-9106-a939b1f87e17
+		summarizeBy: sum
+		sourceColumn: patient_responsibility_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column reason_code
+		dataType: string
+		lineageTag: 6f3a8459-5f95-4c8e-a2b6-5ecbc610a305
+		summarizeBy: none
+		sourceColumn: reason_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column reason_description
+		dataType: string
+		lineageTag: 2097c21e-686d-4828-818a-5fef4ec0aaa5
+		summarizeBy: none
+		sourceColumn: reason_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_duration_hours
+		dataType: double
+		lineageTag: 2c019fe2-e940-4ca6-b6b5-fe40c71099ed
+		summarizeBy: sum
+		sourceColumn: encounter_duration_hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_over_24_hours
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b8e81234-df8e-48a7-a206-10cf04c3162a
+		summarizeBy: none
+		sourceColumn: is_over_24_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2766a6b0-f202-4b68-a01e-a0f949333d86
+		summarizeBy: none
+		sourceColumn: encounter_date
+
+		variation Variation
+			isDefault
+			relationship: 6b32d258-6439-44ca-8e64-67552982129e
+			defaultHierarchy: LocalDateTable_563f4baf-e1b7-4b84-b27b-86fc8bd6c38f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column encounter_year
+		dataType: int64
+		formatString: 0
+		lineageTag: a196712f-e65e-4be1-8232-368b7a26c4c1
+		summarizeBy: sum
+		sourceColumn: encounter_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 2e056d6a-2238-4247-8275-cb5869aedd64
+		summarizeBy: sum
+		sourceColumn: encounter_quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 7a20dfeb-32bd-4f3d-a062-b3d57ea14018
+		summarizeBy: sum
+		sourceColumn: encounter_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column zero_payer_coverage_flag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a3acdbfe-f5b0-4e8a-a86a-180e0aacf1d6
+		summarizeBy: none
+		sourceColumn: zero_payer_coverage_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column previous_encounter_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3881f23c-2fcc-4beb-8901-569708006b6f
+		summarizeBy: none
+		sourceColumn: previous_encounter_date
+
+		variation Variation
+			isDefault
+			relationship: b1f30239-cd2b-4f8e-bbda-1b57d3463783
+			defaultHierarchy: LocalDateTable_bb654795-2aca-41fc-9f11-9262e83be3ee.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column days_since_previous_encounter
+		dataType: int64
+		formatString: 0
+		lineageTag: acad3011-f7d3-4bb3-a96b-ab11d714e311
+		summarizeBy: sum
+		sourceColumn: days_since_previous_encounter
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_readmission_30_days
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 68bdf5dc-4c35-44da-9c57-48449dd42d6e
+		summarizeBy: none
+		sourceColumn: is_readmission_30_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_count
+		dataType: int64
+		formatString: 0
+		lineageTag: bb86fc69-09fe-4554-b18e-1d8689cd4a86
+		summarizeBy: sum
+		sourceColumn: encounter_count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_encounters = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("enttp6kntu2ehgoeuir6zm24ma-u4jxrrwwocpu7atyrga2mu6hi4.datawarehouse.fabric.microsoft.com", "HealthLakehouse"),
+				    gold_fact_encounters = Source{[Schema="gold",Item="fact_encounters"]}[Data]
+				in
+				    gold_fact_encounters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

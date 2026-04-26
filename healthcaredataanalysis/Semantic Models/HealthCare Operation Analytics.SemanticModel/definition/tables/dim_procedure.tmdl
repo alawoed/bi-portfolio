@@ -1,0 +1,32 @@
+table dim_procedure
+	lineageTag: 9496bf7b-5b8e-4102-83ce-7ae31dc9e8cd
+
+	column procedure_code
+		dataType: string
+		lineageTag: 7b8563b3-3583-478f-aeee-9eb56c7581c1
+		summarizeBy: none
+		sourceColumn: procedure_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column procedure_description
+		dataType: string
+		lineageTag: 3df79951-96e8-49e4-befc-307cb9de7e91
+		summarizeBy: none
+		sourceColumn: procedure_description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_procedure = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("enttp6kntu2ehgoeuir6zm24ma-u4jxrrwwocpu7atyrga2mu6hi4.datawarehouse.fabric.microsoft.com", "HealthLakehouse"),
+				    gold_dim_procedure = Source{[Schema="gold",Item="dim_procedure"]}[Data]
+				in
+				    gold_dim_procedure
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
