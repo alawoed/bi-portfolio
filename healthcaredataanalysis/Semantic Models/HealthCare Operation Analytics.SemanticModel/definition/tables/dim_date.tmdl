@@ -1,0 +1,118 @@
+table dim_date
+	lineageTag: 78c51a23-67ce-43c5-8aee-194f55d21d98
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 97f1671a-7c9c-4ff8-b533-0ac9f7d9704f
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_value
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ae4d25fa-4f9f-4268-a62b-a585f9f8b17d
+		summarizeBy: none
+		sourceColumn: date_value
+
+		variation Variation
+			isDefault
+			relationship: 6de48d9a-310e-4cd6-ac72-b9a1258b17b9
+			defaultHierarchy: LocalDateTable_7d577d44-b2e0-46bc-b3e7-51a0f28fa8fe.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: d19a2d4e-4252-40f3-8035-038b44fe5e79
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 077f6cfa-9c06-467f-b0b9-af519dcb3412
+		summarizeBy: sum
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 79e7967f-a3db-4f41-820f-43644bcfebbf
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: c51c7f9a-4a89-4d0c-a829-63a1012379ec
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: e13f788e-e1e5-4e98-96c0-9e93336307fa
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 1c744955-bfd4-43fc-945f-e2d0770fbcce
+		summarizeBy: sum
+		sourceColumn: day_of_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: 76e9c412-3860-403e-8221-967f6ed09b6c
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_quarter
+		dataType: string
+		lineageTag: a599700a-0dfa-4f39-9260-37f2d5032d2e
+		summarizeBy: none
+		sourceColumn: year_quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: a767f61f-5716-4a6e-aa70-9d521b3d6601
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("enttp6kntu2ehgoeuir6zm24ma-u4jxrrwwocpu7atyrga2mu6hi4.datawarehouse.fabric.microsoft.com", "HealthLakehouse"),
+				    gold_dim_date = Source{[Schema="gold",Item="dim_date"]}[Data]
+				in
+				    gold_dim_date
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

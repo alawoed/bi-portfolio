@@ -1,0 +1,181 @@
+table fact_procedures
+	lineageTag: df8d787d-2e94-4040-a908-214c4a7a84c7
+
+	column procedure_event_id
+		dataType: string
+		lineageTag: 4f505ab0-eeb0-47fc-b1df-ffc93fbdf3b9
+		summarizeBy: none
+		sourceColumn: procedure_event_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column procedure_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 26fdabaa-cf80-4946-877f-358e166d744d
+		summarizeBy: sum
+		sourceColumn: procedure_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6baac1d1-e612-4c57-afc6-ab656ee45d8c
+		summarizeBy: none
+		sourceColumn: start_timestamp
+
+		variation Variation
+			isDefault
+			relationship: bc15181a-6768-4f46-b9ca-167cfb89a640
+			defaultHierarchy: LocalDateTable_c21fcae0-ae48-4bc7-afd8-3c6ad2c604c5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column stop_timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dd71414f-d063-481d-908a-247417fee6fb
+		summarizeBy: none
+		sourceColumn: stop_timestamp
+
+		variation Variation
+			isDefault
+			relationship: 32bc87d1-b163-4962-ad95-d13ba926ebb9
+			defaultHierarchy: LocalDateTable_8202cd77-8be5-4fde-98f2-ccade4b18e15.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_id
+		dataType: string
+		lineageTag: 2ab79776-93e0-4f33-b95b-206fc5b6fd4b
+		summarizeBy: none
+		sourceColumn: patient_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column encounter_id
+		dataType: string
+		lineageTag: e79cb603-4bf8-4f71-b20b-8fd42ff8918d
+		summarizeBy: none
+		sourceColumn: encounter_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column procedure_code
+		dataType: string
+		lineageTag: 31a25789-d1b5-4274-a661-47d3a613f73a
+		summarizeBy: none
+		sourceColumn: procedure_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column procedure_description
+		dataType: string
+		lineageTag: 59bf4576-d679-498e-889a-38a6935ff8dd
+		summarizeBy: none
+		sourceColumn: procedure_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column base_cost
+		dataType: double
+		lineageTag: 6ec76e31-f72c-42e8-9493-73cfda3ca18e
+		summarizeBy: sum
+		sourceColumn: base_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column reason_code
+		dataType: string
+		lineageTag: 325d0fc6-08bc-4de9-86db-c650dbd0b25f
+		summarizeBy: none
+		sourceColumn: reason_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column reason_description
+		dataType: string
+		lineageTag: 257702bc-adf2-4ae3-acba-f4b31d0d197b
+		summarizeBy: none
+		sourceColumn: reason_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column procedure_duration_minutes
+		dataType: double
+		lineageTag: 45060908-e184-4ced-9613-8212ddf3e675
+		summarizeBy: sum
+		sourceColumn: procedure_duration_minutes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column procedure_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e6a32bcb-f80f-4e22-955c-3046a178adae
+		summarizeBy: none
+		sourceColumn: procedure_date
+
+		variation Variation
+			isDefault
+			relationship: 83af0bdc-27ca-419d-b21b-e6b354e61025
+			defaultHierarchy: LocalDateTable_dfe4665c-c3ff-41e8-8304-c2b533a9dfa2.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column procedure_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 154a21ff-6d84-4679-b384-06ff8031715c
+		summarizeBy: sum
+		sourceColumn: procedure_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column procedure_quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 217e46f5-fbe6-41fe-82d5-5b0e2f0b080f
+		summarizeBy: sum
+		sourceColumn: procedure_quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column procedure_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 2be8f0d9-c04e-41d0-8c7a-2156149f1155
+		summarizeBy: sum
+		sourceColumn: procedure_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column procedure_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 965dc093-18ca-418f-8f6b-4c4d8cf66f19
+		summarizeBy: sum
+		sourceColumn: procedure_count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_procedures = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("enttp6kntu2ehgoeuir6zm24ma-u4jxrrwwocpu7atyrga2mu6hi4.datawarehouse.fabric.microsoft.com", "HealthLakehouse"),
+				    gold_fact_procedures = Source{[Schema="gold",Item="fact_procedures"]}[Data]
+				in
+				    gold_fact_procedures
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

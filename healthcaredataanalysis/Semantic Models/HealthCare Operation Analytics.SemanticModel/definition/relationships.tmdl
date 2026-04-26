@@ -1,0 +1,70 @@
+relationship 6de48d9a-310e-4cd6-ac72-b9a1258b17b9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.date_value
+	toColumn: LocalDateTable_7d577d44-b2e0-46bc-b3e7-51a0f28fa8fe.Date
+
+relationship f8e8a8c0-5265-4d62-b88f-420d840fb21e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_patient.birth_date
+	toColumn: LocalDateTable_58dd5739-4876-411d-81e3-0824b67e0382.Date
+
+relationship 9caa01c1-55c7-4993-8d9e-d6d6696ac743
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_patient.death_date
+	toColumn: LocalDateTable_feb5c6c6-42b6-48c9-89d9-d1af3ac64a64.Date
+
+relationship 6f1d4441-ad09-40bc-99e1-9ed5f3c26a58
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_encounters.start_timestamp
+	toColumn: LocalDateTable_fd1400c9-30f7-4631-8fed-375f65fb0a29.Date
+
+relationship a258d809-d7d7-4194-b7a6-48d324a91893
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_encounters.stop_timestamp
+	toColumn: LocalDateTable_dab4f83c-f477-4199-9579-5496a9927133.Date
+
+relationship 6b32d258-6439-44ca-8e64-67552982129e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_encounters.encounter_date
+	toColumn: LocalDateTable_563f4baf-e1b7-4b84-b27b-86fc8bd6c38f.Date
+
+relationship b1f30239-cd2b-4f8e-bbda-1b57d3463783
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_encounters.previous_encounter_date
+	toColumn: LocalDateTable_bb654795-2aca-41fc-9f11-9262e83be3ee.Date
+
+relationship bc15181a-6768-4f46-b9ca-167cfb89a640
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_procedures.start_timestamp
+	toColumn: LocalDateTable_c21fcae0-ae48-4bc7-afd8-3c6ad2c604c5.Date
+
+relationship 32bc87d1-b163-4962-ad95-d13ba926ebb9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_procedures.stop_timestamp
+	toColumn: LocalDateTable_8202cd77-8be5-4fde-98f2-ccade4b18e15.Date
+
+relationship 83af0bdc-27ca-419d-b21b-e6b354e61025
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_procedures.procedure_date
+	toColumn: LocalDateTable_dfe4665c-c3ff-41e8-8304-c2b533a9dfa2.Date
+
+relationship b11eb120-d56e-c4db-d90b-cd6391e36413
+	fromColumn: fact_encounters.encounter_date_key
+	toColumn: dim_date.date_key
+
+relationship a42015c5-d64b-47ae-9691-e268190cb1aa
+	fromColumn: fact_encounters.organization_id
+	toColumn: dim_organization.organization_id
+
+relationship ac6a95e2-04a5-3cf9-77f4-899642c2c226
+	fromColumn: fact_encounters.patient_id
+	toColumn: dim_patient.patient_id
+
+relationship d375a9b7-9bad-2347-4afd-026fbfeb1f97
+	fromColumn: fact_encounters.payer_id
+	toColumn: dim_payer.payer_id
+
+relationship 5dc914e2-c1a3-1537-9b16-b1d3544cba64
+	fromColumn: fact_procedures.encounter_id
+	toColumn: fact_encounters.encounter_id
+

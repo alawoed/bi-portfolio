@@ -1,0 +1,72 @@
+table dim_payer
+	lineageTag: 85662fe6-ffd8-496e-bd21-0df14c3e475e
+
+	column payer_id
+		dataType: string
+		lineageTag: 1265f359-1817-475e-b00c-7998e280679f
+		summarizeBy: none
+		sourceColumn: payer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payer_name
+		dataType: string
+		lineageTag: 72787f19-b385-4182-9812-261e39e71cdf
+		summarizeBy: none
+		sourceColumn: payer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column address
+		dataType: string
+		lineageTag: a843704f-6439-490e-853a-9fbf9736f8ef
+		summarizeBy: none
+		sourceColumn: address
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 62ccb4c7-936b-485e-ae11-eb7ef03e970c
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_headquartered
+		dataType: string
+		lineageTag: 39e5d5b2-eb98-4e9e-a570-86d20249f0b7
+		summarizeBy: none
+		sourceColumn: state_headquartered
+
+		annotation SummarizationSetBy = Automatic
+
+	column zip
+		dataType: string
+		lineageTag: cfbc3c5c-a146-453c-b515-ca7f5d45ba55
+		summarizeBy: none
+		sourceColumn: zip
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone
+		dataType: string
+		lineageTag: 16ce2d29-7cd6-4b66-bcbb-61fbc64410e3
+		summarizeBy: none
+		sourceColumn: phone
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_payer = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("enttp6kntu2ehgoeuir6zm24ma-u4jxrrwwocpu7atyrga2mu6hi4.datawarehouse.fabric.microsoft.com", "HealthLakehouse"),
+				    gold_dim_payer = Source{[Schema="gold",Item="dim_payer"]}[Data]
+				in
+				    gold_dim_payer
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
