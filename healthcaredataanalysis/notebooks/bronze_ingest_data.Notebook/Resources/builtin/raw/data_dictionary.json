@@ -1,0 +1,327 @@
+[
+  {
+    "Table": "encounters",
+    "Field": null,
+    "Description": "Patient encounter data"
+  },
+  {
+    "Table": "encounters",
+    "Field": "Id",
+    "Description": "Primary Key. Unique Identifier of the encounter."
+  },
+  {
+    "Table": "encounters",
+    "Field": "Start",
+    "Description": "The date and time (iso8601 UTC Date (yyyy-MM-dd'T'HH:mm'Z')) the encounter started"
+  },
+  {
+    "Table": "encounters",
+    "Field": "Stop",
+    "Description": "The date and time (iso8601 UTC Date (yyyy-MM-dd'T'HH:mm'Z')) the encounter concluded"
+  },
+  {
+    "Table": "encounters",
+    "Field": "Patient",
+    "Description": "Foreign key to the Patient."
+  },
+  {
+    "Table": "encounters",
+    "Field": "Organization",
+    "Description": "Foreign key to the Organization."
+  },
+  {
+    "Table": "encounters",
+    "Field": "Payer",
+    "Description": "Foreign key to the Payer."
+  },
+  {
+    "Table": "encounters",
+    "Field": "EncounterClass",
+    "Description": "The class of the encounter, such as ambulatory, emergency, inpatient, wellness, or urgentcare"
+  },
+  {
+    "Table": "encounters",
+    "Field": "Code",
+    "Description": "Encounter code from SNOMED-CT"
+  },
+  {
+    "Table": "encounters",
+    "Field": "Description",
+    "Description": "Description of the type of encounter."
+  },
+  {
+    "Table": "encounters",
+    "Field": "Base_Encounter_Cost",
+    "Description": "The base cost of the encounter, not including any line item costs related to medications, immunizations, procedures, or other services."
+  },
+  {
+    "Table": "encounters",
+    "Field": "Total_Claim_Cost",
+    "Description": "The total cost of the encounter, including all line items."
+  },
+  {
+    "Table": "encounters",
+    "Field": "Payer_Coverage",
+    "Description": "The amount of cost covered by the Payer."
+  },
+  {
+    "Table": "encounters",
+    "Field": "ReasonCode",
+    "Description": "Diagnosis code from SNOMED-CT, only if this encounter targeted a specific condition."
+  },
+  {
+    "Table": "encounters",
+    "Field": "ReasonDescription",
+    "Description": "Description of the reason code."
+  },
+  {
+    "Table": "organizations",
+    "Field": null,
+    "Description": "Hospital details"
+  },
+  {
+    "Table": "organizations",
+    "Field": "Id",
+    "Description": "Primary key of the Organization."
+  },
+  {
+    "Table": "organizations",
+    "Field": "Name",
+    "Description": "Name of the Organization."
+  },
+  {
+    "Table": "organizations",
+    "Field": "Address",
+    "Description": "Organization's street address without commas or newlines."
+  },
+  {
+    "Table": "organizations",
+    "Field": "City",
+    "Description": "Street address city."
+  },
+  {
+    "Table": "organizations",
+    "Field": "State",
+    "Description": "Street address state abbreviation."
+  },
+  {
+    "Table": "organizations",
+    "Field": "Zip",
+    "Description": "Street address zip or postal code."
+  },
+  {
+    "Table": "organizations",
+    "Field": "Lat",
+    "Description": "Latitude of Organization's address."
+  },
+  {
+    "Table": "organizations",
+    "Field": "Lon",
+    "Description": "Longitude of Organization's address."
+  },
+  {
+    "Table": "patients",
+    "Field": null,
+    "Description": "Patient demographic data."
+  },
+  {
+    "Table": "patients",
+    "Field": "Id",
+    "Description": "Primary Key. Unique Identifier of the patient."
+  },
+  {
+    "Table": "patients",
+    "Field": "BirthDate",
+    "Description": "The date (YYYY-MM-DD) the patient was born."
+  },
+  {
+    "Table": "patients",
+    "Field": "DeathDate",
+    "Description": "The date (YYYY-MM-DD) the patient died."
+  },
+  {
+    "Table": "patients",
+    "Field": "Prefix",
+    "Description": "Name prefix, such as Mr., Mrs., Dr., etc."
+  },
+  {
+    "Table": "patients",
+    "Field": "First",
+    "Description": "First name of the patient."
+  },
+  {
+    "Table": "patients",
+    "Field": "Middle",
+    "Description": "Middle name of the patient."
+  },
+  {
+    "Table": "patients",
+    "Field": "Last",
+    "Description": "Last or surname of the patient."
+  },
+  {
+    "Table": "patients",
+    "Field": "Suffix",
+    "Description": "Name suffix, such as PhD, MD, JD, etc."
+  },
+  {
+    "Table": "patients",
+    "Field": "Maiden",
+    "Description": "Maiden name of the patient."
+  },
+  {
+    "Table": "patients",
+    "Field": "Marital",
+    "Description": "Marital Status. M is married, S is single. Currently no support for divorce (D) or widowing (W)"
+  },
+  {
+    "Table": "patients",
+    "Field": "Race",
+    "Description": "Description of the patient's primary race."
+  },
+  {
+    "Table": "patients",
+    "Field": "Ethnicity",
+    "Description": "Description of the patient's primary ethnicity."
+  },
+  {
+    "Table": "patients",
+    "Field": "Gender",
+    "Description": "Gender. M is male, F is female."
+  },
+  {
+    "Table": "patients",
+    "Field": "BirthPlace",
+    "Description": "Name of the town where the patient was born."
+  },
+  {
+    "Table": "patients",
+    "Field": "Address",
+    "Description": "Patient's street address without commas or newlines."
+  },
+  {
+    "Table": "patients",
+    "Field": "City",
+    "Description": "Patient's address city."
+  },
+  {
+    "Table": "patients",
+    "Field": "State",
+    "Description": "Patient's address state."
+  },
+  {
+    "Table": "patients",
+    "Field": "County",
+    "Description": "Patient's address county."
+  },
+  {
+    "Table": "patients",
+    "Field": "FIPS County Code",
+    "Description": "Patient's FIPS county code."
+  },
+  {
+    "Table": "patients",
+    "Field": "Zip",
+    "Description": "Patient's zip code."
+  },
+  {
+    "Table": "patients",
+    "Field": "Lat",
+    "Description": "Latitude of Patient's address."
+  },
+  {
+    "Table": "patients",
+    "Field": "Lon",
+    "Description": "Longitude of Patient's address."
+  },
+  {
+    "Table": "payers",
+    "Field": null,
+    "Description": "Insurance payer data."
+  },
+  {
+    "Table": "payers",
+    "Field": "Id",
+    "Description": "Primary key of the Payer (e.g. Insurance)."
+  },
+  {
+    "Table": "payers",
+    "Field": "Name",
+    "Description": "Name of the Payer."
+  },
+  {
+    "Table": "payers",
+    "Field": "Address",
+    "Description": "Payer's street address without commas or newlines."
+  },
+  {
+    "Table": "payers",
+    "Field": "City",
+    "Description": "Street address city."
+  },
+  {
+    "Table": "payers",
+    "Field": "State_Headquartered",
+    "Description": "Street address state abbreviation."
+  },
+  {
+    "Table": "payers",
+    "Field": "Zip",
+    "Description": "Street address zip or postal code."
+  },
+  {
+    "Table": "payers",
+    "Field": "Phone",
+    "Description": "Payer's phone number."
+  },
+  {
+    "Table": "procedures",
+    "Field": null,
+    "Description": "Patient procedure data including surgeries."
+  },
+  {
+    "Table": "procedures",
+    "Field": "Start",
+    "Description": "The date and time (iso8601 UTC Date (yyyy-MM-dd'T'HH:mm'Z')) the procedure was performed."
+  },
+  {
+    "Table": "procedures",
+    "Field": "Stop",
+    "Description": "The date and time (iso8601 UTC Date (yyyy-MM-dd'T'HH:mm'Z')) the procedure was completed, if applicable."
+  },
+  {
+    "Table": "procedures",
+    "Field": "Patient",
+    "Description": "Foreign key to the Patient."
+  },
+  {
+    "Table": "procedures",
+    "Field": "Encounter",
+    "Description": "Foreign key to the Encounter where the procedure was performed."
+  },
+  {
+    "Table": "procedures",
+    "Field": "Code",
+    "Description": "Procedure code from SNOMED-CT"
+  },
+  {
+    "Table": "procedures",
+    "Field": "Description",
+    "Description": "Description of the procedure."
+  },
+  {
+    "Table": "procedures",
+    "Field": "Base_Cost",
+    "Description": "The line item cost of the procedure."
+  },
+  {
+    "Table": "procedures",
+    "Field": "ReasonCode",
+    "Description": "Diagnosis code from SNOMED-CT specifying why this procedure was performed."
+  },
+  {
+    "Table": "procedures",
+    "Field": "ReasonDescription",
+    "Description": "Description of the reason code."
+  }
+]
