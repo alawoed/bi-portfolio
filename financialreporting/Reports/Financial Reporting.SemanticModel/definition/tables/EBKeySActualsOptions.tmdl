@@ -1,0 +1,50 @@
+table EBKeySActualsOptions
+	isHidden
+	lineageTag: af55da11-84af-4fd0-8842-72ae578e4d8f
+
+	column EBKeySActualsOptions
+		isHidden
+		lineageTag: f635960c-bab3-40ea-9902-0abb477e7b93
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'EBKeySActualsOptions Order'
+
+		relatedColumnDetails
+			groupByColumn: 'EBKeySActualsOptions Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EBKeySActualsOptions Fields'
+		isHidden
+		lineageTag: ebbff24c-2bc0-4283-9258-c6ced10adfb9
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'EBKeySActualsOptions Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EBKeySActualsOptions Order'
+		isHidden
+		formatString: 0
+		lineageTag: 60a47c9b-9280-4b03-aa03-7089e5e056c0
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EBKeySActualsOptions = calculated
+		mode: import
+		source =
+				{
+				        ("Current Month Actual", NAMEOF('EBITDA Key Stats'[EB Current Period]), 0),
+				            ("Current Year", NAMEOF('EBITDA Key Stats'[EB Current Period]), 3)
+				}
+
+	annotation PBI_Id = fb9fffcd793b4f8e8a2c4c87e19df866
+

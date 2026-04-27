@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "25cec5b8483b4cd41259",
+  "position": {
+    "x": 27,
+    "y": 182.01234567901236,
+    "z": 8000,
+    "height": 513.98765432098764,
+    "width": 1233
+  },
+  "visualGroup": {
+    "displayName": "Capex",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

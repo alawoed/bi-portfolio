@@ -1,0 +1,46 @@
+table Today
+	isHidden
+	lineageTag: ac35f6ae-b592-47bb-8d6a-ce40c4d52fad
+
+	measure CurrentMonth = SELECTEDVALUE('Today'[Today])
+		isHidden
+		lineageTag: 5af3eaa4-1cb4-4dad-b434-854ae4275508
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Today
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 2c20ba45-4bf9-47a0-a4da-c354223059d6
+		summarizeBy: none
+		sourceColumn: Today
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Today = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Today = DateTime.Date(DateTime.LocalNow()),
+				    CurrentMonthStart = Date.StartOfMonth(Today),
+				    PreviousMonthStart = Date.AddMonths(CurrentMonthStart, -1),
+				    AdjustedDate = if Date.Day(Today) <= 15 then PreviousMonthStart else CurrentMonthStart,
+				    Result = #table({"Today"}, {{AdjustedDate}}),
+				    #"Changed Type" = Table.TransformColumnTypes(Result,{{"Today", type date}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

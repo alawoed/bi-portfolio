@@ -1,0 +1,47 @@
+table Customer_Page_Selector
+	lineageTag: 152a8097-a9d9-4869-a94d-ed5f6a9f7313
+
+	column 'Margin H'
+		lineageTag: a453a60a-28a0-40d2-a922-4c5de5300c4d
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		lineageTag: 30ddffd2-87e8-4964-bbdc-a672708c7fc7
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		formatString: 0
+		lineageTag: 84818d2b-415a-4e86-8d33-7f0e83fd5331
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer_Page_Selector = calculated
+		mode: import
+		source =
+				{
+				    ("Parent Customer", NAMEOF('Customer Margin'[Customer Parent Name]), 0) ,
+				    ("Market Segment", NAMEOF('Customer Margin'[Market Segment]), 1),
+				    ("Sales Channel", NAMEOF('Customer Margin'[Sales Channel]), 2)
+				}
+
+	annotation PBI_Id = 930e8f349ef44f8c8401ed81ed2c10c4
+

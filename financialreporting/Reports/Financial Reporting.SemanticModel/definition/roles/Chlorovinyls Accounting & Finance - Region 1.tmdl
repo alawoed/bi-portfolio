@@ -1,0 +1,71 @@
+role 'Chlorovinyls Accounting & Finance - Region 1'
+	modelPermission: read
+
+	tablePermission 'SnapShot by Product'
+		metadataPermission: none
+
+	tablePermission 'Dim Hierarchy' = and( [SBU] IN {"Lake Charles North","Lake Charles South"}, [Ordinal] = 0 )
+		metadataPermission: read
+
+	tablePermission EBITDA
+		metadataPermission: none
+
+	tablePermission 'EBITDA Accounts'
+		metadataPermission: none
+
+	tablePermission 'EBITDA Table'
+		metadataPermission: none
+
+	tablePermission 'Revenue Page by Product'
+		metadataPermission: none
+
+	tablePermission 'Revenue Page by Site'
+		metadataPermission: none
+
+	tablePermission 'Production by Product'
+		metadataPermission: none
+
+	tablePermission SG&A
+		metadataPermission: none
+
+	tablePermission 'Working Capital'
+		metadataPermission: none
+
+	tablePermission 'SnapShot by Site'
+		metadataPermission: read
+
+	tablePermission 'Production by Site'
+		metadataPermission: read
+
+	tablePermission CAPEX
+		metadataPermission: read
+
+	tablePermission T&D
+		metadataPermission: read
+
+	tablePermission 'T&D Seg'
+		metadataPermission: read
+
+	tablePermission 'Manufacturing Cost'
+		metadataPermission: read
+
+	tablePermission 'Production by 10K'
+		metadataPermission: read
+
+	tablePermission 'Customer Margin'
+		metadataPermission: none
+
+	tablePermission 'Integrated Margins'
+		metadataPermission: none
+
+	tablePermission 'Date Table'
+		metadataPermission: read
+
+	tablePermission Closing_Schedule
+		metadataPermission: read
+
+	tablePermission HSE
+		metadataPermission: read
+
+	annotation PBI_Id = 4ac1afc477d34548a194fd504311d0f7
+

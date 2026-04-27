@@ -1,0 +1,139 @@
+table 'Dim Hierarchy'
+	isHidden
+	lineageTag: da7891e3-5601-48f1-b74d-beb4e5f25f2e
+
+	column ENTITY
+		dataType: string
+		isHidden
+		lineageTag: 8b4d310d-7e0c-4005-8941-c362f169400c
+		summarizeBy: none
+		sourceColumn: ENTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SBU
+		dataType: string
+		isHidden
+		lineageTag: aeab9b5a-1425-41b2-8ffd-da12e4b60090
+		summarizeBy: none
+		sourceColumn: SBU
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Level 1'
+		dataType: string
+		isHidden
+		lineageTag: 144a2097-b904-4827-b03b-1f51ad960680
+		summarizeBy: none
+		sourceColumn: Level 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Level 2'
+		dataType: string
+		isHidden
+		lineageTag: 62017e15-16fe-46c2-9778-965e9fb44170
+		summarizeBy: none
+		sourceColumn: Level 2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Level 3'
+		dataType: string
+		isHidden
+		lineageTag: 23edda71-d66a-4831-a9b4-b8842ac6f074
+		summarizeBy: none
+		sourceColumn: Level 3
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		lineageTag: 789483f9-46bb-4d58-b02f-4e1d5a1be4fe
+		summarizeBy: none
+		sourceColumn: Ordinal
+
+		changedProperty = IsHidden
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAGE
+		dataType: string
+		isHidden
+		lineageTag: 6079cc14-d3ed-44f2-af25-f3fedc0567f9
+		summarizeBy: none
+		sourceColumn: PAGE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Exclude
+		dataType: string
+		isHidden
+		lineageTag: 9250a8b9-0998-4788-82fe-5da5c67f2130
+		summarizeBy: none
+		sourceColumn: Exclude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'SBU Hierarchy'
+		isHidden
+		lineageTag: f3615d36-bf8e-4a55-9898-532543115ef9
+
+		level SBU
+			lineageTag: aef3deed-c75b-415c-b7f0-7486e084509e
+			column: SBU
+
+		level 'Level 1'
+			lineageTag: ae8d9423-a4e5-4da7-9fd0-28cb31a658c3
+			column: 'Level 1'
+
+		level 'Level 2'
+			lineageTag: 22819892-5345-47aa-bae3-94954364d1c3
+			column: 'Level 2'
+
+		level 'Level 3'
+			lineageTag: 1e2fb378-b4e6-4791-9095-e9f691d9c3d0
+			column: 'Level 3'
+
+		changedProperty = IsHidden
+
+	partition 'Dim Hierarchy' = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Dim Hierarchy_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Dim Hierarchy",version=""]}[Data],
+				    #"Added Conditional Column" = Table.AddColumn(#"Dim Hierarchy_", "Exclude", each if [PAGE] = "Production"  and [Ordinal] = 0 and [Level 1] = "Power" then 1 else null),
+				    #"Filtered Rows" = Table.SelectRows(#"Added Conditional Column", each ([Exclude] = null))
+				in
+				    #"Filtered Rows"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

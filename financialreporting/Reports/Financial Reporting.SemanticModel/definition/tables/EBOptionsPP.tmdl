@@ -1,0 +1,95 @@
+table EBOptionsPP
+	isHidden
+	lineageTag: 6fda9268-21b1-43a9-beb5-26d9ae72aea6
+
+	column EBOptionsPP
+		isHidden
+		lineageTag: 550e034e-128e-410b-9f3d-7443788bf258
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'EBOptionsPP Order'
+
+		relatedColumnDetails
+			groupByColumn: 'EBOptionsPP Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"EBOptionsPP","TableItemName":"EBOptionsPP (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'EBOptionsPP Fields'
+		isHidden
+		lineageTag: fe4178e5-bbfe-4127-8a89-0dbb87c71525
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'EBOptionsPP Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EBOptionsPP Order'
+		isHidden
+		formatString: 0
+		lineageTag: ceea5f16-6f61-467e-89e6-e2e07099a537
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EBOptionsPP (groups)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('EBOptionsPP'[EBOptionsPP]),
+				"(Blank)",
+				'EBOptionsPP'[EBOptionsPP] IN {"Forecast",
+					"Year Forecast"},
+				"1",
+				'EBOptionsPP'[EBOptionsPP] IN {"Prev. Month"},
+				"2",
+				'EBOptionsPP'[EBOptionsPP] IN {"Nxt Month Forecast"},
+				"3",
+				'EBOptionsPP'[EBOptionsPP]
+			)
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fb40703f-99bc-469f-8308-5755db5b665f
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "EBOptionsPP"
+				          }
+				        },
+				        "Property": "EBOptionsPP"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"e","Entity":"EBOptionsPP"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"e"}},"Property":"EBOptionsPP"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"1","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"e"}},"Property":"EBOptionsPP"}}],"Values":[[{"Literal":{"Value":"'Forecast'"}}],[{"Literal":{"Value":"'Year Forecast'"}}]]}}},{"DisplayName":"2","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"e"}},"Property":"EBOptionsPP"}}],"Values":[[{"Literal":{"Value":"'Prev. Month'"}}]]}}},{"DisplayName":"3","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"e"}},"Property":"EBOptionsPP"}}],"Values":[[{"Literal":{"Value":"'Nxt Month Forecast'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EBOptionsPP = calculated
+		mode: import
+		source =
+				{
+				    ("Forecast", NAMEOF('2 - EBITDA'[EBITDA Lastest Prev Period]), 0),
+				    ("Prev. Month", NAMEOF('2 - EBITDA'[EBITDA Lastest Prev Period]), 0),
+				    ("Nxt Month Forecast", NAMEOF('2 - EBITDA'[EBITDA Lastest Prev Period]), 0),
+				    ("Year Forecast", NAMEOF('2 - EBITDA'[EBITDA Lastest Prev Period]), 3)
+				}
+
+	annotation PBI_Id = 60a500bdcccb4ad9bae6d1f02b63754b
+

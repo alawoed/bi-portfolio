@@ -1,0 +1,34 @@
+table Account
+	isHidden
+	lineageTag: c1633457-578f-4b48-8d36-994fbfeab317
+
+	column ACCOUNT
+		dataType: string
+		isHidden
+		lineageTag: 7be22331-f01f-4da1-98a9-58f12be1735f
+		summarizeBy: none
+		sourceColumn: ACCOUNT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Account = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    Account_ = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Account",version=""]}[Data]
+				in
+				    Account_
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

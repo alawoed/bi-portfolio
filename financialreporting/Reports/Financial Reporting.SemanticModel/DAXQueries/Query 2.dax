@@ -1,0 +1,47 @@
+// DAX Query
+DEFINE
+	VAR __DS0FilterTable = 
+		TREATAS({"Forecast"}, 'ExSlicer'[Value])
+
+	VAR __DS0FilterTable2 = 
+		TREATAS({"Product"}, 'Switch Table'[Value])
+
+	VAR __DS0FilterTable3 = 
+		TREATAS({"Monthly"}, 'Dim Period Comp'[Period])
+
+	VAR __DS0FilterTable4 = 
+		TREATAS({"April"}, 'Date Table'[Month Name])
+
+	VAR __DS0FilterTable5 = 
+		FILTER(
+			KEEPFILTERS(VALUES('Date Periodicity'[Date Periodicity Fields])),
+			NOT(
+				'Date Periodicity'[Date Periodicity Fields] IN {"'Date Table'[MM'Yr]",
+					"'Date Table'[QQ-Month]"}
+			)
+		)
+
+	VAR __DS0FilterTable6 = 
+		TREATAS({("CA&D", "ECU")}, 'Dim Hierarchy'[SBU], 'Dim Hierarchy'[Level 1])
+
+	VAR __DS0Core = 
+		SUMMARIZECOLUMNS(
+			ROLLUPADDISSUBTOTAL(
+				ROLLUPGROUP(
+					'Date Table'[Month Name Short],
+					'Date Table'[Month],
+					'Manufacturing Cost'[Account_3]
+				), "IsGrandTotalRowTotal"
+			),
+			--__DS0FilterTable,
+			--__DS0FilterTable2,
+			__DS0FilterTable3,
+			__DS0FilterTable4,
+			__DS0FilterTable5,
+			__DS0FilterTable6,
+			"MC_CC_Cost_Actual", '5 - Expenditure'[MC CC Cost Actual]
+		)
+
+EVALUATE
+	__DS0Core
+

@@ -1,0 +1,226 @@
+table T&D
+	lineageTag: 81a56cec-f240-4127-9196-206a5568360d
+
+	column CATEGORY
+		dataType: string
+		lineageTag: ae048ef7-de2c-4e38-ae9d-50f6c1f5b823
+		summarizeBy: none
+		sourceColumn: CATEGORY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Entity
+		dataType: string
+		lineageTag: 239f521d-1e04-402f-993a-21243ba3c172
+		summarizeBy: none
+		sourceColumn: Entity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account
+		dataType: string
+		lineageTag: 4fa9d50c-c5fb-44de-a7f4-bedd62e11af7
+		summarizeBy: none
+		sourceColumn: Account
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"T&D","TableItemName":"Account (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'Period Set of Books'
+		dataType: string
+		lineageTag: 5c16809d-ae29-49dc-9511-4ba4eb83453a
+		summarizeBy: none
+		sourceColumn: Period Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		lineageTag: 9ce4cb37-7175-4e8d-836d-6a01cf369da0
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: 67800b0c-e8f1-44b3-aedc-8ab1c2d1b6ee
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7b5cce4b-a2ea-4053-a90f-767610d4c590
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Level2
+		dataType: string
+		lineageTag: 7a977759-39ea-4b24-a0eb-61d0e7a489ba
+		summarizeBy: none
+		sourceColumn: Level2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level3
+		dataType: string
+		lineageTag: 1da39de7-c654-4ed4-9e68-1e05d594e7ef
+		summarizeBy: none
+		sourceColumn: Level3
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account (groups)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('T&D'[Account]),
+				"(Blank)",
+				'T&D'[Account] IN {"Fixed Cost",
+					"Variable Cost"},
+				"Cash Cost",
+				'T&D'[Account] IN {"Volume"},
+				"Volume",
+				'T&D'[Account]
+			)
+		lineageTag: ca7211d3-c5b2-4e02-ba35-84271ba5bc57
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "T&D"
+				          }
+				        },
+				        "Property": "Account"
+				      }
+				    }
+				  ]
+				}
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"t","Entity":"T&D"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"t"}},"Property":"Account"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Cash Cost","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"t"}},"Property":"Account"}}],"Values":[[{"Literal":{"Value":"'Fixed Cost'"}}],[{"Literal":{"Value":"'Variable Cost'"}}]]}}},{"DisplayName":"Volume","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"t"}},"Property":"Account"}}],"Values":[[{"Literal":{"Value":"'Volume'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cat Order'
+		dataType: string
+		lineageTag: 5dc1f869-60d2-4e6c-9b5b-478095aff28a
+		summarizeBy: none
+		sourceColumn: Cat Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Category'
+		dataType: string
+		lineageTag: 7d90d3b1-1109-4ea1-9a43-7001bd2d548f
+		summarizeBy: none
+		sourceColumn: Account Category
+		sortByColumn: 'Cat Order'
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost Center'
+		dataType: string
+		lineageTag: dbcf2dc2-f5b9-4e40-ad85-c7ef2b6035ee
+		summarizeBy: none
+		sourceColumn: Cost Center
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Products Sort'
+		dataType: string
+		lineageTag: 706dd04d-3c6b-4076-a454-80a9a391a824
+		summarizeBy: none
+		sourceColumn: Products Sort
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Products
+		dataType: string
+		lineageTag: 087e7742-70bc-41ed-8cff-6ca8e4f2966b
+		summarizeBy: none
+		sourceColumn: Products
+		sortByColumn: 'Products Sort'
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition T&D = m
+		mode: import
+		queryGroup: 'Fact Tables\Expenditure'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"T&D_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="T&D",version=""]}[Data],
+				    #"Replaced Value" = Table.ReplaceValue(#"T&D_","TD_VC","Variable Cost",Replacer.ReplaceText,{"Account"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","TD_FC","Fixed Cost",Replacer.ReplaceText,{"Account"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","SALES_VOL","Volume",Replacer.ReplaceText,{"Account"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Ethylene","ETH",Replacer.ReplaceText,{"Level1"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value3",{{"Level1", "Products"}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Renamed Columns", "Account Category", each if [Account] = "Volume" then "Volume" else if Text.Contains([Account], "Cost") then "Cash Cost" else null),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column", "Cat Order", each if [Account Category] = "Volume" then 1 else if [Account Category] = "Cash Cost" then 2 else null),
+				    #"Added Conditional Column3" = Table.AddColumn(#"Added Conditional Column1", "Product2", each if [Level2] = "Caustic" then "Caustic" else if [Level2] = "Chlorine" then "Chlorine" else if [Level2] = "EDC" then "Derivatives" else if [Level2] = "F&S" then "Derivatives" else if [Level2] = "HCL" then "Derivatives" else if [Products] = "PVC" then "PVC" else if [Products] = "VCM" then "VCM" else if [Products] = "Solid Specialties" then "Solid Specialties" else if [Level2] = "Tephram" then "Others" else if [Level2] = "Bleach" then "Others" else if [Level2] = "Hydrogen" then "Others" else if [Level2] = "Sulphuric Acid" then "Others" else if [Products] = "ETH" then "Ethylene" else if [Level2] = "ECU Common" then "ECU" else null),
+				    #"Added Conditional Column2" = Table.AddColumn(#"Added Conditional Column3", "Products Sort", each if [Product2] = "Caustic" then 1 else if [Product2] = "Chlorine" then 2 else if [Product2] = "ECU" then 3 else if [Product2] = "Derivatives" then 4 else if [Product2] = "Solid Specialties" then 6 else if [Product2] = "Others" then 5 else if [Product2] = "VCM" then 7 else if [Product2] = "PVC" then 8 else if [Product2] = "Ethylene" then 9 else null),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Conditional Column2",{"Products"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns",{{"Product2", "Products"}})
+				in
+				    #"Renamed Columns1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

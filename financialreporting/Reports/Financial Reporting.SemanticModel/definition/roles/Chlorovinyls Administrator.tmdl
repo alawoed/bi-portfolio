@@ -1,0 +1,5 @@
+role 'Chlorovinyls Administrator'
+	modelPermission: read
+
+	annotation PBI_Id = a34ce28bdf8346579a5c677c45078eec
+

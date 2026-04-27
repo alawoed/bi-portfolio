@@ -1,0 +1,52 @@
+table 'Prod Dim'
+	isHidden
+	lineageTag: b5b5dcad-a612-4efb-bfd6-6fcf1fab7c08
+
+	column 'Prod Dim'
+		isHidden
+		lineageTag: e20e62c0-947a-438e-a81d-94442eeb4f8f
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Prod Dim Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Prod Dim Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prod Dim Fields'
+		isHidden
+		lineageTag: bcfdfdd2-d184-49ec-9e5a-b781bbd0489e
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Prod Dim Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prod Dim Order'
+		isHidden
+		formatString: 0
+		lineageTag: 1623c7e5-3c38-4e76-91d8-38c8f1d98d87
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Prod Dim' = calculated
+		mode: import
+		source =
+				{
+				    ("SBU", NAMEOF('Dim Hierarchy'[SBU]), 0),
+				    ("Level 1", NAMEOF('Dim Hierarchy'[Level 1]), 1),
+				    ("Level 2", NAMEOF('Dim Hierarchy'[Level 2]), 2),
+				    ("Level 3", NAMEOF('Dim Hierarchy'[Level 3]), 3)
+				}
+
+	annotation PBI_Id = d8f2ccddb52d43ffa47e699ed85baddc
+

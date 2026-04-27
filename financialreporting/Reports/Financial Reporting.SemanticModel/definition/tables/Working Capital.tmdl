@@ -1,0 +1,136 @@
+table 'Working Capital'
+	isHidden
+	lineageTag: 23763b2d-8063-4600-98ba-c6968be66825
+
+	measure 'Working Capital Ratio' = SUM( 'Working Capital'[WC_Value] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 7066c034-88d4-4c7b-b41d-933e6fd3323f
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WC DSO' =
+			
+			CALCULATE(
+			    'Working Capital'[Working Capital Ratio],
+			    'Working Capital'[Metric] = "DSO"
+			)
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: ce3a81d3-0098-4903-a08f-d6493d283a16
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WC DIO' =
+			
+			CALCULATE(
+			    'Working Capital'[Working Capital Ratio],
+			    'Working Capital'[Metric] = "DIO"
+			)
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 6fc7b766-b714-4c38-a984-f46c69c34b04
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WC DPO' =
+			
+			CALCULATE(
+			    'Working Capital'[Working Capital Ratio],
+			    'Working Capital'[Metric] = "DPO"
+			)
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: de8b5a40-2bbd-4314-b772-23ae8787d189
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WC CCC' =
+			
+			CALCULATE(
+			    'Working Capital'[Working Capital Ratio],
+			    'Working Capital'[Metric] = "CCC"
+			)
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: ed802f70-1b82-4612-b4cf-3c2a80b36f31
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Metric
+		dataType: string
+		isHidden
+		lineageTag: f85a124c-9fc7-4ddf-8d43-56d5071b64e0
+		summarizeBy: none
+		sourceColumn: Metric
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WC_Value
+		dataType: double
+		isHidden
+		lineageTag: 890fd1d8-1fa3-411d-804d-da823650b956
+		summarizeBy: sum
+		sourceColumn: WC_Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Quarter
+		dataType: string
+		isHidden
+		lineageTag: 285be756-2964-4dff-aa5d-15775adc6da5
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 78f65ab4-6958-4827-8441-a8c45c96e662
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'Working Capital' = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Working Capital_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Working Capital",version=""]}[Data]
+				in
+				    #"Working Capital_"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

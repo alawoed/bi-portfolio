@@ -1,0 +1,109 @@
+table 'Hierachy Bridge'
+	isHidden
+	lineageTag: 34d94cde-21f5-438d-8dc0-cdc65f5526d5
+
+	column ENTITY
+		dataType: string
+		isHidden
+		lineageTag: f2cf1b32-736c-4cf0-ac9a-802d56742efc
+		summarizeBy: none
+		sourceColumn: ENTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Site
+		dataType: string
+		isHidden
+		lineageTag: 93742ddb-ff81-4340-afed-5c38b092f866
+		summarizeBy: none
+		sourceColumn: Site
+		sortByColumn: 'Site Order'
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Products
+		dataType: string
+		isHidden
+		lineageTag: 2e7c4981-2b4b-4aae-9c91-61e9a1d4a6af
+		summarizeBy: none
+		sourceColumn: Products
+		sortByColumn: 'Product Order'
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c68b1066-6652-4900-83aa-1cb07c512c06
+		summarizeBy: sum
+		sourceColumn: Product Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3caacb70-9b67-4cb7-91e2-3b9b31ab3eed
+		summarizeBy: sum
+		sourceColumn: Site Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product2
+		dataType: string
+		isHidden
+		lineageTag: 5b6e2f3f-eb3c-4859-ac52-ad3f1dc05736
+		summarizeBy: none
+		sourceColumn: Product2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: 48b18d57-463c-4a1a-8c6d-812b781fdca3
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Hierachy Bridge' = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = #"Dim Hierarchy",
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"ENTITY"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Duplicates", {"ENTITY"}, #"Expense Hierarchy", {"Entity"}, "Expense Hierarchy", JoinKind.LeftOuter),
+				    #"Expanded Expense Hierarchy" = Table.ExpandTableColumn(#"Merged Queries", "Expense Hierarchy", {"Site", "Products", "Product2", "Product Order", "Site Order"}, {"Site", "Products", "Product2", "Product Order", "Site Order"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Expanded Expense Hierarchy", "UOM", each if [Products] = "PVC" then "lbs" else if [Products] = "VCM" then "lbs" else if [Products] = "ETHM" then "lbs" else if [Products] <> null then "Ton" else null)
+				in
+				    #"Added Conditional Column"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

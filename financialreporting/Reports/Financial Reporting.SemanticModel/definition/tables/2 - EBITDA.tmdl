@@ -1,0 +1,305 @@
+table '2 - EBITDA'
+	lineageTag: eea9fd60-4e88-456d-affe-6a2c5255371f
+
+	measure 'EBITDA Lastest Prev Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [EBITDA FP Prev Forecast],
+			         'Date Table'[Month Offset] = -1)
+			
+			VAR _nxtmonthoffset = CALCULATE(
+			        [EBITDA FP Actual + Forecast],
+			        'Date Table'[Month Offset] = 0)
+			        
+			VAR _prevmonthoffset = CALCULATE(
+			       [EBITDA FP Actual + Forecast],
+			        'Date Table'[Month Offset] = -2)
+			
+			VAR _fyroffset = CALCULATE(
+			       [EBITDA FP Prev Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _monthoffset,
+			                    IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 3, _nxtmonthoffset,
+			                        IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 2, _prevmonthoffset,
+			                            IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 3 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _fyroffset, BLANK())
+			                    )))
+			
+			
+			RETURN 
+			
+			    __offset_1/1000000
+			```
+		displayFolder: 1-EBITDA Latest Periods
+		lineageTag: 9c40fde3-4aea-4c98-b882-bb3438d3e4ce
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP Actual + Forecast' =
+			
+			CALCULATE(    [EBITDA_Value],
+			        'EBITDA'[Period / Set of Books] = "Actual / Current Forecast" )
+		displayFolder: 0-Base Measures
+		lineageTag: bd19c605-eacf-49d3-a65c-266b9a288cd6
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP Budget' =
+			
+			CALCULATE(    [EBITDA_Value],
+			        'EBITDA'[Period / Set of Books] = "Budget" )
+		formatString: #,0
+		displayFolder: 0-Base Measures
+		lineageTag: 976d73b1-e2cf-40fd-98c7-0b9dcf6f0969
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'EBITDA FP Prev Forecast' =
+			
+			CALCULATE(    [EBITDA_Value],
+			        'EBITDA'[Period / Set of Books] = "Previous Forecast" )
+		formatString: #,0
+		displayFolder: 0-Base Measures
+		lineageTag: d3899912-1a2b-440d-a0f1-4e387124738b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure EBITDA_Value = SUM(EBITDA[Value])
+		formatString: #,0
+		displayFolder: 0-Base Measures
+		lineageTag: a89a5e9e-2fa7-4f70-a54f-5ce9f3df0276
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'EBITDA Lastest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [EBITDA FP Actual + Forecast],
+			         'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [EBITDA FP Actual + Forecast],
+			        'Date Table'[Quarter Offset] = -1)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [EBITDA FP Actual + Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [EBITDA FP Actual + Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset)
+			
+			
+			RETURN 
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1/1000000
+			)
+			```
+		displayFolder: 1-EBITDA Latest Periods
+		lineageTag: 117965ca-d584-4924-b741-39d540ba3e72
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP CA&D' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[SBU] = "CA&D")
+		displayFolder: 1-EBITDA Parents
+		lineageTag: 779de97a-deb2-4eec-9d2b-c92de63b7ba2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP PVC/VCM' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[SBU] = "PVC/VCM")
+		displayFolder: 1-EBITDA Parents
+		lineageTag: 62e998d3-ff60-4c17-bd8f-dc17ba225383
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP ELIMS' = CALCULATE([EBITDA Lastest Period], CONTAINSSTRING('Dim Hierarchy'[SBU],  "ELIM"))
+		displayFolder: 1-EBITDA Parents
+		lineageTag: 87cd490f-6525-42d0-b1f7-4ed8a4b2dd08
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP Chlor-Alkali' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[Level 1] = "Chlor-alkali")
+		displayFolder: 1-EBITDA Parents HY
+		lineageTag: 25dad11a-58fe-465c-83d6-3cec0e21c2bb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP Derivatives' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[Level 1] = "Derivatives")
+		displayFolder: 1-EBITDA Parents HY
+		lineageTag: b3a5d9c3-878e-439c-be90-1f7ab827a282
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP Solid Specialtiies' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[Level 1] = "Solid Specialties")
+		displayFolder: 1-EBITDA Parents HY
+		lineageTag: 3f3e9637-aa5a-43b2-90dd-3581ed810ce5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP Ethylene' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[Level 1] = "ETH")
+		displayFolder: 1-EBITDA Parents HY
+		lineageTag: d3fe91df-35ae-46dc-a061-4c378a12a1cb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP PVC' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[Level 1] = "PVC")
+		displayFolder: 1-EBITDA Parents HY
+		lineageTag: 61daff73-70ce-49df-a347-6d7c686d99cb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP VCM' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[Level 1] = "VCM")
+		displayFolder: 1-EBITDA Parents HY
+		lineageTag: a3ebe553-e08c-4ff6-9598-429c2136e1e0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Hier SBU Filter' = ```
+			
+			VAR _hyfil = IF(
+			    SELECTEDVALUE('Dim Hierarchy'[SBU]) = "CA&D" , 1 ,
+			IF( SELECTEDVALUE('Dim Hierarchy'[SBU]) = "PVC/VCM", 2,
+			0))
+			
+			VAR final = IF(_hyfil = SELECTEDVALUE(EPOptionsHY[EPOptionsHY (groups)]) , 1 , 0 )
+			
+			RETURN 
+			 final
+			
+			```
+		formatString: 0
+		displayFolder: 0-Base Measures
+		lineageTag: aac5c59d-549b-4ff8-9169-f49ea52344f6
+
+	measure 'EBITDA Variance' = [EBITDA Lastest Prev Period] + [EBITDA Lastest Period]
+		displayFolder: 1-EBITDA Latest Periods
+		lineageTag: 034ee9cf-4595-46eb-a093-24a1d4bf7499
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP CAD ELIMS' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[SBU] = "CA&D" && 'Dim Hierarchy'[Level 1] = "ELIMS/OTHER")
+		displayFolder: 1-EBITDA Parents HY
+		lineageTag: 516ff92a-1203-433c-9ea2-a7d2b90e4208
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA FP PVC ELIMS' = CALCULATE([EBITDA Lastest Period], 'Dim Hierarchy'[SBU] = "PVC/VCM" && 'Dim Hierarchy'[Level 1] = "ELIMS/OTHER")
+		formatString: 0
+		displayFolder: 1-EBITDA Parents HY
+		lineageTag: c5aa11ca-abb1-4eb2-a62a-634a81509834
+
+	measure 'EBITDA Comp Revenue' = ```
+			
+			VAR _prvmonth = CALCULATE(
+			         [RP Net Revenue Actual],
+			        'Date Table'[Month Offset] = -2)
+			
+			VAR _currmothnfcst = CALCULATE(
+			        [RP Net Revenue Prev Forecast],
+			        'Date Table'[Month Offset] = -1)
+			
+			VAR _nxtmonthfcst = CALCULATE(
+			        [RP Net Revenue Forecast],
+			        'Date Table'[Month Offset] = 0)
+			
+			VAR _curryrfcst = CALCULATE(
+			        [RP Net Revenue Prev Forecast],
+			        'Date Table'[Month Offset] = -1)
+			
+			VAR _prevyear = CALCULATE(
+			        [RP Net Revenue Actual],
+			        'Date Table'[Year Offset] = -1)
+			
+			VAR __offset_1 = IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _currmothnfcst,
+			                    IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 3, _nxtmonthfcst,
+			                        IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 2, _prvmonth,
+			                            IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 3 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _curryrfcst,
+			                                IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 3 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 4, _prevyear,BLANK())
+			                    ))))
+			
+			
+			RETURN 
+			    __offset_1/1000000
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 473ac72c-2aab-4939-88d0-5c477b7202f1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Comp Volume' = ```
+			
+			VAR _prvmonth = CALCULATE(
+			         [RP Sales Volume Actual],
+			        'Date Table'[Month Offset] = -2)
+			
+			VAR _currmothnfcst = CALCULATE(
+			        [RP Sales Volume Prev Forecast],
+			        'Date Table'[Month Offset] = -1)
+			
+			VAR _nxtmonthfcst = CALCULATE(
+			        [RP Sales Volume Forecast],
+			        'Date Table'[Month Offset] = 0)
+			
+			VAR _curryrfcst = CALCULATE(
+			        [RP Sales Volume Prev Forecast],
+			        'Date Table'[Month Offset] = -1)
+			
+			VAR _prevyear = CALCULATE(
+			        [RP Sales Volume Actual],
+			        'Date Table'[Year Offset] = -1)
+			
+			VAR __offset_1 = IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _currmothnfcst,
+			                    IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 3, _nxtmonthfcst,
+			                        IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 2, _prvmonth,
+			                            IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 3 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _curryrfcst,
+			                                IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 3 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 4, _prevyear,BLANK())
+			                    ))))
+			
+			
+			RETURN 
+			    __offset_1
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: cecd1663-57b6-481b-a4b0-441b696f5092
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA CPP' = ```
+			
+			VAR _c4 = [EBITDA Comp Revenue]
+			VAR _d4 = [EBITDA Comp Volume]
+			VAR _e4 =  (_C4/_D4) *100
+			
+			RETURN 
+			_e4
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 1ef98e0a-878d-47c2-98bb-dbcd69195e8a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition '2 - EBITDA' = m
+		mode: import
+		queryGroup: 'Calculation Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

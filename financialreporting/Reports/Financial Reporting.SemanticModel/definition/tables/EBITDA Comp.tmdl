@@ -1,0 +1,43 @@
+table 'EBITDA Comp'
+	isHidden
+	lineageTag: adcf2301-60e2-4441-8a61-b3e6f929ed5e
+
+	column Comparison
+		dataType: string
+		isHidden
+		lineageTag: 3a32a691-78a5-413b-b16f-d90d7b877882
+		summarizeBy: none
+		sourceColumn: Comparison
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Comp Ordinal'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7b72fc7d-9bfb-4905-af2c-d16255d5a962
+		summarizeBy: none
+		sourceColumn: Comp Ordinal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'EBITDA Comp' = m
+		mode: import
+		queryGroup: 'Fact Tables\EBITDA'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WKitWcMsvSk1OLC5R0lEyVIrVAYsFFGXmFyn45ueVZACFjWDCfqkVJRBRZF3GSrGxAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Comparison = _t, #"Comp Ordinal" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Comparison", type text}, {"Comp Ordinal", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,68 @@
+role 'Chlorovinyls Leadership - Unrestricted'
+	modelPermission: read
+
+	tablePermission 'SnapShot by Product'
+		metadataPermission: read
+
+	tablePermission 'SnapShot by Site'
+		metadataPermission: read
+
+	tablePermission EBITDA
+		metadataPermission: read
+
+	tablePermission 'EBITDA Accounts'
+		metadataPermission: read
+
+	tablePermission 'EBITDA Key Stats'
+		metadataPermission: read
+
+	tablePermission 'Date Table'
+		metadataPermission: read
+
+	tablePermission 'Dim Hierarchy'
+		metadataPermission: read
+
+	tablePermission 'Revenue Page by Product'
+		metadataPermission: read
+
+	tablePermission 'Revenue Page by Site'
+		metadataPermission: read
+
+	tablePermission 'Production by 10K'
+		metadataPermission: read
+
+	tablePermission 'Production by Product'
+		metadataPermission: read
+
+	tablePermission 'Production by Site'
+		metadataPermission: read
+
+	tablePermission 'Customer Margin'
+		metadataPermission: read
+
+	tablePermission 'Integrated Margins'
+		metadataPermission: read
+
+	tablePermission 'Manufacturing Cost'
+		metadataPermission: read
+
+	tablePermission HSE
+		metadataPermission: read
+
+	tablePermission T&D
+		metadataPermission: read
+
+	tablePermission 'T&D Seg'
+		metadataPermission: read
+
+	tablePermission SG&A
+		metadataPermission: read
+
+	tablePermission 'Working Capital'
+		metadataPermission: read
+
+	tablePermission CAPEX
+		metadataPermission: read
+
+	annotation PBI_Id = e9ab12359dd540c1800888e2e9a073f7
+

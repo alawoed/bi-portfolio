@@ -1,0 +1,1018 @@
+table 'SnapShot by Product'
+	isHidden
+	lineageTag: d6c4baa0-c9df-4451-b143-23d1ba55e286
+
+	measure Value_by_Product = SUM( 'SnapShot by Product'[Value] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 9437bba0-f691-459b-8952-1a9fffc40e40
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Value_by_Product_Actual = ```
+			
+			var _date  =  DATE( 2025, 01, 01)  --EDATE( today() , -2 )
+			
+			RETURN
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[Period / Set of Books] = "Actual / Current Forecast"
+			        --&& 'Results by Product'[Date] <= DATE( YEAR(_date), MONTH(_date), 1 )
+			    ),   
+			    [Value_by_Product] 
+			)
+			```
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: c0bdb2b2-cfa6-4bfd-be30-0d3afa6696e0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Revenue Actual' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"NET_REVENUE"} 
+			    ),   
+			    [Value_by_Product_Actual]
+			)
+			```
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: 4e97ef0b-7698-4bcc-a2a8-dfa500b21653
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Actual' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"EBITDA"} 
+			    ),   
+			    [Value_by_Product_Actual]
+			)
+			```
+		isHidden
+		displayFolder: 2-EBITDA
+		lineageTag: f41ce329-870a-4cf2-a397-a3d624c5e07b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cash Flows Actual' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"Cash flows"} 
+			    ),   
+			    [Value_by_Product_Actual]
+			)
+			```
+		isHidden
+		displayFolder: 3-Cash Flow
+		lineageTag: f21e608e-0f0e-4457-9386-b59dc2f5d476
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced Actual' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"910000"} 
+			    ),   
+			    [Value_by_Product_Actual]
+			)
+			```
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: 57f5ca32-9be2-4271-89f8-dca547439d3d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Value_by_Product_Budget = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[Period / Set of Books] = "Budget"
+			    ),   
+			    [Value_by_Product] 
+			)
+			```
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 8e0c6822-b9c7-4265-807d-ad568bb44a65
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Value_by_Product_Forecast = ```
+			
+			var _date  =  DATE( 2025, 01, 01)  --EDATE( today() , -2 )
+			RETURN
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[Period / Set of Books] = "Actual / Current Forecast"
+			        && 'SnapShot by Product'[Date] > DATE( YEAR(_date), MONTH(_date), 1 )
+			    ),   
+			    [Value_by_Product] 
+			)
+			```
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 304ad23a-9a72-4e31-b11c-32448d15a19e
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cash Flows Budget' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"Cash flows"} 
+			    ),   
+			    [Value_by_Product_Budget]
+			)
+			```
+		isHidden
+		displayFolder: 3-Cash Flow
+		lineageTag: c59b0fb4-8760-4ce1-ae7d-5d723534bebd
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cash Flows Forecast' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"Cash flows"} 
+			    ),   
+			    [Value_by_Product_Forecast]
+			)
+			```
+		isHidden
+		displayFolder: 3-Cash Flow
+		lineageTag: 86bc384f-8aa5-4bf2-a091-c32da9f9b402
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Budget' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"EBITDA"} 
+			    ),   
+			    [Value_by_Product_Budget]
+			)
+			```
+		isHidden
+		displayFolder: 2-EBITDA
+		lineageTag: 28b869eb-15df-48ab-99ff-f3f2df23b8d4
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Forecast' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"EBITDA"} 
+			    ),   
+			    [Value_by_Product_Forecast]
+			)
+			```
+		isHidden
+		displayFolder: 2-EBITDA
+		lineageTag: 9dacdf90-2449-4394-968d-4d83f3965cc1
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Revenue Budget' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"NET_REVENUE"} 
+			    ),   
+			    [Value_by_Product_Budget]
+			)
+			```
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: 001edccf-e2da-4748-8d44-e3d6615cc3ee
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Revenue Forecast' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"NET_REVENUE"} 
+			    ),   
+			    [Value_by_Product_Forecast]
+			)
+			```
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: e98225bf-9dd0-4b4a-98f0-6a0b6213530a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced Budget' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"910000"} 
+			    ),   
+			    [Value_by_Product_Budget]
+			)
+			```
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: ac11b733-0d59-4a02-b93e-7b1f2f431eaa
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced Forecast' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"910000"} 
+			    ),   
+			    [Value_by_Product_Forecast]
+			)
+			```
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: 19d04d2b-f19e-49c4-b69a-4fe254388e2d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Value_by_Product_Previous_Forecast = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[Period / Set of Books] = "Previous Forecast"
+			    ),   
+			    [Value_by_Product] 
+			)
+			```
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 685efc65-a71c-4d2a-9701-f0760b25aea7
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Revenue Previous Forecast' = ```
+			
+			SUMX(
+			    FILTER(
+			        'SnapShot by Product', 
+			        'SnapShot by Product'[ACCOUNT] IN {"NET_REVENUE"} 
+			    ),   
+			    [Value_by_Product_Previous_Forecast]
+			)
+			```
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: 0db46632-d0c0-4d79-bfa8-a5f7304c0d24
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Revenue Actual filtered only past periods' = ```
+			
+			CALCULATE(
+			    [Net Revenue Actual],
+			     'Date Table'[Month Offset] < 0 
+			)
+			```
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: e7bc1576-eb4f-406f-adf2-d7663b680af6
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Revenue Latest Month Actual vs Forecast text' = ```
+			
+			VAR current_m = 
+			CALCULATE(
+			    [Net Revenue Actual],
+			    ALLSELECTED( 'Date Table' ),
+			    ALL( MBR_Columns ),   
+			    'Date Table'[Month Offset] = -2 )
+			VAR forecast = 
+			CALCULATE(
+			    [Net Revenue Previous Forecast],
+			    ALLSELECTED( 'Date Table' ),
+			    ALL( MBR_Columns ),   
+			    'Date Table'[Month Offset] = -2 )
+			VAR _variance = current_m - forecast
+			VAR _percent = DIVIDE( current_m, forecast, BLANK() ) - 1
+			VAR NumOfDigits = IFERROR( LEN( CONVERT( INT( abs( _variance ) ), STRING ) ), 0 )
+			VAR Commas = REPT(",",
+			        SWITCH(
+			            TRUE( ),
+			            NumOfDigits >= 13,  "4",
+			            NumOfDigits >= 10,  "3",
+			            NumOfDigits >= 7,   "2",
+			            NumOfDigits >= 4,   "1",
+			            "0"
+			        )
+			    )
+			VAR Suffix = SWITCH(
+			        TRUE( ),
+			        NumOfDigits >= 13,  ".000T",
+			        NumOfDigits >= 10,  ".00B",
+			        NumOfDigits >= 7,   "M",
+			        NumOfDigits >= 4,   "K"
+			    )
+			VAR _Format = "#,0" & Commas & Suffix & ";-#,0" & Commas & Suffix 
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    _percent = BLANK(), "N/A",--"Forecast: " & FORMAT( _forecast, _Format) & " " & " | " & "--",
+			    _percent >= 0,  /*FORMAT(current_m, _Format ) & " " &*/ UNICHAR(9650) & " +" & FORMAT(ABS(_variance), _Format ) & " (" & FORMAT( _percent, "#,0%") & ")",
+			    _percent < 0, /* FORMAT(current_m, _Format ) & " " & */ UNICHAR(9660) & " -" & FORMAT(ABS(_variance), _Format ) & " (" & FORMAT( _percent, "#,0%") & ")"
+			)
+			```
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: 88dd2ee4-00c4-4192-9570-46746210421e
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Revenue Actual vs Forecast' = [Net Revenue Actual] - [Net Revenue Forecast]
+		formatString: \$#,0;(\$#,0);\$#,0
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: cb172252-f80d-49c9-b171-f6550e2630db
+
+		changedProperty = IsHidden
+
+	measure 'Net Revenue Actual vs Budget' = [Net Revenue Actual] - [Net Revenue Budget]
+		formatString: \$#,0;(\$#,0);\$#,0
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: 2da2f06c-1642-489e-af12-d964da348999
+
+		changedProperty = IsHidden
+
+	measure 'Net Revenue Latest Period Actual' =
+			
+			VAR _offset_1 = CALCULATE(
+			        [Net Revenue Actual],
+			        'Date Table'[Month Offset] = -4
+			        )
+			VAR _offset_2 = CALCULATE(
+			        [Net Revenue Actual],
+			        'Date Table'[Month Offset] = -5
+			        )
+			RETURN IF(
+			    ISBLANK( _offset_1 ) || _offset_1 = 0,
+			    _offset_2,
+			    _offset_1
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: 5d86051d-294e-4027-b554-3236b9f3d516
+
+		changedProperty = IsHidden
+
+	measure 'Net Revenue Latest Period Name' =
+			
+			VAR _offset_1 = CALCULATE(
+			        [Net Revenue Actual],
+			        'Date Table'[Month Offset] = -4
+			        )
+			VAR _offset_2 = CALCULATE(
+			        [Net Revenue Actual],
+			        'Date Table'[Month Offset] = -5
+			        )
+			VAR _month_1 = CALCULATE( MIN( 'Date Table'[Year-Month] ), 'Date Table'[Month Offset] = -1 )
+			VAR _month_2 = CALCULATE( MIN( 'Date Table'[Year-Month] ), 'Date Table'[Month Offset] = -2 )
+			RETURN IF(
+			    ISBLANK( _offset_1 ) || _offset_1 = 0,
+			    _month_2,
+			    _month_1
+			)
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: 918ee836-9105-4940-8567-96e202672077
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Revenue variance text for card' = ```
+			
+			VAR _actual = [Net Revenue Actual]
+			VAR _budget = [Net Revenue Budget]
+			VAR _forecast = [Net Revenue Forecast]
+			VAR _varianceBudget = [Net Revenue Actual vs Budget]
+			VAR _varianceForecast = [Net Revenue Actual vs Forecast]
+			VAR _percent = DIVIDE( _actual, _budget, BLANK() )
+			VAR NumOfDigits = IFERROR( LEN( CONVERT( INT( _varianceForecast ), STRING ) ), 0 )
+			VAR Suffix = ".0" &
+			    SWITCH(
+			        TRUE( ),
+			        NumOfDigits >= 13,  "T",
+			        NumOfDigits >= 10,  "B",
+			        NumOfDigits >= 7,   "M",
+			        NumOfDigits >= 4,   "K"
+			    )
+			VAR Commas = REPT(",",
+			        SWITCH(
+			            TRUE( ),
+			            NumOfDigits >= 13,  "4",
+			            NumOfDigits >= 10,  "3",
+			            NumOfDigits >= 7,   "2",
+			            NumOfDigits >= 4,   "1"
+			        )
+			    )
+			
+			VAR _Format = "#,##0" & Commas & Suffix & ";-#,##0" & Commas &Suffix 
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    _percent = BLANK(), "Forecast: " & FORMAT( _forecast, _Format) & " " & " | " & "--",
+			    _percent >= 1,  UNICHAR(9660) & " " & FORMAT(ABS(_varianceForecast), _Format ) & " (+" & FORMAT(ABS(_varianceForecast), _Format ) & " )", --& " (" & FORMAT( _percent, "#.#%") & ")",
+			    _percent < 1, UNICHAR(9660) & " " & FORMAT(ABS(_varianceForecast), _Format ) & " (-" & FORMAT(ABS(_varianceForecast), _Format ) & " )" --& " (" & FORMAT( _percent, "#.#%") & ")"
+			)
+			```
+		isHidden
+		displayFolder: 1-Net Revenue
+		lineageTag: 4ea62931-77c0-487d-8ff8-454f098ca207
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Actual vs Budget' = [EBITDA Actual] - [EBITDA Budget]
+		isHidden
+		displayFolder: 2-EBITDA
+		lineageTag: 957b7222-c3e8-4fff-900b-bf45fd087cfd
+
+		changedProperty = DisplayFolder
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Actual vs Forecast' = [EBITDA Actual] - [EBITDA Forecast]
+		formatString: \$#,0;(\$#,0);\$#,0
+		isHidden
+		displayFolder: 2-EBITDA
+		lineageTag: 52700132-42fe-4ff4-97cc-987873b93781
+
+		changedProperty = DisplayFolder
+
+		changedProperty = IsHidden
+
+	measure 'EBITDA Forecast Millions' = [EBITDA Forecast]/1000000
+		isHidden
+		displayFolder: 2-EBITDA
+		lineageTag: 4bb11800-e629-473d-8fdc-403787dbfd29
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Forecast variance text for card' = ```
+			
+			VAR _actual = [EBITDA Actual]
+			VAR _forecast = [EBITDA Forecast]
+			VAR _variance = _actual - _forecast
+			VAR _percent = DIVIDE( _actual, _forecast, BLANK() )
+			VAR NumOfDigits = IFERROR( LEN( CONVERT( INT( _variance ), STRING ) ), 0 )
+			VAR Suffix = ".0" &
+			    SWITCH(
+			        TRUE( ),
+			        NumOfDigits >= 13,  "T",
+			        NumOfDigits >= 10,  "B",
+			        NumOfDigits >= 7,   "M",
+			        NumOfDigits >= 4,   "K"
+			    )
+			VAR Commas = REPT(",",
+			        SWITCH(
+			            TRUE( ),
+			            NumOfDigits >= 13,  "4",
+			            NumOfDigits >= 10,  "3",
+			            NumOfDigits >= 7,   "2",
+			            NumOfDigits >= 4,   "1"
+			        )
+			    )
+			
+			VAR _Format = "#,##0" & Commas & Suffix & ";-#,##0" & Commas &Suffix 
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    _percent = BLANK(), "Budget: " & FORMAT( _forecast, _Format) & " " & " | " & "--",
+			    _variance >= 1,  UNICHAR(9650) & " +" & FORMAT(ABS(_variance), _Format ), -- & " (" & FORMAT( _percent, "#.#%") & ")",
+			    _variance < 1, UNICHAR(9660) & " -" & FORMAT(ABS(_variance), _Format ) --& " (" & FORMAT( _percent, "#.#%") & ")"
+			)
+			```
+		isHidden
+		displayFolder: 2-EBITDA
+		lineageTag: 8d8b2d39-455b-4b43-8a8f-686d228be939
+
+		changedProperty = DisplayFolder
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Latest Period Actual' =
+			
+			VAR _offset_1 = CALCULATE(
+			        [EBITDA Actual],
+			        'Date Table'[Month Offset] = -3
+			        )
+			VAR _offset_2 = CALCULATE(
+			        [EBITDA Actual],
+			        'Date Table'[Month Offset] = -4
+			        )
+			RETURN IF(
+			    ISBLANK( _offset_1 ) || _offset_1 = 0,
+			    _offset_2,
+			    _offset_1
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		isHidden
+		displayFolder: 2-EBITDA
+		lineageTag: 45111a7b-8a52-4601-b181-b95a4c522788
+
+		changedProperty = DisplayFolder
+
+		changedProperty = IsHidden
+
+	measure 'EBITDA Latest Period Actual Name' =
+			
+			VAR _offset_1 = CALCULATE(
+			        [EBITDA Actual],
+			        'Date Table'[Month Offset] = -3
+			        )
+			VAR _offset_2 = CALCULATE(
+			        [EBITDA Actual],
+			        'Date Table'[Month Offset] = -4
+			        )
+			VAR _month_1 = CALCULATE( MIN( 'Date Table'[Year-Month] ), 'Date Table'[Month Offset] = -1 )
+			VAR _month_2 = CALCULATE( MIN( 'Date Table'[Year-Month] ), 'Date Table'[Month Offset] = -2 )
+			RETURN IF(
+			    ISBLANK( _offset_1 ) || _offset_1 = 0,
+			    _month_2,
+			    _month_1
+			)
+		isHidden
+		displayFolder: 2-EBITDA
+		lineageTag: af3ab95a-4527-4e3a-ad49-c84c44c62037
+
+		changedProperty = DisplayFolder
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cash Flow Actual Millions' = [Cash Flows Actual]/1000000
+		isHidden
+		displayFolder: 3-Cash Flow
+		lineageTag: cc91812f-bc73-4a15-ad34-ba6bfc7fc83c
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cash Flow Forecast Millions' = [Cash Flows Forecast]/1000000
+		isHidden
+		displayFolder: 3-Cash Flow
+		lineageTag: 65ce4bd1-fc88-4abe-87fd-1a0613d383d5
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cash Flow Latest Period Actual' =
+			
+			VAR _offset_1 = CALCULATE(
+			        [Cash Flows Actual],
+			        'Date Table'[Month Offset] = -4
+			        )
+			VAR _offset_2 = CALCULATE(
+			        [Cash Flows Actual],
+			        'Date Table'[Month Offset] = -5
+			        )
+			RETURN IF(
+			    ISBLANK( _offset_1 ) || _offset_1 = 0,
+			    _offset_2,
+			    _offset_1
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		isHidden
+		displayFolder: 3-Cash Flow
+		lineageTag: 9cb36f3f-f323-4e84-bca4-ddeced1372c9
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Cash Flow Latest Period Name' =
+			
+			VAR _offset_1 = CALCULATE(
+			        [Cash Flows Actual],
+			        'Date Table'[Month Offset] = -1
+			        )
+			VAR _offset_2 = CALCULATE(
+			        [Cash Flows Actual],
+			        'Date Table'[Month Offset] = -2
+			        )
+			VAR _month_1 = CALCULATE( MIN( 'Date Table'[Year-Month] ), 'Date Table'[Month Offset] = -1 )
+			VAR _month_2 = CALCULATE( MIN( 'Date Table'[Year-Month] ), 'Date Table'[Month Offset] = -2 )
+			RETURN IF(
+			    ISBLANK( _offset_1 ) || _offset_1 = 0,
+			    _month_2,
+			    _month_1
+			)
+		isHidden
+		displayFolder: 3-Cash Flow
+		lineageTag: d1d30238-7c43-4f97-a5dc-f064df0e1f13
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced Actual Millions' = if ([Volume Produced Actual]>0, [Volume Produced Actual]/1000000, BLANK() )
+		formatString: #,0
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: 4dc28b23-384e-4872-bb0f-751db1514c6e
+
+		changedProperty = FormatString
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+	measure 'Volume Produced Actual vs Budget' = [Volume Produced Actual] - [Volume Produced Budget]
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: ddb6f5e7-aad5-44da-9af5-e92199455293
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced Forecast Millions' = ```
+			[Volume Produced Forecast]/1000000 
+			```
+		formatString: #,0
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: c8ca1772-18a1-438b-bb44-76bfd2e0b94f
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Volume Produced Forecast only future' =
+			
+			CALCULATE(
+			    [Volume Produced Forecast],
+			    'Date Table'[Month Offset] >= -1 )
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: 0df87461-6df5-4f30-b0d8-7fd6abf179d6
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced Forecast only future bn label' = ```
+			[Volume Produced Forecast only future]/1000000000 
+			```
+		formatString: 0.00
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: b2a392a8-3e17-4b2a-bd66-d103b1528eec
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Volume Produced Last Period Actual' =
+			
+			VAR _offset_1 = CALCULATE(
+			        [Volume Produced Actual],
+			        'Date Table'[Month Offset] = -4
+			        )
+			VAR _offset_2 = CALCULATE(
+			        [Volume Produced Actual],
+			        'Date Table'[Month Offset] = -5
+			        )
+			RETURN IF(
+			    ISBLANK( _offset_1 ) || _offset_1 = 0,
+			    _offset_2,
+			    _offset_1
+			)
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: f3207456-2a62-48fb-b305-7bcb51bbf53a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced Latest Period Actual Name' =
+			
+			VAR _offset_1 = CALCULATE(
+			        [Volume Produced Actual],
+			        'Date Table'[Month Offset] = -1
+			        )
+			VAR _offset_2 = CALCULATE(
+			        [Volume Produced Actual],
+			        'Date Table'[Month Offset] = -2
+			        )
+			VAR _month_1 = CALCULATE( MIN( 'Date Table'[Year-Month] ), 'Date Table'[Month Offset] = -1 )
+			VAR _month_2 = CALCULATE( MIN( 'Date Table'[Year-Month] ), 'Date Table'[Month Offset] = -2 )
+			RETURN IF(
+			    ISBLANK( _offset_1 ) || _offset_1 = 0,
+			    _month_2,
+			    _month_1
+			)
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: ec2496ed-1922-4085-a0a8-ba8b231d9307
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced Prior Year Actual' =
+			
+			CALCULATE(
+			    [Volume Produced Actual],
+			    SAMEPERIODLASTYEAR( 'Date Table'[Date] )
+			)
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: 74ce113d-396d-4c62-b3f4-c3c8dfb4b460
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced Prior Year Actual Millions' = [Volume Produced Prior Year Actual]/1000000
+		formatString: #,0
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: 66ccb564-4e13-4746-8c03-c651f7fd8363
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Volume Produced variance text for card' = ```
+			
+			VAR _actual = [Volume Produced Actual]
+			VAR _budget = [Volume Produced Forecast]
+			VAR _variance = _actual - _budget
+			VAR _percent = DIVIDE( _actual, _budget, BLANK() )
+			VAR NumOfDigits = IFERROR( LEN( CONVERT( INT( _variance ), STRING ) ), 0 )
+			VAR Suffix = ".0" &
+			    SWITCH(
+			        TRUE( ),
+			        NumOfDigits >= 13,  "T",
+			        NumOfDigits >= 11,  "B",
+			        NumOfDigits >= 7,   "M",
+			        NumOfDigits >= 4,   "K"
+			    )
+			VAR Commas = REPT(",",
+			        SWITCH(
+			            TRUE( ),
+			            NumOfDigits >= 13,  "4",
+			            NumOfDigits >= 11,  "3",
+			            NumOfDigits >= 7,   "2",
+			            NumOfDigits >= 4,   "1"
+			        )
+			    )
+			
+			VAR _Format = "#,##0" & Commas & Suffix & ";-#,##0" & Commas & Suffix 
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    _percent = BLANK(), "Forecast: " & FORMAT( _budget, _Format) & " " & " | " & "--",
+			    _percent >= 1,  UNICHAR(9650) & " +" & FORMAT(ABS(_variance), _Format ), -- & " (" & FORMAT( _percent, "#.#%") & ")",
+			    _percent < 1, UNICHAR(9660) & " -" & FORMAT(ABS(_variance), _Format ) -- & " (" & FORMAT( _percent, "#.#%") & ")"
+			)
+			```
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: 74bc1227-a688-4ea5-af75-2c53c94544ab
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Produced w forecast' =
+			
+			CALCULATE(
+			    [Volume Produced Actual],
+			    'Date Table'[Month Offset] < 0
+			)
+		formatString: #,0.0
+		isHidden
+		displayFolder: 4-Volume
+		lineageTag: c5e58828-b0e4-4883-abf0-93127a33fe03
+
+		changedProperty = IsHidden
+
+	column CATEGORY
+		dataType: string
+		isHidden
+		lineageTag: cdc4427f-b280-4575-868d-c11010d6237e
+		summarizeBy: none
+		sourceColumn: CATEGORY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ENTITY
+		dataType: string
+		isHidden
+		lineageTag: d114d583-579e-4b64-be1c-60268a28f951
+		summarizeBy: none
+		sourceColumn: ENTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACCOUNT
+		dataType: string
+		isHidden
+		lineageTag: 00e5bf10-4aac-4fe4-b6ff-f887f1b8481b
+		summarizeBy: none
+		sourceColumn: ACCOUNT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: 50871f91-577f-429f-9695-dae3462c8b8a
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Reporting Unit'
+		dataType: string
+		isHidden
+		lineageTag: 578ee25c-dba2-4112-9a67-aaa2069ac3f2
+		summarizeBy: none
+		sourceColumn: Reporting Unit
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period / Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: 2edd1357-a306-410d-8826-8f5f0c984c24
+		summarizeBy: none
+		sourceColumn: Period / Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: 4b8092c6-8b8c-49a2-80ae-6b4309a2c358
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 32248ebd-22d9-49a9-a557-fb7ec61bb9f5
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'SnapShot by Product' = m
+		mode: import
+		queryGroup: 'Fact Tables\SnapShot'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Results by Product_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Results by Product",version=""]}[Data]
+				in
+				    #"Results by Product_"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

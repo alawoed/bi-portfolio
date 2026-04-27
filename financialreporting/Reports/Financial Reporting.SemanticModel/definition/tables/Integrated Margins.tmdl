@@ -1,0 +1,201 @@
+table 'Integrated Margins'
+	isHidden
+	lineageTag: 2ef14375-e0a7-4795-832e-5e6ea97987f5
+
+	measure 'Chlorine Values exc Caustic ($/ton)' = sum( 'Integrated Margins'[Chlorine Values (exc Caustic) $/ton] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 476a51b6-f395-492a-b03b-1ded7fed3d54
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Chlorine Values exc Caustic ($mm)' = sum( 'Integrated Margins'[Chlorine Values (exc Caustic) $mm] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: ecb68d65-ef2e-48e2-ba4c-544c07a534be
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Full Cash Cost Integrated Margin inc. Caustic ($/ton)' = sum( 'Integrated Margins'[Full Cash Cost Integrated Margin (inc. Caustic) $/ton] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 9e51ec01-8939-47b6-a9dd-c5655c5cdabe
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Full Cash Cost Integrated Margin inc. Caustic ($mm)' = SUM( 'Integrated Margins'[Full Cash Cost Integrated Margin (inc. Caustic) $mm] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 5fb4dda0-4e77-49f1-a578-916e9f40b7d3
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Variable Integrated Margin inc. Caustic ($/ton)' = SUM( 'Integrated Margins'[Variable Integrated Margin (inc. Caustic) $/ton] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: f075f311-83b8-41ab-8602-2d90a196fcb5
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Variable Integrated Margin inc. Caustic ($mm)' = SUM( 'Integrated Margins'[Variable Integrated Margin (inc. Caustic) $mm] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: b954fe57-c1ad-4287-83e7-3e7a5c9c058a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume (Kton)' = SUM( 'Integrated Margins'[Volume Ktons] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 0c9b22b4-3869-4738-bc6f-253e9fe2e6c4
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Product
+		dataType: string
+		isHidden
+		lineageTag: fd494d7a-5971-42ba-b528-bcf92e045d64
+		summarizeBy: none
+		sourceColumn: Product
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 854246de-8bf9-417b-b8a9-98cdac37fd12
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Volume Ktons'
+		dataType: double
+		isHidden
+		lineageTag: 4398ddfa-e333-42c8-b707-6cda30b7ba4c
+		summarizeBy: sum
+		sourceColumn: Volume Ktons
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Chlorine Values (exc Caustic) $/ton'
+		dataType: double
+		isHidden
+		lineageTag: 9a8a3a30-ac4c-4295-970a-8e6b6ace6164
+		summarizeBy: sum
+		sourceColumn: Chlorine Values (exc Caustic) $/ton
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Variable Integrated Margin (inc. Caustic) $/ton'
+		dataType: double
+		isHidden
+		lineageTag: 97e987c8-deb1-4462-904d-d43a357b630e
+		summarizeBy: sum
+		sourceColumn: Variable Integrated Margin (inc. Caustic) $/ton
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Full Cash Cost Integrated Margin (inc. Caustic) $/ton'
+		dataType: double
+		isHidden
+		lineageTag: 8d1dbaa2-0b7e-48fd-a1de-d8e2e47cb507
+		summarizeBy: sum
+		sourceColumn: Full Cash Cost Integrated Margin (inc. Caustic) $/ton
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Chlorine Values (exc Caustic) $mm'
+		dataType: double
+		isHidden
+		lineageTag: 10e523b0-6446-41e8-8569-20346ecabc0f
+		summarizeBy: sum
+		sourceColumn: Chlorine Values (exc Caustic) $mm
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Variable Integrated Margin (inc. Caustic) $mm'
+		dataType: double
+		isHidden
+		lineageTag: 1e7b5352-a408-404c-bc2b-5a00db3f8a57
+		summarizeBy: sum
+		sourceColumn: Variable Integrated Margin (inc. Caustic) $mm
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Full Cash Cost Integrated Margin (inc. Caustic) $mm'
+		dataType: double
+		isHidden
+		lineageTag: 6d7a5661-6173-466a-a3ce-b234a2cfc3f2
+		summarizeBy: sum
+		sourceColumn: Full Cash Cost Integrated Margin (inc. Caustic) $mm
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Integrated Margins' = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Integrated Margins_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Integrated Margins",version=""]}[Data]
+				in
+				    #"Integrated Margins_"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

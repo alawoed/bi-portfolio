@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "d918145cf0d81cab3fe5",
+  "position": {
+    "x": 503.99687191549344,
+    "y": 166,
+    "z": 9000,
+    "height": 96.800508126197343,
+    "width": 222.12680392852883
+  },
+  "visualGroup": {
+    "displayName": "CashFlow-group",
+    "groupMode": "ScaleMode"
+  }
+}

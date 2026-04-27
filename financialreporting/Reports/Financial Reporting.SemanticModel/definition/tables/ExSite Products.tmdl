@@ -1,0 +1,50 @@
+table 'ExSite Products'
+	isHidden
+	lineageTag: a633ff2b-f5f9-4a41-afe2-6b43fab3b595
+
+	column 'Site Products'
+		isHidden
+		lineageTag: a5190bff-546e-40c6-bdc1-b05acd040584
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Site Products Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Site Products Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site Products Fields'
+		isHidden
+		lineageTag: 9b576899-4663-4b78-ae8d-f36e058605a4
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Site Products Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site Products Order'
+		isHidden
+		formatString: 0
+		lineageTag: deed65e8-d77b-4fd9-b57b-e90758a4154e
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'ExSite Products' = calculated
+		mode: import
+		source =
+				{
+				    ("Products", NAMEOF('Hierachy Bridge'[Products]), 0),
+				    ("Products", NAMEOF('Hierachy Bridge'[Product2]), 1)
+				}
+
+	annotation PBI_Id = 4aac2ee6b6c24576b7b2c77711f1bc8c
+

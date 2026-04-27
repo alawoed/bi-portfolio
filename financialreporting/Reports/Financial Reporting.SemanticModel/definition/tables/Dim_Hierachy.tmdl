@@ -1,0 +1,52 @@
+table Dim_Hierachy
+	isHidden
+	lineageTag: 133ea856-77a9-4f07-a6f6-43ccc39ab17d
+
+	column Hierarchy
+		isHidden
+		lineageTag: 0dfe32f3-e59b-41e8-8def-e68ca3000dee
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 1e35147f-751d-482c-a51b-55ad752673b7
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 0ff4c743-764d-4175-8d28-dc96ce9097fd
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Hierachy = calculated
+		mode: import
+		source =
+				{
+				    ("SBU", NAMEOF('Dim Hierarchy'[SBU]), 0),
+				    ("Level 1", NAMEOF('Dim Hierarchy'[Level 1]), 1),
+				    ("Level 2", NAMEOF('Dim Hierarchy'[Level 2]), 2),
+				    ("Level 3", NAMEOF('Dim Hierarchy'[Level 3]), 3)
+				}
+
+	annotation PBI_Id = 611af6a1cd4e42618634b418c5fa5626
+

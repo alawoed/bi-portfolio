@@ -1,0 +1,121 @@
+table 'Production by Product'
+	isHidden
+	lineageTag: 04c77ef6-5223-4d53-a8dd-07a0659a4dc1
+
+	column CATEGORY
+		dataType: string
+		isHidden
+		lineageTag: e6af9150-a514-46f6-85b5-84e93ece3a6a
+		summarizeBy: none
+		sourceColumn: CATEGORY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: 9e4d8b3a-4ae4-4463-9f50-0a790cf86c72
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period / Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: f9d52b95-0a11-4275-ba53-4a4168a29b63
+		summarizeBy: none
+		sourceColumn: Period / Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 7e929d59-ba64-4837-b0b4-02993ce24368
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: b16f192c-0d92-4abc-a1ed-e2ab5b021b32
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Entity
+		dataType: string
+		isHidden
+		lineageTag: 01ebcf5b-79d0-4c87-8020-03e11d2d0e71
+		summarizeBy: none
+		sourceColumn: Entity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM_O
+		dataType: string
+		isHidden
+		lineageTag: c42da809-3511-4139-b36b-ac879a3bf7bc
+		summarizeBy: none
+		sourceColumn: UOM_O
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value_O
+		dataType: double
+		isHidden
+		lineageTag: 78335dfb-8178-4632-92d8-4ab0a08ea01c
+		summarizeBy: sum
+		sourceColumn: Value_O
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Production by Product' = m
+		mode: import
+		queryGroup: 'Fact Tables\Production'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Production Page_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Production Page by Product",version=""]}[Data],
+				    #"Replaced Value" = Table.ReplaceValue(#"Production Page_","lbs(m)","lbs(m) - Millions of Lbs",Replacer.ReplaceText,{"UOM"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","Ktons","Ktons - Thousand of Tons",Replacer.ReplaceText,{"UOM"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","G4","G9",Replacer.ReplaceText,{"Entity"})
+				in
+				    #"Replaced Value2"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

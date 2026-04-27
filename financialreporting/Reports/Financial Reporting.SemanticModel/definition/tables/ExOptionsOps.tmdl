@@ -1,0 +1,76 @@
+table ExOptionsOps
+	isHidden
+	lineageTag: cfddd8d7-dddf-457a-b3c6-a02255ecd289
+
+	column ExOptionsOps
+		isHidden
+		lineageTag: 34a09cff-fe08-4477-938a-c8cb57093538
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'ExOptionsOps Order'
+
+		relatedColumnDetails
+			groupByColumn: 'ExOptionsOps Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExOptionsOps Fields'
+		isHidden
+		lineageTag: 90465814-fe06-48ea-abdb-4f959134a303
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'ExOptionsOps Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExOptionsOps Order'
+		isHidden
+		formatString: 0
+		lineageTag: 10f86428-e5ae-4420-9bee-051e37b30e4c
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SlicerValue = ```
+			
+			TRIM(
+				RIGHT(
+			[ExOptionsOps],
+				LEN([ExOptionsOps]) - FIND("Operating Rate", 
+			[ExOptionsOps], 1) - LEN("Operating Rate")))
+			
+			```
+		isHidden
+		lineageTag: f756def6-8441-4d5c-bbc7-fca0a16598c7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ExOptionsOps = calculated
+		mode: import
+		source =
+				{
+				    ("Operating Rate Prev Month", NAMEOF('5 - Expenditure'[MC Ops Rate Previous Period]), 0),
+				    ("Operating Rate Budget", NAMEOF('5 - Expenditure'[MC Ops Rate Latest Budget]), 0),
+				    ("Operating Rate Forecast", NAMEOF('5 - Expenditure'[MC Ops Rate Latest Period Prev Forecast]), 0),
+				    ("Operating Rate SQLY", NAMEOF('5 - Expenditure'[MC Ops Rate Previous Period]), 1),
+				    ("Operating Rate Budget", NAMEOF('5 - Expenditure'[MC Ops Rate Latest Budget]), 1),
+				    ("Operating Rate Prev Quarter", NAMEOF('5 - Expenditure'[MC Ops Rate Latest Period Forecast]), 1),
+				    ("Operating Rate YTDLY", NAMEOF('5 - Expenditure'[MC Ops Rate Previous Period]), 2),
+				    ("Operating Rate Budget", NAMEOF('5 - Expenditure'[MC Ops Rate Latest Budget]), 2),
+				    ("Operating Rate Forecast", NAMEOF('5 - Expenditure'[MC Ops Rate Latest Period Prev Forecast]), 2),
+				    ("Operating Rate Prev Year", NAMEOF('5 - Expenditure'[MC Ops Rate Previous Period]), 3),
+				    ("Operating Rate Budget", NAMEOF('5 - Expenditure'[MC Ops Rate Latest Budget]), 3),
+				    ("Operating Rate Forecast", NAMEOF('5 - Expenditure'[MC Ops Rate Latest Period Prev Forecast]), 3)
+				
+				}
+
+	annotation PBI_Id = d5b6f0b7b395411087a543cdb95f0ea2
+

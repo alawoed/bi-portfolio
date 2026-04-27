@@ -1,0 +1,20 @@
+// DAX Query
+DEFINE
+	VAR __DS0FilterTable = 
+		TREATAS({"Site"}, 'Switch Table'[Value])
+
+	VAR __DS0FilterTable2 = 
+		TREATAS({"Budget"}, 'ExSlicer'[Value])
+
+	VAR __DS0FilterTable3 = 
+		TREATAS({"Monthly"}, 'Dim Period Comp'[Period])
+
+
+
+EVALUATE
+	SUMMARIZECOLUMNS(
+		__DS0FilterTable,
+		__DS0FilterTable2,
+		__DS0FilterTable3,
+		"SGA_Revenue_Actual", IGNORE('5 - Expenditure'[SGA Revenue Actual])
+	)

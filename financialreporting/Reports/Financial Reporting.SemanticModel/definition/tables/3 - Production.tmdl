@@ -1,0 +1,1087 @@
+table '3 - Production'
+	lineageTag: abac11ae-89cd-46b1-9ee7-b15aba7a03c6
+
+	measure 'PP Production Volume' = ```
+			
+			VAR _orgvalprd = SUM('Production by Product'[Value_O])/1000000
+			VAR _newvalprd = SUM('Production by Product'[Value])
+			VAR _orgvalst  = SUM('Production by Site'[Value_O])/1000000
+			VAR _newvalst  = SUM('Production by Site'[Value])
+			
+			VAR _product = SWITCH([PP Hier SBU Filter], 0 , _orgvalprd , 1 , _newvalprd)
+			VAR _site = SWITCH([PP Hier SBU Filter], 0 , _orgvalst , 1 , _orgvalst)
+			
+			VAR _UOMp =  SELECTEDVALUE('Production by Product'[UOM])
+			VAR _UOMs = SELECTEDVALUE('Production by Site'[UOM])
+			VAR _pval = IF(_UOMp = "Ktons - Thousand of Tons", _newvalprd, _orgvalprd )
+			VAR _sval = IF(_UOMs = "Ktons - Thousand of Tons", _newvalst, _orgvalst )
+			
+			RETURN
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _sval, 
+			    _pval )
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 19d79dd2-f9af-4554-b2cb-f1c577bbde9c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Actual' = ```
+			
+			VAR _product = CALCULATE([PP Production Volume], 
+			                'Production by Product'[Period / Set of Books] = "Actual / Current Forecast"
+			                    --&& 'Production by Product'[CATEGORY] = "FORECAST"
+			                    && 'Production by Product'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			
+			
+			VAR _site = CALCULATE([PP Production Volume], 
+			                'Production by Site'[Period / Set of Books] = "Actual / Current Forecast"
+			                    --&& 'Production by Site'[CATEGORY] = "FORECAST"
+			                    && 'Production by Site'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			RETURN 
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _site, 
+			    _product )
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 085eecab-7d0b-4e07-bef6-e99100c374a4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Actual & Forecast' = [PP Production Volume Actual] + [PP Production Volume Forecast]
+		displayFolder: 0-Base Measures
+		lineageTag: c3dfb875-fa6d-4217-a117-c06c354773e9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Actual & Forecast Millions' = [PP Production Volume Actual & Forecast]/1000000
+		displayFolder: 0-Base Measures
+		lineageTag: be4fdd1a-0b28-4555-a0aa-177ee213e0fd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Budget' = ```
+			
+			VAR _product = CALCULATE([PP Production Volume],
+			        'Production by Product'[Period / Set of Books] = "Budget")
+			
+			VAR _site = CALCULATE([PP Production Volume],
+			        'Production by Site'[Period / Set of Books] = "Budget")
+			
+			RETURN 
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _site, 
+			    _product )
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: cd51625b-c2db-4d69-a74d-42bccba51eab
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Forecast' = ```
+			
+			
+			VAR _product = CALCULATE([PP Production Volume], 
+			                'Production by Product'[Period / Set of Books] = "Actual / Current Forecast"
+			                    && 'Production by Product'[CATEGORY] = "FORECAST"
+			                    && 'Production by Product'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			VAR _site = CALCULATE([PP Production Volume], 
+			                'Production by Site'[Period / Set of Books] = "Actual / Current Forecast"
+			                    && 'Production by Site'[CATEGORY] = "FORECAST"
+			                    && 'Production by Site'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			RETURN 
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _site, 
+			    _product )
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: d5301b29-b1e2-4ef9-b23a-1fb7a0ebdd06
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Prior Year' =
+			
+			CALCULATE(
+			    [PP Production Volume Actual],
+			    SAMEPERIODLASTYEAR( 'Date Table'[Date] )
+			)
+		displayFolder: 0-Base Measures
+		lineageTag: 8f1fe90c-18aa-481e-a62c-d280aa5b2049
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Prev Forecast' = ```
+			
+			VAR _product = CALCULATE([PP Production Volume],
+			        'Production by Product'[Period / Set of Books] = "Previous Forecast")
+			
+			VAR _site = CALCULATE([PP Production Volume],
+			        'Production by Site'[Period / Set of Books] = "Previous Forecast")
+			
+			RETURN 
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _site, 
+			    _product )
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 6abb32a4-c322-44f2-b2b5-634457d00e76
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Hier SBU Filter' =
+			
+			IF(
+			HASONEFILTER('Dim Hierarchy'[SBU]) &&
+			COUNTROWS(ALLSELECTED('Dim Hierarchy'[SBU])) = 1,
+			1,0
+			)
+		displayFolder: 0-Base Measures
+		lineageTag: 40571f43-0e5c-4f06-b6ed-ce3a6a68080d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP UOM' = ```
+			
+			VAR _product = SELECTEDVALUE('Production by Product'[UOM])
+			VAR _site = SELECTEDVALUE('Production by Site'[UOM])
+			
+			RETURN
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _site, 
+			    _product )
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 8252d944-8495-480e-895e-4dfc5b59246f
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'PP Hier Level1 Filter' =
+			
+			VAR SBU = IF(
+			    ISFILTERED('Dim Hierarchy'[SBU]) &&
+			    COUNTROWS(VALUES('Dim Hierarchy'[SBU])) = 1, 1, 0)
+			VAR Level1 = IF(ISFILTERED('Dim Hierarchy'[Level 1]), 2)
+			VAR Level2 = IF(ISFILTERED('Dim Hierarchy'[Level 2]), 3)
+			VAR Level3 = IF(ISFILTERED('Dim Hierarchy'[Level 3]), 3)
+			VAR final = COALESCE(Level3, Level2, Level1, SBU)
+			
+			RETURN
+			IF(SELECTEDVALUE(Dim_Hierachy[Parameter Order]) = final, 1, 0)
+		displayFolder: 0-Base Measures
+		lineageTag: f43809bb-9422-49cb-bbac-38e8eef0c490
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Subtitle' =
+			
+			VAR _product = SELECTEDVALUE('Production by Product'[UOM])
+			VAR _site = SELECTEDVALUE('Production by Site'[UOM])
+			VAR _final = IF(SELECTEDVALUE('Switch Table'[Order]) = 0 , _site, _product )
+			
+			
+			RETURN
+			IF([PP Hier SBU Filter] = 1, COALESCE(_final, "lbs(m) - Millions of Lbs"), "lbs(m) - Millions of Lbs")
+		displayFolder: 0-Base Measures
+		lineageTag: 08f7ff3c-56cb-4640-b061-4fdd6bb5d1d3
+
+	measure 'PP Hier Level2 Filter' =
+			
+			SELECTEDVALUE(Dim_Hierachy[Hierarchy])
+		displayFolder: 0-Base Measures
+		lineageTag: 84d5dcc5-657b-4962-8f7a-64fa57e40d77
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Variance Prevs Period' = ```
+			
+			-- Month-over-month comparison
+			VAR _monthrevA = CALCULATE([PP Production Volume Actual], 'Date Table'[Month Offset] = -2)
+			VAR _monthrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Month Offset] = -1)
+			VAR _monthvar = _monthrevB - _monthrevA
+			VAR _monthvarper = DIVIDE(_monthvar, ABS(_monthrevA))
+			
+			-- Quarter-over-quarter comparison
+			VAR _qtdrevA = CALCULATE([PP Production Volume Actual], 'Date Table'[Quarter Offset] = -4)
+			VAR _qtdrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Quarter Offset] = 0)
+			VAR _qtdvar = _qtdrevB - _qtdrevA
+			VAR _qtdvarper = DIVIDE(_qtdvar, ABS(_qtdrevA))
+			
+			-- Year-over-year comparison
+			VAR _ytdrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1) 
+			VAR _ytdrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _ytdvar = _ytdrevB - _ytdrevA
+			VAR _ytdvarper = DIVIDE(_ytdvar, ABS(_ytdrevA))
+			
+			-- Full-year forecast comparison
+			VAR _fyrrevA = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = -1) 
+			VAR _fyrrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _fyrvar = _fyrrevB - _fyrrevA
+			VAR _fyrvarper = DIVIDE(_fyrvar, ABS(_fyrrevA))
+			
+			
+			-- Final values based on selected comparison type
+			VAR finalvar = 
+			    SWITCH(
+			        SELECTEDVALUE('Dim Period Comp'[Order]),
+			        0, _monthvar,
+			        1, _qtdvar,
+			        2, _ytdvar,
+			        3, _fyrvar,
+			        BLANK()
+			    )
+			
+			VAR finalvarper = 
+			    SWITCH(
+			        SELECTEDVALUE('Dim Period Comp'[Order]),
+			        0, _monthvarper,
+			        1, _qtdvarper,
+			        2, _ytdvarper,
+			        3, _fyrvarper,
+			        BLANK()
+			    )
+			
+			-- Format variance amount nicely
+			VAR formart_variance = 
+			    SWITCH(
+			        TRUE(),
+			        ABS(finalvar) >= 1000000000, FORMAT(finalvar / 1000000000, "#,0.0") & "B",
+			        ABS(finalvar) >= 1000000, FORMAT(finalvar / 1000000, "#,0.0") & "M",
+			        ABS(finalvar) >= 1000, FORMAT(finalvar / 1000, "#,0.0") & "K",
+			        FORMAT(finalvar, "#,0.0")
+			    )
+			
+			-- Build final output with directional icon
+			VAR _varfinal = 
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(finalvarper), UNICHAR(9660) & " " & formart_variance & " (--%)",
+			        finalvar = 0, UNICHAR(9660) & " " & formart_variance & " (--%)",
+			        finalvar > 0, UNICHAR(9650) & " +" & formart_variance & " (+" & FORMAT(finalvarper, "#0.0%") & ")",
+			        finalvar < 0, UNICHAR(9660) & " " & formart_variance & " (" & FORMAT(finalvarper , "#0.0%") & ")"
+			    )
+			
+			RETURN
+			_varfinal
+			
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 78121c89-ba9d-47cd-b1a3-a81ae4700a2c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Variance Forecast' = ```
+			
+			
+			-- Month-over-month comparison
+			VAR _monthrevA = CALCULATE([PP Production Volume Prev Forecast], 'Date Table'[Month Offset] = -1)
+			VAR _monthrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Month Offset] = -1)
+			VAR _monthvar = _monthrevB - _monthrevA
+			VAR _monthvarper = DIVIDE(_monthvar, ABS(_monthrevA))
+			
+			-- Quarter-over-quarter comparison
+			VAR _qtdrevA = IF( 
+			    MONTH(TODAY()) IN {1, 4, 7, 10}, -- First month of each quarter
+			    CALCULATE( [PP Production Volume Actual], 'Date Table'[Quarter Offset] = -2 ),
+			    CALCULATE( [PP Production Volume Actual & Forecast], 'Date Table'[Quarter Offset] = -1) )
+			VAR _qtdrevB = IF( 
+			    MONTH(TODAY()) IN {1, 4, 7, 10}, -- First month of each quarter
+			    CALCULATE( [PP Production Volume Actual], 'Date Table'[Quarter Offset] = -1 ),
+			    CALCULATE( [PP Production Volume Actual & Forecast], 'Date Table'[Quarter Offset] = 0) )   
+			VAR _qtdvar = _qtdrevB - _qtdrevA
+			VAR _qtdvarper = DIVIDE(_qtdvar, ABS(_qtdrevA))
+			
+			-- Year-over-year comparison
+			VAR _ytdrevA = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] < -12 )
+			VAR _ytdrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= 0)
+			VAR _ytdvar = _ytdrevB - _ytdrevA
+			VAR _ytdvarper = DIVIDE(_ytdvar, ABS(_ytdrevA))
+			
+			-- Full-year forecast comparison
+			VAR _fyrrevA = CALCULATE([PP Production Volume Prev Forecast], 'Date Table'[Year Offset] = 0) 
+			VAR _fyrrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _fyrvar = _fyrrevB - _fyrrevA
+			VAR _fyrvarper = DIVIDE(_fyrvar, ABS(_fyrrevA))
+			
+			
+			-- Final values based on selected comparison type
+			VAR finalvar = 
+			    SWITCH(
+			        SELECTEDVALUE('Dim Period Comp'[Order]),
+			        0, _monthvar,
+			        1, _qtdvar,
+			        2, _ytdvar,
+			        3, _fyrvar,
+			        BLANK()
+			    )
+			
+			VAR finalvarper = 
+			    SWITCH(
+			        SELECTEDVALUE('Dim Period Comp'[Order]),
+			        0, _monthvarper,
+			        1, _qtdvarper,
+			        2, _ytdvarper,
+			        3, _fyrvarper,
+			        BLANK()
+			    )
+			
+			-- Format variance amount nicely
+			VAR formart_variance = FORMAT(finalvar, "#,#0.0")
+			
+			-- Build final output with directional icon
+			VAR _varfinal = 
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(finalvarper), UNICHAR(9660) & " " & formart_variance & " (--%)",
+			        finalvar = 0, UNICHAR(9660) & " " & formart_variance & " (--%)",
+			        finalvar > 0, UNICHAR(9650) & " +" & formart_variance & " (+" & FORMAT(finalvarper, "#0.0%") & ")",
+			        finalvar < 0, UNICHAR(9660) & " " & formart_variance & " (" & FORMAT(finalvarper , "#0.0%") & ")"
+			    )
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", "", _varfinal)
+			
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 4500a0d2-f609-463e-a65d-64a012ee09bc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Variance Forecast Format' = ```
+			
+			
+			-- Month-over-month comparison
+			VAR _monthrevA = CALCULATE([PP Production Volume Prev Forecast], 'Date Table'[Month Offset] = -1)
+			VAR _monthrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Month Offset] = -1)
+			VAR _monthvar = _monthrevB - _monthrevA
+			VAR _monthvarper = DIVIDE(_monthvar, ABS(_monthrevA))
+			
+			-- Quarter-over-quarter comparison
+			VAR _qtdrevA = IF( 
+			    MONTH(TODAY()) IN {1, 4, 7, 10}, -- First month of each quarter
+			    CALCULATE( [PP Production Volume Actual], 'Date Table'[Quarter Offset] = -2 ),
+			    CALCULATE( [PP Production Volume Actual & Forecast], 'Date Table'[Quarter Offset] = -1) )
+			VAR _qtdrevB = IF( 
+			    MONTH(TODAY()) IN {1, 4, 7, 10}, -- First month of each quarter
+			    CALCULATE( [PP Production Volume Actual], 'Date Table'[Quarter Offset] = -1 ),
+			    CALCULATE( [PP Production Volume Actual & Forecast], 'Date Table'[Quarter Offset] = -0) )   
+			VAR _qtdvar = _qtdrevB - _qtdrevA
+			VAR _qtdvarper = DIVIDE(_qtdvar, ABS(_qtdrevA))
+			
+			-- Year-over-year comparison
+			VAR _ytdrevA = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] < -12 )
+			VAR _ytdrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= 0)
+			VAR _ytdvar = _ytdrevB - _ytdrevA
+			VAR _ytdvarper = DIVIDE(_ytdvar, ABS(_ytdrevA))
+			
+			-- Full-year forecast comparison
+			VAR _fyrrevA = CALCULATE([PP Production Volume Prev Forecast], 'Date Table'[Year Offset] = 0) 
+			VAR _fyrrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _fyrvar = _fyrrevB - _fyrrevA
+			VAR _fyrvarper = DIVIDE(_fyrvar, ABS(_fyrrevA))
+			
+			
+			-- Final output based on selected comparison type
+			VAR _final = BLANK()
+			
+			VAR finalvarper = 
+			    SWITCH(
+			        SELECTEDVALUE('Dim Period Comp'[Order]),
+			        0, _monthvar,
+			        1, _qtdvar,
+			        2, _ytdvar,
+			        3, _fyrvar,
+			        BLANK()
+			    )
+			
+			VAR _varfinal = SWITCH(
+			    TRUE(),
+			    finalvarper = BLANK(), "Red",
+			    finalvarper > 0, "Green",
+			    finalvarper <= 0, "Red")
+			
+			RETURN
+			_varfinal
+			
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 3740f409-fd2e-416e-820c-f3e03a7f3668
+
+	measure 'PP Production Volume Variance Prevs Period Format' = ```
+			
+			-- Month-over-month comparison
+			VAR _monthrevA = CALCULATE([PP Production Volume Actual], 'Date Table'[Month Offset] = -2)
+			VAR _monthrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Month Offset] = -1)
+			VAR _monthvar = _monthrevB - _monthrevA
+			VAR _monthvarper = DIVIDE(_monthvar, ABS(_monthrevA))
+			
+			-- Quarter-over-quarter comparison
+			VAR _qtdrevA = CALCULATE([PP Production Volume Actual], 'Date Table'[Quarter Offset] = -4)
+			VAR _qtdrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Quarter Offset] = 0)
+			VAR _qtdvar = _qtdrevB - _qtdrevA
+			VAR _qtdvarper = DIVIDE(_qtdvar, ABS(_qtdrevA))
+			
+			-- Year-over-year comparison
+			VAR _ytdrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1) 
+			VAR _ytdrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _ytdvar = _ytdrevB - _ytdrevA
+			VAR _ytdvarper = DIVIDE(_ytdvar, ABS(_ytdrevA))
+			
+			-- Full-year forecast comparison
+			VAR _fyrrevA = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = -1) 
+			VAR _fyrrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _fyrvar = _fyrrevB - _fyrrevA
+			VAR _fyrvarper = DIVIDE(_fyrvar, ABS(_fyrrevA))
+			
+			
+			-- Final output based on selected comparison type
+			VAR _final = BLANK()
+			
+			VAR finalvarper = 
+			    SWITCH(
+			        SELECTEDVALUE('Dim Period Comp'[Order]),
+			        0, _monthvar,
+			        1, _qtdvar,
+			        2, _ytdvar,
+			        3, _fyrvar,
+			        BLANK()
+			    )
+			
+			VAR _varfinal = SWITCH(
+			    TRUE(),
+			    finalvarper = BLANK(), "Red",
+			    finalvarper > 0, "Green",
+			    finalvarper <= 0, "Red")
+			
+			RETURN
+			_varfinal
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: b56810f9-e4cb-4d54-a687-738d518a5942
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Operating Rate 10k Actual' =
+			
+			DIVIDE(
+			    [PP Production Volume Actual],
+			    [Capacity 10k Actual],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1-Operating Rates
+		lineageTag: 67289a34-c6e7-41f0-8aa3-27e513851cd5
+
+	measure 'Operating Rate 10k Actual & Forecast' =
+			
+			DIVIDE(
+			    [PP Production Volume Actual & Forecast],
+			    [Capacity 10k in lb],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1-Operating Rates
+		lineageTag: d69483f5-b240-408b-918e-7858937d5902
+
+	measure 'Operating Rate 10k Budget' =
+			
+			DIVIDE(
+			    [PP Production Volume Budget],
+			    [Capacity 10K CY],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1-Operating Rates
+		lineageTag: 1b058bcf-79a6-4613-a15a-cf7d780c2ab3
+
+	measure 'Operating Rate 10k Forecast' =
+			
+			DIVIDE(
+			    [PP Production Volume Forecast],
+			    [Capacity 10k in lb],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1-Operating Rates
+		lineageTag: a7db520a-8023-424b-bb2b-6f302939d3e7
+
+	measure 'Operating Rate 10k Prior Year' =
+			
+			CALCULATE(
+			    [Operating Rate 10k Actual],
+			    SAMEPERIODLASTYEAR( 'Date Table'[Date] )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1-Operating Rates
+		lineageTag: 0abc8eac-6039-41f0-8ad6-12d0ff15c2ae
+
+	measure 'OR PY Actual' = ```
+			//CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] = -1)
+			
+			VAR _monthoffset = CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] = -1 )
+			VAR _qtdoffset = CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] = -1 && 'Date Table'[Quarter Offset] < 4)
+			VAR _ytdoffset = CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] <-12)
+			VAR _fyroffset = CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] = -1)
+			
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, BLANK())
+			
+			RETURN 
+			    __offset_1
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1-Operating Rates
+		lineageTag: b665381a-116f-4894-b890-8d88de41d982
+
+	measure 'OR CY Actual' = ```
+			
+			
+			VAR _monthoffset = CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] = 0)
+			VAR _qtdoffset = CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] <= -1)
+			VAR _ytdoffset = CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([Operating Rate 10k Actual], 'Date Table'[Year Offset] <= -1 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1-Operating Rates
+		lineageTag: 47667c60-1099-42d6-a755-f28b4b77bbbc
+
+	measure 'OR CY Budget' = ```
+			//CALCULATE([Operating Rate 10k Budget], 'Date Table'[Year Offset] = 0)
+			
+			VAR _monthoffset = CALCULATE([Operating Rate 10k Budget], 'Date Table'[Year Offset] = 0)
+			VAR _qtdoffset = CALCULATE([Operating Rate 10k Budget], 'Date Table'[Year Offset] = 0)
+			VAR _ytdoffset = CALCULATE([Operating Rate 10k Budget], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] < 0)
+			VAR _fyroffset = CALCULATE([Operating Rate 10k Budget], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([Operating Rate 10k Budget], 'Date Table'[Year Offset] = 0)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, 4, BLANK())
+			
+			RETURN
+			   __offset_1 
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1-Operating Rates
+		lineageTag: 6ed7e284-79a8-4e7f-8ae9-ce90faeaa01a
+
+	measure 'OR CY Forecast' =
+			//CALCULATE([Operating Rate 10k Forecast], 'Date Table'[Year Offset] = 0)
+			
+			VAR _monthoffset = CALCULATE([Operating Rate 10k Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _qtdoffset = CALCULATE([Operating Rate 10k Actual & Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset]>= 0)
+			VAR _ytdoffset = BLANK() --CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			VAR _fyroffset = CALCULATE([Operating Rate 10k Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([Operating Rate 10k Actual & Forecast], 'Date Table'[Year Offset] >= 0)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, _alltime)
+			
+			RETURN
+			   __offset_1
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1-Operating Rates
+		lineageTag: 44855445-04ec-4355-8baf-e4d97fcd38fd
+
+	measure 'OR Operation Rates Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [Operating Rate 10k Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [Operating Rate 10k Actual & Forecast],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [Operating Rate 10k Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= 0)
+			
+			VAR _fyroffset = CALCULATE(
+			        [Operating Rate 10k Actual & Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset)
+			
+			VAR formart_variance = FORMAT(__offset_1, "#0%")
+			
+			RETURN 
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", "",
+			    formart_variance
+			)
+			```
+		displayFolder: 1-Operating Rates
+		lineageTag: b0d0ca76-0c36-4f02-baa8-b01a82c319bd
+
+	measure 'OR Operation Rates Latest Period Chart' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [Operating Rate 10k Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [Operating Rate 10k Actual & Forecast],
+			        'Date Table'[Quarter Offset] = -1)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [Operating Rate 10k Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [Operating Rate 10k Actual & Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset)
+			
+			RETURN 
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			)
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 1-Operating Rates
+		lineageTag: 584bca2e-2c4a-462b-b884-77e149131bee
+
+	measure 'PP PY Actual' = ```
+			
+			VAR _monthoffset = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = -1 )
+			VAR _qtdoffset = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = -1 && 'Date Table'[Quarter Offset] < 4)
+			VAR _ytdoffset = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] <-12)
+			VAR _fyroffset = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = -1)
+			VAR _alltime = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] <= -1 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, BLANK())
+			
+			RETURN 
+			    __offset_1
+			```
+		formatString: #,0.0
+		displayFolder: 2-Production
+		lineageTag: b2f969a1-9bc5-40bf-932c-e1e4105f4f37
+
+	measure 'PP CY Actual' = ```
+			
+			VAR _monthoffset = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0)
+			VAR _qtdoffset = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] <= -1)
+			VAR _ytdoffset = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] <= -1 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		formatString: #,0.0
+		displayFolder: 2-Production
+		lineageTag: 398f2ec1-fc1c-4320-b369-2a62c24afa3f
+
+	measure 'PP CY Budget' =
+			
+			CALCULATE([PP Production Volume Budget], 'Date Table'[Year Offset] = 0 )
+		displayFolder: 2-Production
+		lineageTag: cd5b7b77-37e3-4c63-a840-2aabf671c76a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP CY Prev Forecast' =
+			
+			VAR _monthoffset = CALCULATE([PP Production Volume Prev Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] >= 0)
+			VAR _qtdoffset = CALCULATE([PP Production Volume Prev Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] >= 0)
+			VAR _ytdoffset = CALCULATE([PP Production Volume Prev Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] >= 0)
+			VAR _fyroffset = CALCULATE([PP Production Volume Prev Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] >= 0)
+			VAR _alltime = CALCULATE([PP Production Volume Prev Forecast], 'Date Table'[Year Offset] = 0)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, 4, BLANK())
+			
+			RETURN
+			   __offset_1
+		formatString: #,0.0
+		displayFolder: 2-Production
+		lineageTag: fe590d39-a555-4536-8372-012aea864aee
+
+	measure 'PP CY Forecast' =
+			
+			VAR _monthoffset = CALCULATE([PP Production Volume Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _qtdoffset = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset]>= 0)
+			VAR _ytdoffset = BLANK() --CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			VAR _fyroffset = CALCULATE([PP Production Volume Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] >= 0)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, _alltime)
+			
+			RETURN
+			   __offset_1
+		formatString: #,0.0
+		displayFolder: 2-Production
+		lineageTag: dc91cee1-3ac8-4308-a57b-6a1b20f2ba70
+
+	measure 'PP Production Volume Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [PP Production Volume Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = IF( 
+			    MONTH(TODAY()) IN {1, 4, 7, 10}, -- First month of each quarter
+			    CALCULATE(
+			        [PP Production Volume Actual & Forecast],
+			        'Date Table'[Quarter Offset] = -1),
+			    CALCULATE(
+			        [PP Production Volume Actual & Forecast],
+			        'Date Table'[Quarter Offset] = 0) )
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [PP Production Volume Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= 0)
+			
+			VAR _fyroffset = CALCULATE(
+			        [PP Production Volume Actual & Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, [PP Production Volume Actual])
+			
+			RETURN 
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", "",
+			    FORMAT(__offset_1, "#,#0")
+			)
+			```
+		displayFolder: 2-Production
+		lineageTag: cf5d3a91-619f-4d53-966a-57f5ceee40f9
+
+	measure 'PP Production Volume Variance Budget' = ```
+			
+			
+			-- Month-over-month comparison
+			VAR _monthrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Month Offset] = -1)
+			VAR _monthrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Month Offset] = -1)
+			VAR _monthvar = _monthrevB - _monthrevA
+			VAR _monthvarper = DIVIDE(_monthvar, ABS(_monthrevA))
+			
+			-- Quarter-over-quarter comparison
+			VAR _qtdrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Quarter Offset] = 0)
+			VAR _qtdrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Quarter Offset] = 0)
+			VAR _qtdvar = _qtdrevB - _qtdrevA
+			VAR _qtdvarper = DIVIDE(_qtdvar, ABS(_qtdrevA))
+			
+			-- Year-over-year comparison
+			VAR _ytdrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= 0)
+			VAR _ytdrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= 0)
+			VAR _ytdvar = _ytdrevB - _ytdrevA
+			VAR _ytdvarper = DIVIDE(_ytdvar, ABS(_ytdrevA))
+			
+			-- Full-year forecast comparison
+			VAR _fyrrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Year Offset] = 0) 
+			VAR _fyrrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _fyrvar = _fyrrevB - _fyrrevA
+			VAR _fyrvarper = DIVIDE(_fyrvar, ABS(_fyrrevA))
+			
+			
+			-- Final values based on selected comparison type
+			VAR finalvar = 
+			    SWITCH(
+			        SELECTEDVALUE('Dim Period Comp'[Order]),
+			        0, _monthvar,
+			        1, _qtdvar,
+			        2, BLANK(),
+			        3, _fyrvar,
+			        BLANK()
+			    )
+			
+			VAR finalvarper = 
+			    SWITCH(
+			        SELECTEDVALUE('Dim Period Comp'[Order]),
+			        0, _monthvarper,
+			        1, _qtdvarper,
+			        2, BLANK(),
+			        3, _fyrvarper,
+			        BLANK()
+			    )
+			
+			-- Format variance amount nicely
+			VAR formart_variance = 
+			    SWITCH(
+			        TRUE(),
+			        ABS(finalvar) >= 1000000000, FORMAT(finalvar / 1000000000, "#,0.0") & "B",
+			        ABS(finalvar) >= 1000000, FORMAT(finalvar / 1000000, "#,0.0") & "M",
+			        ABS(finalvar) >= 1000, FORMAT(finalvar / 1000, "#,0.0") & "K",
+			        FORMAT(finalvar, "#,0.0")
+			    )
+			
+			-- Build final output with directional icon
+			VAR _varfinal = 
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(finalvarper), BLANK(), --UNICHAR(9660) & " " & formart_variance & " (--%)",
+			        finalvar = 0, UNICHAR(9660) & " " & formart_variance & " (--%)",
+			        finalvar > 0, UNICHAR(9650) & " +" & formart_variance & " (+" & FORMAT(finalvarper, "#0.0%") & ")",
+			        finalvar < 0, UNICHAR(9660) & " " & formart_variance & " (" & FORMAT(finalvarper , "#0.0%") & ")"
+			    )
+			
+			RETURN
+			_varfinal
+			```
+		displayFolder: 2-Production
+		lineageTag: 0c49379a-a33a-4b89-ba40-d319c8ee49e8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PP Production Volume Variance Budget Format' = ```
+			
+			
+			-- Month-over-month comparison
+			VAR _monthrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Month Offset] = -1)
+			VAR _monthrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Month Offset] = -1)
+			VAR _monthvar = _monthrevB - _monthrevA
+			VAR _monthvarper = DIVIDE(_monthvar, ABS(_monthrevA))
+			
+			-- Quarter-over-quarter comparison
+			VAR _qtdrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Quarter Offset] = 0)
+			VAR _qtdrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Quarter Offset] = 0)
+			VAR _qtdvar = _qtdrevB - _qtdrevA
+			VAR _qtdvarper = DIVIDE(_qtdvar, ABS(_qtdrevA))
+			
+			-- Year-over-year comparison
+			VAR _ytdrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= 0)
+			VAR _ytdrevB = CALCULATE([PP Production Volume Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= 0)
+			VAR _ytdvar = _ytdrevB - _ytdrevA
+			VAR _ytdvarper = DIVIDE(_ytdvar, ABS(_ytdrevA))
+			
+			-- Full-year forecast comparison
+			VAR _fyrrevA = CALCULATE([PP Production Volume Budget], 'Date Table'[Year Offset] = 0) 
+			VAR _fyrrevB = CALCULATE([PP Production Volume Actual & Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _fyrvar = _fyrrevB - _fyrrevA
+			VAR _fyrvarper = DIVIDE(_fyrvar, ABS(_fyrrevA))
+			
+			-- Final output based on selected comparison type
+			VAR _final = BLANK()
+			
+			VAR finalvarper = 
+			    SWITCH(
+			        SELECTEDVALUE('Dim Period Comp'[Order]),
+			        0, _monthvar,
+			        1, _qtdvar,
+			        --2, _ytdvar,
+			        3, _fyrvar,
+			        BLANK()
+			    )
+			
+			VAR _varfinal = SWITCH(
+			    TRUE(),
+			    finalvarper = BLANK(), "White",
+			    finalvarper > 0, "Green",
+			    finalvarper <= 0, "Red")
+			
+			RETURN
+			_varfinal
+			```
+		displayFolder: 2-Production
+		lineageTag: fc13ed98-5022-4193-b79f-579d4bef93a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Annual 10k Capacity in lb' =
+			
+			VAR _orgval= SUM('Production by 10K'[10K Capacity lbs_O])/1000000000
+			VAR _newval = SUM('Production by 10K'[10K Capacity lbs] )
+			
+			VAR _product = SWITCH([PP Hier SBU Filter], 0 , _orgval , 1 , _newval)
+			
+			RETURN
+			    _product
+		displayFolder: 3-10K Capacity
+		lineageTag: 561e7ff5-46a2-4b3e-867b-9000534e6760
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Capacity 10k in lb' = ```
+			
+			VAR _orgval= SUM('Production by 10K'[Value_O])/1000000
+			VAR _newval = SUM('Production by 10K'[Value] )
+			
+			VAR _product = SWITCH([PP Hier SBU Filter], 0 , _orgval , 1 , _newval)
+			VAR _site = SWITCH([PP Hier SBU Filter], 0 , _newval , 1 , _newval)
+			
+			VAR _UOMp =  SELECTEDVALUE('Production by 10K'[UOM])
+			VAR _UOMs = SELECTEDVALUE('Production by 10K'[UOM])
+			VAR _pval = IF(_UOMp = "Ktons", _newval, _orgval )
+			VAR _sval = IF(_UOMs = "Ktons", _newval, _orgval )
+			
+			RETURN
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _sval, 
+			    _pval )
+			```
+		displayFolder: 3-10K Capacity
+		lineageTag: 96fda021-52b9-47a2-9b8e-001729c18e1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Capacity 10k Actual' =
+			
+			CALCULATE(
+			    [Capacity 10k in lb],
+			        'Production by 10K'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+		displayFolder: 3-10K Capacity
+		lineageTag: 6b2850d9-f350-4bd2-a198-d8fdb0c43979
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Capacity 10k Forecast' =
+			
+			CALCULATE(
+			    [Capacity 10k in lb],
+			        'Production by 10K'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+		displayFolder: 3-10K Capacity
+		lineageTag: 1ba2d621-9038-4d85-9d9e-e048832fc2bc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Capacity 10K CY' = CALCULATE([Capacity 10k in lb], 'Date Table'[Year Offset] = 0)
+		displayFolder: 3-10K Capacity
+		lineageTag: f1be881e-f500-4457-8bc4-efb44adbb406
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Product = SUM('Production by Product'[Value_O])
+		lineageTag: 13a1703b-0dca-41f7-907c-1c2bbb8555cf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Site = SUM('Production by 10K'[10K Capacity lbs])
+		lineageTag: 46055cfb-6012-4786-9c0e-7b96ef950001
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'OR Operation Rates Prev Period' = ```
+			
+			VAR _prvmonth = CALCULATE(
+			        [Operating Rate 10k Actual],
+			        'Date Table'[Month Offset] = -2)
+			        
+			VAR _currmothnfcst = CALCULATE(
+			        [Operating Rate 10k Forecast],
+			        'Date Table'[Month Offset] = -1)
+			
+			VAR _nxtmonthfcst = CALCULATE(
+			        [Operating Rate 10k Forecast],
+			        'Date Table'[Month Offset] = 0)
+			
+			VAR _curryrfcst = CALCULATE(
+			        [Operating Rate 10k Forecast],
+			        'Date Table'[Month Offset] = -1)
+			
+			VAR _prevyear = CALCULATE(
+			        [Operating Rate 10k Actual],
+			        'Date Table'[Year Offset] = -1)
+			        
+			VAR __offset_1 = IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _currmothnfcst,
+			                    IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 3, _nxtmonthfcst,
+			                        IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 2, _prvmonth,
+			                            IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 3 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _curryrfcst,
+			                                IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 3 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 4, _prevyear,BLANK())
+			                    ))))
+			
+			VAR formart_variance = FORMAT(__offset_1, "#0%")
+			
+			RETURN 
+			
+			    formart_variance
+			```
+		displayFolder: 1-Operating Rates
+		lineageTag: 2bf05932-eca6-4861-bb51-9b2df9dc2775
+
+	measure 'C10K CY Actual' = ```
+			
+			VAR _monthoffset = CALCULATE([Capacity 10k Actual], 'Date Table'[Year Offset] = 0)
+			VAR _qtdoffset = CALCULATE([Capacity 10k Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] <= -1)
+			VAR _ytdoffset = CALCULATE([Capacity 10k Actual], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE([Capacity 10k Actual], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([Capacity 10k Actual], 'Date Table'[Year Offset] <= -1 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		displayFolder: 3-10K Capacity
+		lineageTag: 50ea5fbb-1449-4a3e-9951-037055cfb716
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'C10K CY Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE([Capacity 10k Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _qtdoffset = CALCULATE([Capacity 10k Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] <= -1)
+			VAR _ytdoffset = CALCULATE([Capacity 10k Forecast], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE([Capacity 10k Forecast], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([Capacity 10k Forecast], 'Date Table'[Year Offset] <= -1 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		displayFolder: 3-10K Capacity
+		lineageTag: 5b687d63-9a19-49d1-9f7c-96720652b465
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _orgvalprd = SUM('Production by Product'[Value_O])/1000000
+		displayFolder: 0-Base Measures
+		lineageTag: 51ae8615-61d1-4e86-a534-fdf53b3c1379
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _newvalprd = SUM('Production by Product'[Value])
+		displayFolder: 0-Base Measures
+		lineageTag: 4d8185a9-b15a-4e70-b3c3-a9dec7fb3c89
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition '3 - Production' = m
+		mode: import
+		queryGroup: 'Calculation Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

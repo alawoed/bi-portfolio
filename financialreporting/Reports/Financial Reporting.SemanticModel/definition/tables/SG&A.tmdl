@@ -1,0 +1,150 @@
+table SG&A
+	isHidden
+	lineageTag: 35c3b038-4fbd-4b6c-b398-80133a38489d
+
+	column Category
+		dataType: string
+		isHidden
+		lineageTag: e63a1d5b-42ee-4e8e-bafd-126529198053
+		summarizeBy: none
+		sourceColumn: Category
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Type'
+		dataType: string
+		isHidden
+		lineageTag: 4afe9aa4-78ba-4add-895e-2eacfd1f6063
+		summarizeBy: none
+		sourceColumn: Account Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Desc'
+		dataType: string
+		isHidden
+		lineageTag: f66369c1-5321-4931-81e9-c45d3fd681ed
+		summarizeBy: none
+		sourceColumn: Account Desc
+		sortByColumn: 'Account Order'
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Group'
+		dataType: string
+		isHidden
+		lineageTag: dc41e5ea-b738-4458-8a9e-f74f2208d1e5
+		summarizeBy: none
+		sourceColumn: Account Group
+		sortByColumn: 'Account Group Order'
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: 6bb23a92-b55f-440a-bbc7-69482b86d7e5
+		summarizeBy: none
+		sourceColumn: Period Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: 33c3b0ff-c8d9-41e2-86a4-9b0ab91a473c
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: 63638e97-060f-4c7b-a26f-58483c50b891
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 62447840-0f50-4127-a670-c93e7b357f4c
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Account Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 932d9afd-1540-49eb-92f6-9b442f22d209
+		summarizeBy: sum
+		sourceColumn: Account Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Group Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e05d9f6a-2f42-42ed-9d4e-d02ebcefbdae
+		summarizeBy: sum
+		sourceColumn: Account Group Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SG&A = m
+		mode: import
+		queryGroup: 'Fact Tables\Expenditure'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"SG&A_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="SG&A",version=""]}[Data],
+				    #"Replaced Value" = Table.ReplaceValue(#"SG&A_","Salaries & Wages1","Salaries & Wages",Replacer.ReplaceText,{"Account Group"}),
+				    #"Sort Account Desc" = Table.AddColumn(#"Replaced Value", "Account Order", each if [Account Desc] = "Labor Costs" then 1 else if [Account Desc] = "Consulting And Professional Fees" then 2 else if [Account Desc] = "Selling Expenses" then 3 else if [Account Desc] = "Other Costs" then 4 else if [Account Desc] = "Corporate Allocation" then 5 else null),
+				    #"Sort Account Groups" = Table.AddColumn(#"Sort Account Desc", "Account Group Order", each if [Account Group] = "Salaries & Wages" then 1 else if [Account Group] = "Bonus Expense" then 2 else if [Account Group] = "Stock-based Expense" then 3 else if [Account Group] = "Benefits" then 4 else if [Account Group] = "Contract Labor" then 5 else if [Account Group] = "Labor Other" then 6 else if [Account Group] = "Legal & HS&E Fees" then 7 else if [Account Group] = "Digital Expenses" then 8 else if [Account Group] = "Other Professional Fees" then 9 else if [Account Group] = "Bad Debt Expense" then 10 else if [Account Group] = "Travel & Entertainment" then 11 else if [Account Group] = "Other Selling Expenses" then 12 else if [Account Group] = "Rent & Utilities" then 13 else if [Account Group] = "Depreciation & Amortization" then 14 else if [Account Group] = "Bank Charges" then 15 else if [Account Group] = "Other Operating Costs" then 16 else if [Account Group] = "Membership & Dues" then 17 else if [Account Group] = "Other SG&A" then 18 else if [Account Group] = "Corporate Allocation" then 19 else " "),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Sort Account Groups",{{"Account Order", Int64.Type}, {"Account Group Order", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

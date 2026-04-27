@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainerMobileState/2.1.0/schema.json",
+  "position": {
+    "x": 0,
+    "y": 55,
+    "z": 10000,
+    "height": 234,
+    "width": 324,
+    "tabOrder": 10000
+  },
+  "objects": {
+    "outline": [],
+    "shape": [],
+    "pages": [],
+    "layout": [
+      {
+        "properties": {
+          "orientation": {
+            "expr": {
+              "Literal": {
+                "Value": "1D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "fill": [],
+    "text": []
+  }
+}

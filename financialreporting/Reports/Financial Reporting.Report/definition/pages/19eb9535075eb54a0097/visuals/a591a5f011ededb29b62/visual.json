@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "a591a5f011ededb29b62",
+  "position": {
+    "x": 258.24490740715072,
+    "y": 166,
+    "z": 10000,
+    "height": 96.800508126197343,
+    "width": 233.12973883740523,
+    "tabOrder": 2000
+  },
+  "visualGroup": {
+    "displayName": "Ebitda-group",
+    "groupMode": "ScaleMode"
+  }
+}

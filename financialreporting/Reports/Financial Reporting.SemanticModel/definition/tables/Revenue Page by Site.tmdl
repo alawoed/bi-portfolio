@@ -1,0 +1,124 @@
+table 'Revenue Page by Site'
+	isHidden
+	lineageTag: bbcb5044-bf0c-459e-b8d9-a967f0930b99
+
+	measure actual = SUM('Revenue Page by Site'[Value])
+		isHidden
+		lineageTag: b6a98c82-6db1-4eab-b0e4-202822ca4c7d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Period / Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: cecfd990-29ce-4343-90eb-13ace43b6cc6
+		summarizeBy: none
+		sourceColumn: Period / Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account
+		dataType: string
+		isHidden
+		lineageTag: 3e15a044-1e28-474f-9d3b-77b6931ddada
+		summarizeBy: none
+		sourceColumn: Account
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Channel'
+		dataType: string
+		isHidden
+		lineageTag: 8eacda5b-79dd-4457-bf1a-eaee4251183f
+		summarizeBy: none
+		sourceColumn: Sales Channel
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 58dd8329-adf2-4735-84cf-3f50b0b0b3e4
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: b0bbdc68-a39b-43f7-baa7-e0f2011cae05
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ENTITY
+		dataType: string
+		isHidden
+		lineageTag: e90707ba-1b3d-443c-a121-8f2d21af0817
+		summarizeBy: none
+		sourceColumn: ENTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: 80aae09a-c80d-48fb-a58c-ef164445be3e
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CATEGORY
+		dataType: string
+		isHidden
+		lineageTag: aef2d525-020d-4193-b437-8af89eb606aa
+		summarizeBy: none
+		sourceColumn: CATEGORY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Revenue Page by Site' = m
+		mode: import
+		queryGroup: 'Fact Tables\Revenue'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Revenue Page by Product_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Revenue Page by Site",version=""]}[Data]
+				in
+				    #"Revenue Page by Product_"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

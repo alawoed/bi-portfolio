@@ -1,0 +1,51 @@
+table 'RP Vol Matrix'
+	isHidden
+	lineageTag: 6848bf79-017c-4a82-b0a6-d49591b5afd0
+
+	column 'RP Vol Matrix'
+		isHidden
+		lineageTag: e537e2ed-4178-4911-b734-c783f28e8971
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'RP Vol Matrix Order'
+
+		relatedColumnDetails
+			groupByColumn: 'RP Vol Matrix Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RP Vol Matrix Fields'
+		isHidden
+		lineageTag: e60e0a35-2c9b-4f62-a0c2-c3e55924de33
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'RP Vol Matrix Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RP Vol Matrix Order'
+		isHidden
+		formatString: 0
+		lineageTag: 25d3f1fd-0a3c-4ef4-8494-c4c72d259e28
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'RP Vol Matrix' = calculated
+		mode: import
+		source =
+				{
+				    ("Budget Vol. lbs(m)", NAMEOF('1 - Revenue'[RP CY SV Budget Matrix]), 0),
+				    ("PF Vol. lbs(m)", NAMEOF('1 - Revenue'[RP CY SV Prev Forecast Matrix]), 1),
+				    ("PY Vol. lbs(m)", NAMEOF('1 - Revenue'[RP PY SV Actual Chart]), 2)
+				}
+
+	annotation PBI_Id = 816c75fa8de54b5c9e5b902094335af0
+

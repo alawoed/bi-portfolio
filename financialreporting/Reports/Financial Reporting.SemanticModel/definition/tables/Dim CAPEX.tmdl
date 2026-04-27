@@ -1,0 +1,46 @@
+table 'Dim CAPEX'
+	isHidden
+	lineageTag: a7ab2888-8e6e-47d2-9a80-12ca2cd05646
+
+	column 'CAPEX Account'
+		dataType: string
+		isHidden
+		lineageTag: b707196b-7ef7-4260-babc-69c1adaf7461
+		summarizeBy: none
+		sourceColumn: CAPEX Account
+		sortByColumn: Ordinal
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 87e856b2-48a0-4d44-8a44-e5c877931003
+		summarizeBy: none
+		sourceColumn: Ordinal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim CAPEX' = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wck4syCxJzFEIcVTSUTJUitWJVgrJBwkAJVIrgGJGqGJgxZ55ZanFJbmpeSVABcZKsbEA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"CAPEX Account" = _t, Ordinal = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"CAPEX Account", type text}, {"Ordinal", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

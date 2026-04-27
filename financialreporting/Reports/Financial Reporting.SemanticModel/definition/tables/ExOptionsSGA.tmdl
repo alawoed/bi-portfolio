@@ -1,0 +1,67 @@
+table ExOptionsSGA
+	isHidden
+	lineageTag: 0ebb6aa9-8f65-4d54-8001-711772779e59
+
+	column ExOptionsSGA
+		isHidden
+		lineageTag: b3d9daf6-a73e-43f1-a8dc-c49c87174475
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'ExOptionsSGA Order'
+
+		relatedColumnDetails
+			groupByColumn: 'ExOptionsSGA Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExOptionsSGA Fields'
+		isHidden
+		lineageTag: 3785428f-bebb-4c6d-b7c9-8354279ba151
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'ExOptionsSGA Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExOptionsSGA Order'
+		isHidden
+		formatString: 0
+		lineageTag: 9b498127-0827-4128-baa8-5792845df827
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SlicerFilter = TRIM([ExOptionsSGA])
+		isHidden
+		lineageTag: 1fa55024-36a6-476e-ae7d-26d0c966688e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ExOptionsSGA = calculated
+		mode: import
+		source =
+				{
+				    ("Prev Month", NAMEOF('5 - Expenditure'[SGA Previous Period]), 0),
+				    ("Budget", NAMEOF('5 - Expenditure'[SGA Latest Period Budget]), 0),
+				    ("Forecast", NAMEOF('5 - Expenditure'[SGA Latest Prev Forecast]), 0),
+				    ("SQLY", NAMEOF('5 - Expenditure'[SGA Previous Period]), 1),
+				    ("Budget", NAMEOF('5 - Expenditure'[SGA Latest Period Budget]), 1),
+				    ("Prev Quarter", NAMEOF('5 - Expenditure'[SGA Latest Prev Forecast]), 1),
+				    ("YTDLY", NAMEOF('5 - Expenditure'[SGA Previous Period]), 2),
+				    ("Budget", NAMEOF('5 - Expenditure'[SGA Latest Period Budget]), 2),
+				    ("Forecast", NAMEOF('5 - Expenditure'[SGA Latest Prev Forecast]), 2),
+				    ("Prev Year", NAMEOF('5 - Expenditure'[SGA Previous Period]), 3),
+				    ("Budget", NAMEOF('5 - Expenditure'[SGA Latest Period Budget]), 3),
+				    ("Forecast", NAMEOF('5 - Expenditure'[SGA Latest Prev Forecast]), 3)
+				}
+
+	annotation PBI_Id = 63b07958f0674492a1d9320a5f421545
+

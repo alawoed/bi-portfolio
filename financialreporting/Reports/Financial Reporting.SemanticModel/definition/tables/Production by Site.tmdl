@@ -1,0 +1,122 @@
+table 'Production by Site'
+	isHidden
+	lineageTag: ab383674-fcf2-433f-bf41-000aa1313115
+
+	column CATEGORY
+		dataType: string
+		isHidden
+		lineageTag: d9494ddf-bc36-452a-a56d-16312edefdfb
+		summarizeBy: none
+		sourceColumn: CATEGORY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Entity
+		dataType: string
+		isHidden
+		lineageTag: df0c4321-f46c-4dfd-a293-8f67e0089c44
+		summarizeBy: none
+		sourceColumn: Entity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM_O
+		dataType: string
+		isHidden
+		lineageTag: 1f1e6bb8-c708-4c1a-baf8-d84d618fb110
+		summarizeBy: none
+		sourceColumn: UOM_O
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: e1c7b727-4bcf-44cb-b39b-9b35e38a3b88
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period / Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: 660c4010-4e4f-4042-85e4-a38bc67557cb
+		summarizeBy: none
+		sourceColumn: Period / Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value_O
+		dataType: double
+		isHidden
+		lineageTag: 68f358b8-0190-4172-9838-586b383a9873
+		summarizeBy: sum
+		sourceColumn: Value_O
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: c390f353-aa0c-4ec7-ac1c-40cff5d12fa9
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: b994cd2b-42e7-4d5a-9799-4b1fa4e9b4d6
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'Production by Site' = m
+		mode: import
+		queryGroup: 'Fact Tables\Production'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Production Page_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Production Page by Site",version=""]}[Data],
+				    #"Replaced Value" = Table.ReplaceValue(#"Production Page_","lbs(m)","lbs(m) - Millions of Lbs",Replacer.ReplaceText,{"UOM"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","Ktons","Ktons - Thousand of Tons",Replacer.ReplaceText,{"UOM"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","MWHr","MWHr - Megawats Per Hr",Replacer.ReplaceText,{"UOM"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Replaced Value2", each ([UOM_O] = "lbs"))
+				in
+				    #"Filtered Rows"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

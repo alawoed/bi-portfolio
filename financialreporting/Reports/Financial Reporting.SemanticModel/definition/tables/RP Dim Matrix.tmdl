@@ -1,0 +1,43 @@
+table 'RP Dim Matrix'
+	isHidden
+	lineageTag: 46cc5055-8ac8-4f95-aa72-922cbea43f9d
+
+	column 'Comp Period'
+		dataType: string
+		isHidden
+		lineageTag: 5dcc3161-e554-4364-b45a-f08748f79a95
+		summarizeBy: none
+		sourceColumn: Comp Period
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7a695e8a-24b0-4604-bdbc-00eba33e1607
+		summarizeBy: none
+		sourceColumn: Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'RP Dim Matrix' = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcipNSU8tUdJRMlCK1YlWCihKLVNwyy9KTU4sBokaIkQjUxOLgCJGSrGxAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Comp Period" = _t, Order = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Comp Period", type text}, {"Order", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

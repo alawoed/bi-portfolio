@@ -1,0 +1,2398 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "aba76e1f6ce6f9b633e3",
+  "position": {
+    "x": 748.85286783042386,
+    "y": 189.55112219451371,
+    "z": 5000,
+    "height": 451.57107231920196,
+    "width": 518.00498753117211,
+    "tabOrder": 13000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Forecast_Stats"
+                    }
+                  },
+                  "Property": "Key Statistics"
+                }
+              },
+              "queryRef": "Ebitda_Forecast_Stats.Key Statistics",
+              "nativeQueryRef": "Key Statistics",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Forecast_Stats"
+                    }
+                  },
+                  "Property": "Drivers"
+                }
+              },
+              "queryRef": "Ebitda_Forecast_Stats.Drivers",
+              "nativeQueryRef": "Drivers",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Forecast_Stats"
+                    }
+                  },
+                  "Property": "UoM_"
+                }
+              },
+              "queryRef": "Ebitda_Forecast_Stats.UoM_",
+              "nativeQueryRef": "UoM",
+              "displayName": "UoM"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Forecast_Stats"
+                    }
+                  },
+                  "Property": "Current Forecast"
+                }
+              },
+              "queryRef": "Ebitda_Forecast_Stats.Current Forecast",
+              "nativeQueryRef": "Current Forecast"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Forecast_Stats"
+                    }
+                  },
+                  "Property": "Prior Forecast"
+                }
+              },
+              "queryRef": "Ebitda_Forecast_Stats.Prior Forecast",
+              "nativeQueryRef": "Prior Forecast"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Forecast_Stats"
+                    }
+                  },
+                  "Property": "Impact in M$"
+                }
+              },
+              "queryRef": "Ebitda_Forecast_Stats.Impact in M$",
+              "nativeQueryRef": "Impact in M$"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Forecast_Stats"
+                    }
+                  },
+                  "Property": "Order_"
+                }
+              },
+              "queryRef": "Ebitda_Forecast_Stats.Order_",
+              "nativeQueryRef": ".",
+              "displayName": "."
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Ebitda_Forecast_Stats"
+                  }
+                },
+                "Property": "Order_"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Ebitda_Forecast_Stats.Key Statistics"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Ebitda_Forecast_Stats.Drivers"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "rowHeaders": [
+        {
+          "properties": {
+            "showExpandCollapseButtons": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "expandCollapseButtonsSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "expandCollapseButtonsColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "titleAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Left'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTotals": [
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "216.68896635239076D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Key Statistics"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "104.9077398913141D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Drivers"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "76D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Caustic Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "32D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'ECU'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "83D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Ethylene Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "105D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Merchant Chlorine'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "136D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Natural Gas (Henry Hub)'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "142D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Non Vinyl Chlorine Values'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "32D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "60D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "140D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC Spread over Ethylene'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "60.7479006206989D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "74.91840451101446D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "62.63592476203489D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Caustic Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Caustic Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Caustic Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'ECU'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'ECU'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'ECU'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Ethylene Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Ethylene Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Ethylene Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Merchant Chlorine'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Merchant Chlorine'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Merchant Chlorine'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Natural Gas (Henry Hub)'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Natural Gas (Henry Hub)'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Natural Gas (Henry Hub)'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Non Vinyl Chlorine Values'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Non Vinyl Chlorine Values'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Non Vinyl Chlorine Values'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC Price'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC Spread over Ethylene'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC Spread over Ethylene'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ebitda_Forecast_Stats"
+                          }
+                        },
+                        "Property": "Drivers"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'PVC Spread over Ethylene'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "total": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Ebitda_Forecast_Stats"
+                        }
+                      },
+                      "Property": "Drivers"
+                    }
+                  }
+                ]
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "total": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Ebitda_Forecast_Stats"
+                        }
+                      },
+                      "Property": "Drivers"
+                    }
+                  }
+                ]
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "77D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "total": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Ebitda_Forecast_Stats"
+                        }
+                      },
+                      "Property": "Drivers"
+                    }
+                  }
+                ]
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "62D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.UoM_"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "14.569639689377404D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Order_"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {}
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "styleHeader": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Order_"
+          }
+        },
+        {
+          "properties": {
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Current Forecast"
+          }
+        },
+        {
+          "properties": {
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Prior Forecast"
+          }
+        },
+        {
+          "properties": {
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Forecast_Stats.UoM_"
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "And": {
+                              "Left": {
+                                "Comparison": {
+                                  "ComparisonKind": 2,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "Ebitda_Forecast_Stats"
+                                        }
+                                      },
+                                      "Property": "Impact in M$"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "-99999999999999D"
+                                    }
+                                  }
+                                }
+                              },
+                              "Right": {
+                                "Comparison": {
+                                  "ComparisonKind": 3,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "Ebitda_Forecast_Stats"
+                                        }
+                                      },
+                                      "Property": "Impact in M$"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "0D"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#D41D0C'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Ebitda_Forecast_Stats.Impact in M$"
+          }
+        },
+        {
+          "properties": {}
+        }
+      ],
+      "grid": [
+        {
+          "properties": {}
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "layout": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Compact'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KEY STATISTICS'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.3
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "preset": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Custom'"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Outer'"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#001A29'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "75D"
+                }
+              }
+            },
+            "shadowSpread": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "shadowBlur": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "angle": {
+              "expr": {
+                "Literal": {
+                  "Value": "45D"
+                }
+              }
+            },
+            "shadowDistance": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Default'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "32bb10cdb619653520b9",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Site"
+              }
+            },
+            "Property": "Product 1"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "s",
+              "Entity": "Site",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "s"
+                              }
+                            },
+                            "Property": "Product 1"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Hydrogen'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'N/A'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Sulphuric Acid'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Tephram'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Bleach'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isLockedInViewMode": true,
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "7d1b03f57bce19b8bb03",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Time Intelligence"
+              }
+            },
+            "Property": "Time Intelligence"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      }
+    ]
+  },
+  "isHidden": true
+}

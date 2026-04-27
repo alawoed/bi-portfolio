@@ -1,0 +1,48 @@
+table C_Margins
+	lineageTag: 9e823f99-5034-4024-9e5d-4868fc71d943
+
+	column C_Margins
+		lineageTag: 8a7a69e8-717c-415e-b6a7-eb4485e68008
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'C_Margins Order'
+
+		relatedColumnDetails
+			groupByColumn: 'C_Margins Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'C_Margins Fields'
+		lineageTag: 3fe885c7-7ddb-4460-8faa-07a9afc7ec81
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'C_Margins Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'C_Margins Order'
+		formatString: 0
+		lineageTag: 5f6f6f08-1cb4-4a1c-a505-0ce821353fca
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition C_Margins = calculated
+		mode: import
+		source =
+				{
+				    ("Net Back", NAMEOF('4 - Customers'[Net Back in Millions]), 0),
+				    ("Contribution Margin", NAMEOF('4 - Customers'[Contribution Margin in Millions]), 1),
+				    ("Gross Cash Margin", NAMEOF('4 - Customers'[Gross Cash Margin in Millions]), 2),
+				    ("Net Sales", NAMEOF('4 - Customers'[Net Sales in Millions]), 3)
+				}
+
+	annotation PBI_Id = 00c3d940ca7141cb9efd89cb940019a4
+

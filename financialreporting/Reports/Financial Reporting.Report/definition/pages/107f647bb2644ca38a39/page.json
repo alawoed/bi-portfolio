@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "107f647bb2644ca38a39",
+  "displayName": "Integrated Margin",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "''"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "Literal": {
+                    "Value": "''"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visibility": "HiddenInViewMode",
+  "visualInteractions": [
+    {
+      "source": "cb3547f9d7e0d570c6ba",
+      "target": "ea8bd77f63e4fa147219",
+      "type": "DataFilter"
+    },
+    {
+      "source": "cb3547f9d7e0d570c6ba",
+      "target": "678b1fb3159bdad6a347",
+      "type": "NoFilter"
+    }
+  ]
+}

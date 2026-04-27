@@ -1,0 +1,34 @@
+table 'Dim_Period / Set of Books'
+	isHidden
+	lineageTag: 2fc89a54-7027-4a04-8062-d6441b67f295
+
+	column 'Period / Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: 2f2ca469-9879-4d15-bbfa-4f4e36399319
+		summarizeBy: none
+		sourceColumn: Period / Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim_Period / Set of Books' = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Dim_Period / Set of Books_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Dim_Period / Set of Books",version=""]}[Data]
+				in
+				    #"Dim_Period / Set of Books_"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
