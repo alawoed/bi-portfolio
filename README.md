@@ -29,11 +29,11 @@ Each project follows a structured, end-to-end workflow:
 ## Projects
 This repository contains multiple projects that highlight different aspects of BI development:
 
-- **Project 1: Enterprise BI Architecture**
+- **Project 1: Health Care Operation Enterprise BI Architecture**
   - End-to-end pipeline from API → Lakehouse → Power BI
   - Focus on data modeling and performance optimization
 
-- **Project 2: UX-Driven Dashboard Design**
+- **Project 2: Financial Reporting**
   - Dashboard designed with user experience and storytelling in mind
   - Includes wireframing and layout optimization
 
