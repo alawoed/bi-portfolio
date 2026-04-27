@@ -107,12 +107,24 @@ FROM bronze.bronze_organizations
 WHERE id IS NOT NULL;
 
 CREATE OR REPLACE VIEW silver.vw_stage_encounters AS
-WITH source_data AS (
+WITH parsed_source AS (
     SELECT
         *,
-        ADD_MONTHS(TO_TIMESTAMP(TRIM(start), "yyyy-MM-dd'T'HH:mm:ss'Z'"), 168) AS shifted_start_timestamp,
-        ADD_MONTHS(TO_TIMESTAMP(TRIM(stop), "yyyy-MM-dd'T'HH:mm:ss'Z'"), 168) AS shifted_stop_timestamp
+        TO_TIMESTAMP(TRIM(start), "yyyy-MM-dd'T'HH:mm:ss'Z'") AS original_start_timestamp,
+        TO_TIMESTAMP(TRIM(stop), "yyyy-MM-dd'T'HH:mm:ss'Z'") AS original_stop_timestamp
     FROM bronze.bronze_encounters
+),
+shifted_source AS (
+    SELECT
+        *,
+        original_start_timestamp + INTERVAL 14 YEARS AS shifted_start_timestamp,
+        TO_TIMESTAMP(
+            FROM_UNIXTIME(
+                UNIX_TIMESTAMP(original_start_timestamp + INTERVAL 14 YEARS)
+                + (UNIX_TIMESTAMP(original_stop_timestamp) - UNIX_TIMESTAMP(original_start_timestamp))
+            )
+        ) AS shifted_stop_timestamp
+    FROM parsed_source
 )
 SELECT
     TRIM(id) AS encounter_id,
@@ -129,9 +141,9 @@ SELECT
     CAST(payer_coverage AS DECIMAL(18,2)) AS payer_coverage,
     CAST(reasoncode AS STRING) AS reason_code,
     NULLIF(TRIM(reasondescription), '') AS reason_description,
-    ROUND((unix_timestamp(shifted_stop_timestamp) - unix_timestamp(shifted_start_timestamp)) / 3600.0, 2) AS encounter_duration_hours,
+    ROUND((UNIX_TIMESTAMP(shifted_stop_timestamp) - UNIX_TIMESTAMP(shifted_start_timestamp)) / 3600.0, 2) AS encounter_duration_hours,
     CASE
-        WHEN (unix_timestamp(shifted_stop_timestamp) - unix_timestamp(shifted_start_timestamp)) / 3600.0 > 24 THEN TRUE
+        WHEN (UNIX_TIMESTAMP(shifted_stop_timestamp) - UNIX_TIMESTAMP(shifted_start_timestamp)) / 3600.0 > 24 THEN TRUE
         ELSE FALSE
     END AS is_over_24_hours,
     TO_DATE(shifted_start_timestamp) AS encounter_date,
@@ -159,45 +171,62 @@ SELECT
     _source_system,
     _ingestion_batch_id,
     current_timestamp() AS _silver_loaded_at_utc
-FROM source_data
+FROM shifted_source
 WHERE id IS NOT NULL;
 
 CREATE OR REPLACE VIEW silver.vw_stage_procedures AS
-WITH source_data AS (
+WITH parsed_source AS (
     SELECT
         *,
-        ADD_MONTHS(TO_TIMESTAMP(TRIM(start), "yyyy-MM-dd'T'HH:mm:ss'Z'"), 168) AS shifted_start_timestamp,
-        ADD_MONTHS(TO_TIMESTAMP(TRIM(stop), "yyyy-MM-dd'T'HH:mm:ss'Z'"), 168) AS shifted_stop_timestamp
+        TO_TIMESTAMP(TRIM(start), "yyyy-MM-dd'T'HH:mm:ss'Z'") AS original_start_timestamp,
+        TO_TIMESTAMP(TRIM(stop), "yyyy-MM-dd'T'HH:mm:ss'Z'") AS original_stop_timestamp
     FROM bronze.bronze_procedures
+),
+description_cleaned AS (
+    SELECT
+        *,
+        CASE
+            WHEN CAST(code AS STRING) = '5880005'
+                THEN 'Physical examination'
+            WHEN CAST(code AS STRING) = '90226004'
+                THEN 'Cytopathology procedure preparation of smear genital source'
+            WHEN CAST(code AS STRING) = '399208008'
+                THEN 'Chest X-ray'
+            WHEN CAST(code AS STRING) = '171207006'
+                THEN 'Depression screening'
+            ELSE NULLIF(TRIM(description), '')
+        END AS procedure_description_clean
+    FROM parsed_source
+),
+shifted_source AS (
+    SELECT
+        *,
+        original_start_timestamp + INTERVAL 14 YEARS AS shifted_start_timestamp,
+        TO_TIMESTAMP(
+            FROM_UNIXTIME(
+                UNIX_TIMESTAMP(original_start_timestamp + INTERVAL 14 YEARS)
+                + (UNIX_TIMESTAMP(original_stop_timestamp) - UNIX_TIMESTAMP(original_start_timestamp))
+            )
+        ) AS shifted_stop_timestamp
+    FROM description_cleaned
 )
 SELECT
     sha2(concat_ws('||',
         coalesce(TRIM(encounter), ''),
         coalesce(TRIM(patient), ''),
-        coalesce(CAST(shifted_start_timestamp AS STRING), ''),
-        coalesce(CAST(code AS STRING), ''),
-        coalesce(TRIM(description), '')
+        coalesce(TRIM(start), ''),
+        coalesce(CAST(code AS STRING), '')
     ), 256) AS procedure_event_id,
     shifted_start_timestamp AS start_timestamp,
     shifted_stop_timestamp AS stop_timestamp,
     TRIM(patient) AS patient_id,
     TRIM(encounter) AS encounter_id,
     CAST(code AS STRING) AS procedure_code,
-    CASE
-        WHEN CAST(code AS STRING) = '5880005'
-            THEN 'Physical examination'
-        WHEN CAST(code AS STRING) = '90226004'
-            THEN 'Cytopathology procedure preparation of smear genital source'
-        WHEN CAST(code AS STRING) = '399208008'
-            THEN 'Chest X-ray'
-        WHEN CAST(code AS STRING) = '171207006'
-            THEN 'Depression screening'
-        ELSE NULLIF(TRIM(description), '')
-    END AS procedure_description,
+    procedure_description_clean AS procedure_description,
     CAST(base_cost AS DECIMAL(18,2)) AS base_cost,
     CAST(reasoncode AS STRING) AS reason_code,
     NULLIF(TRIM(reasondescription), '') AS reason_description,
-    ROUND((unix_timestamp(shifted_stop_timestamp) - unix_timestamp(shifted_start_timestamp)) / 60.0, 2) AS procedure_duration_minutes,
+    ROUND((UNIX_TIMESTAMP(shifted_stop_timestamp) - UNIX_TIMESTAMP(shifted_start_timestamp)) / 60.0, 2) AS procedure_duration_minutes,
     TO_DATE(shifted_start_timestamp) AS procedure_date,
     YEAR(shifted_start_timestamp) AS procedure_year,
     QUARTER(shifted_start_timestamp) AS procedure_quarter,
@@ -208,20 +237,7 @@ SELECT
         coalesce(TRIM(patient), ''),
         coalesce(TRIM(encounter), ''),
         coalesce(CAST(code AS STRING), ''),
-        coalesce(
-            CASE
-                WHEN CAST(code AS STRING) = '5880005'
-                    THEN 'Physical examination'
-                WHEN CAST(code AS STRING) = '90226004'
-                    THEN 'Cytopathology procedure preparation of smear genital source'
-                WHEN CAST(code AS STRING) = '399208008'
-                    THEN 'Chest X-ray'
-                WHEN CAST(code AS STRING) = '171207006'
-                    THEN 'Depression screening'
-                ELSE NULLIF(TRIM(description), '')
-            END,
-            ''
-        ),
+        coalesce(procedure_description_clean, ''),
         coalesce(CAST(base_cost AS STRING), ''),
         coalesce(CAST(reasoncode AS STRING), ''),
         coalesce(TRIM(reasondescription), '')
@@ -230,7 +246,7 @@ SELECT
     _source_system,
     _ingestion_batch_id,
     current_timestamp() AS _silver_loaded_at_utc
-FROM source_data
+FROM shifted_source
 WHERE encounter IS NOT NULL
   AND patient IS NOT NULL
   AND start IS NOT NULL

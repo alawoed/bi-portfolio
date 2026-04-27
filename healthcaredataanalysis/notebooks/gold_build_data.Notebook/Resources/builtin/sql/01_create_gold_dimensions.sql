@@ -73,17 +73,80 @@ WITH date_bounds AS (
 date_series AS (
     SELECT explode(sequence(min_date, max_date, interval 1 day)) AS date_value
     FROM date_bounds
+),
+base_dates AS (
+    SELECT
+        date_value,
+        CURRENT_DATE() AS today_date
+    FROM date_series
 )
 SELECT
     CAST(date_format(date_value, 'yyyyMMdd') AS INT) AS date_key,
+
     date_value,
+
     YEAR(date_value) AS year,
     QUARTER(date_value) AS quarter,
     MONTH(date_value) AS month,
-    date_format(date_value, 'MMMM') AS month_name,
     DAY(date_value) AS day,
-    DAYOFWEEK(date_value) AS day_of_week,
+
+    date_format(date_value, 'MMMM') AS month_name,
+    date_format(date_value, 'MMM') AS month_short_name,
     date_format(date_value, 'EEEE') AS day_name,
+    date_format(date_value, 'E') AS day_short_name,
+
+    DAYOFWEEK(date_value) AS day_of_week,
+    DAYOFMONTH(date_value) AS day_of_month,
+    DAYOFYEAR(date_value) AS day_of_year,
+
+    WEEKOFYEAR(date_value) AS week_of_year,
+
     CONCAT(CAST(YEAR(date_value) AS STRING), '-Q', CAST(QUARTER(date_value) AS STRING)) AS year_quarter,
-    date_format(date_value, 'yyyy-MM') AS year_month
-FROM date_series;
+    date_format(date_value, 'yyyy-MM') AS year_month,
+
+    DATE_TRUNC('week', date_value) AS week_start_date,
+    DATE_ADD(DATE_TRUNC('week', date_value), 6) AS week_end_date,
+
+    DATE_TRUNC('month', date_value) AS month_start_date,
+    LAST_DAY(date_value) AS month_end_date,
+
+    DATE_TRUNC('quarter', date_value) AS quarter_start_date,
+    ADD_MONTHS(DATE_TRUNC('quarter', date_value), 3) - INTERVAL 1 DAY AS quarter_end_date,
+
+    DATE_TRUNC('year', date_value) AS year_start_date,
+    ADD_MONTHS(DATE_TRUNC('year', date_value), 12) - INTERVAL 1 DAY AS year_end_date,
+
+    DATEDIFF(date_value, today_date) AS day_offset,
+
+    FLOOR(DATEDIFF(date_value, today_date) / 7) AS week_offset,
+
+    (YEAR(date_value) - YEAR(today_date)) * 12
+        + (MONTH(date_value) - MONTH(today_date)) AS month_offset,
+
+    (YEAR(date_value) - YEAR(today_date)) * 4
+        + (QUARTER(date_value) - QUARTER(today_date)) AS quarter_offset,
+
+    YEAR(date_value) - YEAR(today_date) AS year_offset,
+
+    CASE WHEN date_value = today_date THEN TRUE ELSE FALSE END AS is_today,
+    CASE WHEN date_value < today_date THEN TRUE ELSE FALSE END AS is_past_date,
+    CASE WHEN date_value > today_date THEN TRUE ELSE FALSE END AS is_future_date,
+
+    CASE
+        WHEN YEAR(date_value) = YEAR(today_date)
+         AND MONTH(date_value) = MONTH(today_date)
+        THEN TRUE ELSE FALSE
+    END AS is_current_month,
+
+    CASE
+        WHEN YEAR(date_value) = YEAR(today_date)
+         AND QUARTER(date_value) = QUARTER(today_date)
+        THEN TRUE ELSE FALSE
+    END AS is_current_quarter,
+
+    CASE
+        WHEN YEAR(date_value) = YEAR(today_date)
+        THEN TRUE ELSE FALSE
+    END AS is_current_year
+
+FROM base_dates;
