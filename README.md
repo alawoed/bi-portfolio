@@ -33,7 +33,7 @@ This repository contains multiple projects that highlight different aspects of B
   - Dashboard designed with user experience and storytelling in mind
   - Includes wireframing and layout optimization
 
-- **Project 2: Health Care Operation Enterprise BI Architecture** [See Model] (https://github.com/alawoed/bi-portfolio/tree/main/healthcaredataanalysis).
+- **Project 2: Health Care Operation Enterprise BI Architecture** [See Model](https://github.com/alawoed/bi-portfolio/tree/main/healthcaredataanalysis).
   - End-to-end pipeline from API → Lakehouse → Power BI
   - Focus on data modeling and performance optimization
 
