@@ -1,0 +1,153 @@
+table 'EBITDA Key Stats'
+	isHidden
+	lineageTag: 384a79cc-2c1b-4522-9fe4-71016b6b500f
+
+	measure 'EB Key Stats UOM' = SELECTEDVALUE('EBITDA Key Stats'[UOM])
+		isHidden
+		lineageTag: 9b4a0665-4d33-4720-9a0e-950881a9a8fb
+
+		changedProperty = IsHidden
+
+	measure 'EB Current Period' = ```
+			
+			VAR _ECU = CALCULATE([OR Operation Rates Latest Period] , 'Dim Hierarchy'[Level 1] = "ECU") 
+			VAR _PVC = CALCULATE([OR Operation Rates Latest Period] , 'Dim Hierarchy'[Level 1] = "PVC") 
+			VAR _ethSP = CALCULATE('EBITDA Table'[EBITDA Matrix Latest Period], 'EBITDA Table'[PRODUCT] = "Ethylene Spot")
+			VAR _natgas = CALCULATE('EBITDA Table'[EBITDA Matrix Latest Period], 'EBITDA Table'[PRODUCT] = "Natural Gas")
+			VAR _cauWAP = CALCULATE([RP CY CPP], 'Dim Hierarchy'[Level 2] = "Caustic") 
+			VAR _MchlPrice = CALCULATE([RP CY CPP], 'Dim Hierarchy'[Level 2] = "Chlorine")
+			VAR _nonV = CALCULATE('EBITDA Table'[EBITDA Matrix Latest Period], 'EBITDA Table'[PRODUCT] = "Non-Vinyl Chlorine")
+			VAR _pvcWAP = CALCULATE([RP CY CPP], 'Dim Hierarchy'[Level 1] = "PVC")
+			VAR _pvcSOethy = _pvcWAP - (_ethSP * 0.48)
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE('EBITDA Key Stats'[Ordinal Driv]),
+			    1, FORMAT(_ECU, "0.0%"), 
+			    2, FORMAT(_PVC, "0.0%"),
+			    3, FORMAT(_ethSP, "0.0"),
+			    4, FORMAT(_natgas, "0.0"),
+			    5, FORMAT(_cauWAP, "0.0"),
+			    6, FORMAT(_MchlPrice, "0.0"),
+			    7, FORMAT(_nonV, "0.0"),
+			    8, FORMAT(_pvcWAP, "0.0"),
+			    9, FORMAT(_pvcSOethy, "0.0")
+			) 
+			
+			```
+		isHidden
+		lineageTag: 49691498-02de-4298-99d1-2ef9267a2e1a
+
+		changedProperty = IsHidden
+
+	measure 'EB Comparitive Period' = ```
+			
+			VAR _ECU = CALCULATE([OR Operation Rates Prev Period] , 'Dim Hierarchy'[Level 1] = "ECU") 
+			VAR _PVC = CALCULATE([OR Operation Rates Prev Period] , 'Dim Hierarchy'[Level 1] = "PVC") 
+			VAR _ethSP = CALCULATE('EBITDA Table'[EBITDA Matrix Comp Prev Period], 'EBITDA Table'[PRODUCT] = "Ethylene Spot")
+			VAR _natgas = CALCULATE('EBITDA Table'[EBITDA Matrix Comp Prev Period], 'EBITDA Table'[PRODUCT] = "Natural Gas")
+			VAR _cauWAP = CALCULATE([EBITDA CPP], 'Dim Hierarchy'[Level 2] = "Caustic") 
+			VAR _MchlPrice = CALCULATE([EBITDA CPP], 'Dim Hierarchy'[Level 2] = "Chlorine")
+			VAR _nonV = CALCULATE('EBITDA Table'[EBITDA Matrix Comp Prev Period], 'EBITDA Table'[PRODUCT] = "Non-Vinyl Chlorine")
+			VAR _pvcWAP = CALCULATE([EBITDA CPP], 'Dim Hierarchy'[Level 1] = "PVC")
+			VAR _pvcSOethy = _pvcWAP - (_ethSP * 0.48)
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE('EBITDA Key Stats'[Ordinal Driv]),
+			    1, FORMAT(_ECU, "0.0%"), 
+			    2, FORMAT(_PVC, "0.0%"),
+			    3, FORMAT(_ethSP, "0.0"),
+			    4, FORMAT(_natgas, "0.0"),
+			    5, FORMAT(_cauWAP, "0.0"),
+			    6, FORMAT(_MchlPrice, "0.0"),
+			    7, FORMAT(_nonV, "0.0"),
+			    8, FORMAT(_pvcWAP, "0.0"),
+			    9, FORMAT(_pvcSOethy, "0.0")
+			) 
+			
+			```
+		isHidden
+		lineageTag: bdb85554-a4b7-41db-80b3-b6e7ac806a00
+
+		changedProperty = IsHidden
+
+	column 'Key Stastics'
+		dataType: string
+		isHidden
+		lineageTag: d5a44cca-9168-4250-95f4-7aaab44101cb
+		summarizeBy: none
+		sourceColumn: Key Stastics
+		sortByColumn: 'Ordinal Key'
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Drivers
+		dataType: string
+		isHidden
+		lineageTag: 270ce43e-8a00-47d5-bec2-8101c7b37bbd
+		summarizeBy: none
+		sourceColumn: Drivers
+		sortByColumn: 'Ordinal Driv'
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: 0ca69abb-30ba-401c-a1ad-87b6ab127ea0
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ordinal Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3707cc64-8781-40a3-abdb-dd3d5a4b3d23
+		summarizeBy: none
+		sourceColumn: Ordinal Key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ordinal Driv'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0a573150-3651-4f0b-9fb3-32760cad7d56
+		summarizeBy: sum
+		sourceColumn: Ordinal Driv
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'EBITDA Key Stats' = m
+		mode: import
+		queryGroup: 'Fact Tables\EBITDA'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("lZFLT8MwDMe/ihUNCaRCx4ANjqhC7LKHmCiHrQe3s9ZIWTqlzqR+e9yMxwRDKgcniu3/L34sl2q2I4es7QZekKlWkXpKXuU8E7sOlkWnsuZpcpQ1CFkTiTmNpoa504VktzQuG0OWYLGrOPhJvAXHJg+6SN38qZ0ie4cGnrGG8zFZ18DY5xcS6cXbbc7+g3AbCAs0dFDLtfL9/mAonzrCdVvvG6/hcb+5ggR9zbr4KqUXc2VDGZG66wCakCtKtAxJaSqnpbNTpGEH0rSyl6m2jflGpWh8GO8xa/Sf9mQvv6bcQu47QFrt4QWzPTn43N0P1IPKsnc=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Key Stastics" = _t, Drivers = _t, UOM = _t, #"Ordinal Key" = _t, #"Ordinal Driv" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Key Stastics", type text}, {"Drivers", type text}, {"UOM", type text}, {"Ordinal Key", Int64.Type}, {"Ordinal Driv", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

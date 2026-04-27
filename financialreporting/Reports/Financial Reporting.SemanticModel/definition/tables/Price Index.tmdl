@@ -1,0 +1,254 @@
+table 'Price Index'
+	isHidden
+	lineageTag: 06de7297-89e3-4fa1-b639-d634ad88b83f
+
+	measure 'Argus Index_' =
+			
+			IF(
+			    SELECTEDVALUE( 'Product'[Level 2] ) = "Caustic",
+			    [Argus Index]/20,  --2000 pounts per ton muliplied by 100 cents per USD
+			    BLANK()
+			)
+		isHidden
+		lineageTag: df245d31-c602-4f6f-a39b-ef728a023a0f
+
+		changedProperty = IsHidden
+
+	measure 'Price Index' = AVERAGE( 'Price Index'[Value] )
+		isHidden
+		lineageTag: ef408b99-1225-476e-94d0-3637177e4393
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CDI Index' =
+			
+			AVERAGEX(
+			    FILTER(
+			        'Price Index',
+			        'Price Index'[Level 2] = "PVC"
+			         && 'Price Index'[Sales Channel] = "Domestic"),
+			    'Price Index'[Value]
+			)
+		isHidden
+		lineageTag: 8217edfc-4552-4dd4-ac0b-4df7f4678fdb
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CMA Index' =
+			
+			AVERAGEX(
+			    FILTER(
+			        'Price Index',
+			        'Price Index'[Level 2] = "PVC"
+			         && 'Price Index'[Sales Channel] = "Export"),
+			    'Price Index'[Value]
+			)
+		isHidden
+		lineageTag: 1d93c036-fbd3-4a0d-a425-08f43d143c3a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CMA CSLi Index' =
+			
+			AVERAGEX(
+			    FILTER(
+			        'Price Index',
+			        'Price Index'[Level 2] = "Caustic"
+			         && 'Price Index'[Sales Channel] = "Domestic"),
+			    'Price Index'[Value]
+			)
+		isHidden
+		lineageTag: c5d97115-f3f0-42ba-9249-39f807600c69
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Argus Index' =
+			
+			AVERAGEX(
+			    FILTER(
+			        'Price Index',
+			        'Price Index'[Level 2] = "Caustic"
+			         && 'Price Index'[Sales Channel] = "Export"),
+			    'Price Index'[Value]
+			)
+		isHidden
+		lineageTag: 22d2ce20-ae80-42e2-b26e-e8fd351828a2
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CMA CSLi Index_' =
+			
+			IF(
+			    SELECTEDVALUE( 'Product'[Level 2] ) = "Caustic",
+			    [CMA CSLi Index]/20,  --2000 pounts per ton muliplied by 100 cents per USD
+			    BLANK()
+			)
+		isHidden
+		lineageTag: bf58a4b2-5e52-4516-ae53-0ed3504f506c
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CDI Index_' =
+			
+			IF(
+			    SELECTEDVALUE( 'Product'[Level 1] ) = "PVC"
+			    --&& SELECTEDVALUE( 'Sales Channel'[Sales Channel] ) = "Domestic"
+			    ,[CDI Index]
+			    ,BLANK()
+			)
+		isHidden
+		lineageTag: 5245439d-71dd-4363-9f75-6be32b926472
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CMA Index_' =
+			
+			IF(
+			    SELECTEDVALUE( 'Product'[Level 1] ) = "PVC"
+			    --&& SELECTEDVALUE( 'Sales Channel'[Sales Channel] ) = "Export"
+			    ,[CMA Index]
+			    ,BLANK()
+			)
+		isHidden
+		lineageTag: b3fc6715-dccc-48df-a0cd-c1396178b2d0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Reporting Unit'
+		dataType: string
+		isHidden
+		lineageTag: bfefac0d-dcea-44f7-9a95-f9900a644e17
+		summarizeBy: none
+		sourceColumn: Reporting Unit
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SBU
+		dataType: string
+		isHidden
+		lineageTag: 2f0e8601-a051-4a94-856a-620a85680bd8
+		summarizeBy: none
+		sourceColumn: SBU
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Level 1'
+		dataType: string
+		isHidden
+		lineageTag: dbe1a02f-94a5-4a4a-b47b-864447dc8107
+		summarizeBy: none
+		sourceColumn: Level 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Level 2'
+		dataType: string
+		isHidden
+		lineageTag: f2102150-2a06-493f-90b3-b15c41b7d9dc
+		summarizeBy: none
+		sourceColumn: Level 2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Channel'
+		dataType: string
+		isHidden
+		lineageTag: 92aa94ae-1993-4456-b932-5f8e63d62612
+		summarizeBy: none
+		sourceColumn: Sales Channel
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: string
+		isHidden
+		lineageTag: c98e3a8c-bd3b-414e-9336-31371182be88
+		summarizeBy: none
+		sourceColumn: Index
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: fff957ca-8a4a-4685-8c07-6aa656f031dc
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 83d6a2c5-57c9-4e26-b3be-d5d4e7c477aa
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: 2ae72de9-19fa-4695-a886-92d0d923667f
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Price Index' = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Price Index_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Price Index",version=""]}[Data]
+				in
+				    #"Price Index_"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

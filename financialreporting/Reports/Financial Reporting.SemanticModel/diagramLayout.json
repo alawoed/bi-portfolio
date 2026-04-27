@@ -1,0 +1,1827 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 15293.746362246953,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 5135.020891601217,
+            "y": 1173.0364071058232
+          },
+          "nodeIndex": "Date Periodicity",
+          "nodeLineageTag": "df85cd9c-3df5-49ba-ae40-9191e57787f7",
+          "size": {
+            "height": 180.67455788873838,
+            "width": 234
+          },
+          "zIndex": 33
+        },
+        {
+          "location": {
+            "x": 4545.2761271098088,
+            "y": 1225.7623626935795
+          },
+          "nodeIndex": "Customer_Page_Selector",
+          "size": {
+            "height": 72,
+            "width": 234
+          },
+          "zIndex": 22,
+          "expandedHeight": 152
+        },
+        {
+          "location": {
+            "x": 10555.504292691998,
+            "y": 766.51482117539854
+          },
+          "nodeIndex": "Dim Period Comp",
+          "nodeLineageTag": "3ff9492c-8471-464a-861c-ede4a568a99b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 10839.504292691998,
+            "y": 608.76872742539854
+          },
+          "nodeIndex": "Date Table",
+          "nodeLineageTag": "9e170364-2d90-4ef7-8068-ae1f7ab11f3d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 2101.1009924813625,
+            "y": 1173.9441335701088
+          },
+          "nodeIndex": "Account",
+          "nodeLineageTag": "c1633457-578f-4b48-8d36-994fbfeab317",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1382.1639620106153,
+            "y": 51.909788340985074
+          },
+          "nodeIndex": "Dim Hierarchy",
+          "nodeLineageTag": "d058f4c0-90ee-452a-8d61-83fe231825b4",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1063.4008697360168,
+            "y": 789.38023548911121
+          },
+          "nodeIndex": "Dim_Period / Set of Books",
+          "nodeLineageTag": "2fc89a54-7027-4a04-8062-d6441b67f295",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 4157.6353780050586,
+            "y": 1547.3334577301252
+          },
+          "nodeIndex": "HSE",
+          "nodeLineageTag": "7cef933d-da07-4523-b303-02332278b013",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 2671.7077704712478,
+            "y": 503.14958680039854
+          },
+          "nodeIndex": "Integrated Margins",
+          "nodeLineageTag": "2ef14375-e0a7-4795-832e-5e6ea97987f5",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 79.178605041976653,
+            "y": 236.89652070687464
+          },
+          "nodeIndex": "Price Index",
+          "nodeLineageTag": "06de7297-89e3-4fa1-b639-d634ad88b83f",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 369.11996142398652,
+            "y": 519.110164939768
+          },
+          "nodeIndex": "Sales Channel",
+          "nodeLineageTag": "13978ba8-da19-4806-b0a1-215f5ec429b3",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 3188.2206092732713,
+            "y": 1312.0888164679084
+          },
+          "nodeIndex": "Switch Table",
+          "nodeLineageTag": "9f075d80-71c8-41f3-98d8-d9ab15e4046c",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 34
+        },
+        {
+          "location": {
+            "x": 3523.7077704712478,
+            "y": 563.14958680039854
+          },
+          "nodeIndex": "Working Capital",
+          "nodeLineageTag": "23763b2d-8063-4600-98ba-c6968be66825",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 11073.504292691998,
+            "y": 575.24767732974328
+          },
+          "nodeIndex": "Revenue Page by Site",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 540.62800396008538,
+            "y": 167.02374518823751
+          },
+          "nodeIndex": "Revenue Page by Product",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 11875.504292691998,
+            "y": 699.76677252563627
+          },
+          "nodeIndex": "0 - SnapShot",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 12159.504292691998,
+            "y": 699.76677252563627
+          },
+          "nodeIndex": "1 - Revenue",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 12443.504292691998,
+            "y": 699.76677252563627
+          },
+          "nodeIndex": "_All Pages",
+          "nodeLineageTag": "617e2759-9d11-4c67-a51b-be50ca37e333",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 11204.893165733158,
+            "y": 1340.4085699535508
+          },
+          "nodeIndex": "RP Rev Matrix",
+          "nodeLineageTag": "ea06992e-3639-404b-9de7-132d7e6dea6a",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 11590.226261306852,
+            "y": 1120.0435200262109
+          },
+          "nodeIndex": "RP Vol Matrix",
+          "nodeLineageTag": "6848bf79-017c-4a82-b0a6-d49591b5afd0",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 11563.894449617728,
+            "y": 1381.8137054743602
+          },
+          "nodeIndex": "RP Dim Matrix",
+          "nodeLineageTag": "46cc5055-8ac8-4f95-aa72-922cbea43f9d",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 13529.865932107357,
+            "y": 728.012952089457
+          },
+          "nodeIndex": "3 - Production",
+          "nodeLineageTag": "abac11ae-89cd-46b1-9ee7-b15aba7a03c6",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 13813.865932107357,
+            "y": 704.012952089457
+          },
+          "nodeIndex": "Prod Dim",
+          "nodeLineageTag": "b5b5dcad-a612-4efb-bfd6-6fcf1fab7c08",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 14097.865932107357,
+            "y": 704.012952089457
+          },
+          "nodeIndex": "RP Switch",
+          "nodeLineageTag": "c15e948c-bf09-4e29-bf94-1645492faa01",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1621.7911575620465,
+            "y": 737.999327234775
+          },
+          "nodeIndex": "SnapShot by Site",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1325.3927614041227,
+            "y": 434.22110014674047
+          },
+          "nodeIndex": "SnapShot by Product",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 598.39742464125493,
+            "y": 850.38938525981212
+          },
+          "nodeIndex": "Production by Product",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 13011.689043872628,
+            "y": 673.8179011845682
+          },
+          "nodeIndex": "Hierachy Bridge",
+          "nodeLineageTag": "34d94cde-21f5-438d-8dc0-cdc65f5526d5",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 12727.504292691998,
+            "y": 570.88301036191012
+          },
+          "nodeIndex": "Production by 10K",
+          "nodeLineageTag": "5588f438-a6c2-4279-9938-e7bfa1dbf9bb",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 13295.865932107357,
+            "y": 589.14289381700394
+          },
+          "nodeIndex": "Production by Site",
+          "nodeLineageTag": "ab383674-fcf2-433f-bf41-000aa1313115",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 15233.865932107357,
+            "y": 704.012952089457
+          },
+          "nodeIndex": "Dim_Hierachy",
+          "nodeLineageTag": "133ea856-77a9-4f07-a6f6-43ccc39ab17d",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 16654.248982122052,
+            "y": 747.3484308082318
+          },
+          "nodeIndex": "C_Margins per Lbs",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 16370.248982122052,
+            "y": 747.3484308082318
+          },
+          "nodeIndex": "C_Margins",
+          "nodeLineageTag": "9e823f99-5034-4024-9e5d-4868fc71d943",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 17740.248982122052,
+            "y": 821.3484308082318
+          },
+          "nodeIndex": "5 - Expenditure",
+          "nodeLineageTag": "36603f72-7c48-4516-b5d5-c41c65d1d2ac",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 14949.865932107357,
+            "y": 728.012952089457
+          },
+          "nodeIndex": "4 - Customers",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 16086.248982122052,
+            "y": 732.355875418432
+          },
+          "nodeIndex": "ExSite Products",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 15517.865932107357,
+            "y": 762.3409861980316
+          },
+          "nodeIndex": "ExProducts Site",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 14788.800160924364,
+            "y": 107.8674778045829
+          },
+          "nodeIndex": "ExSwitch Table",
+          "nodeLineageTag": "fdb63fe0-4bfe-4b78-9e91-8aa3876bfa6d",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 18708.642673849383,
+            "y": 206.20773916378931
+          },
+          "nodeIndex": "ExOptionsCost",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 18385.232185568766,
+            "y": 578.99352260006276
+          },
+          "nodeIndex": "ExOptionsOps",
+          "nodeLineageTag": "cfddd8d7-dddf-457a-b3c6-a02255ecd289",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 18546.9277526363,
+            "y": 392.59427220151758
+          },
+          "nodeIndex": "ExSlicer",
+          "nodeLineageTag": "d703d6d8-bcb0-4a76-8aae-98690baea23e",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 17456.248982122052,
+            "y": 723.3484308082318
+          },
+          "nodeIndex": "SG&A",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 19901.323721819583,
+            "y": 412.5882331309013
+          },
+          "nodeIndex": "Manufacturing Cost",
+          "nodeLineageTag": "23a96389-e03a-4afe-96cd-4864ea1d608d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 18360.548690177216,
+            "y": 230.87274460753622
+          },
+          "nodeIndex": "ExOptionsSGA",
+          "nodeLineageTag": "0ebb6aa9-8f65-4d54-8001-711772779e59",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 17999.24786378795,
+            "y": 0
+          },
+          "nodeIndex": "CAPEX",
+          "nodeLineageTag": "555ef909-2c96-469e-bde8-018531df915e",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 20668.737201185839,
+            "y": 438.5882331309013
+          },
+          "nodeIndex": "T&D",
+          "nodeLineageTag": "81a56cec-f240-4127-9196-206a5568360d",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 21052.443940868965,
+            "y": 462.5882331309013
+          },
+          "nodeIndex": "T&D Seg",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1615.0355534836181,
+            "y": 380.78234671618191
+          },
+          "nodeIndex": "EBITDA",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 20285.030461502713,
+            "y": 412.5882331309013
+          },
+          "nodeIndex": "EBITDA Table",
+          "nodeLineageTag": "b1b2acf3-0f83-4318-b49d-f89ec303e21f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 18733.3363291899,
+            "y": 554.28586209716184
+          },
+          "nodeIndex": "ExOptions T&D",
+          "nodeLineageTag": "f1d8ef5a-210c-46d9-bc98-243988c13e85",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 18164.04000373925,
+            "y": 368.94782793061023
+          },
+          "nodeIndex": "Dim CAPEX",
+          "nodeLineageTag": "a7ab2888-8e6e-47d2-9a80-12ca2cd05646",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 14665.865932107357,
+            "y": 728.012952089457
+          },
+          "nodeIndex": "2 - EBITDA",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 19517.616982136456,
+            "y": 541.85578138654012
+          },
+          "nodeIndex": "EBOptionsPP",
+          "nodeLineageTag": "6fda9268-21b1-43a9-beb5-26d9ae72aea6",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 21436.150680552095,
+            "y": 486.5882331309013
+          },
+          "nodeIndex": "EBOptionsCP",
+          "nodeLineageTag": "1f72736d-8735-412c-99f4-8eb2baf279b9",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 21819.857420235221,
+            "y": 486.5882331309013
+          },
+          "nodeIndex": "EPOptionsHY",
+          "nodeLineageTag": "557dbb8a-47df-4f3b-b04e-6d48c1fd7294",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 18759.721326275238,
+            "y": 204.43513312089667
+          },
+          "nodeIndex": "EBITDA Accounts",
+          "nodeLineageTag": "2200522d-2457-4135-b769-cee409cd9b36",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 17974.248982122052,
+            "y": 641.89565586122035
+          },
+          "nodeIndex": "EBITDA Key Stats",
+          "nodeLineageTag": "384a79cc-2c1b-4522-9fe4-71016b6b500f",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 19138.669154205847,
+            "y": 393.65366734523457
+          },
+          "nodeIndex": "EBITDA Comp",
+          "nodeLineageTag": "adcf2301-60e2-4441-8a61-b3e6f929ed5e",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 22408.33924770388,
+            "y": 74
+          },
+          "nodeIndex": "ExCapex",
+          "nodeLineageTag": "b1e402fa-6882-48f1-a37f-5aa9d4819e4c",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 22791.999680214514,
+            "y": 74
+          },
+          "nodeIndex": "EBKeySCompOptions",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 23175.660112725149,
+            "y": 74
+          },
+          "nodeIndex": "EBKeySActualsOptions",
+          "nodeLineageTag": "af55da11-84af-4fd0-8842-72ae578e4d8f",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 23559.320545235783,
+            "y": 74
+          },
+          "nodeIndex": "Closing_Schedule",
+          "nodeLineageTag": "29c0ebfa-e384-4727-8ef0-79f4ca9d67bc",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 22024.678815193245,
+            "y": 0
+          },
+          "nodeIndex": "Customer Margin",
+          "nodeLineageTag": "577fe4c9-6daa-4a87-bac8-faea98f7b78b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 23764.141940193807,
+            "y": 0
+          },
+          "nodeIndex": "In Millions",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 23968.963335151831,
+            "y": 0
+          },
+          "nodeIndex": "Today",
+          "nodeLineageTag": "ac35f6ae-b592-47bb-8d6a-ce40c4d52fad",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 48.55579414035067,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1015.300284516961,
+            "y": 324.98760622724183
+          },
+          "nodeIndex": "Dim Hierarchy",
+          "nodeLineageTag": "da7891e3-5601-48f1-b74d-beb4e5f25f2e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 17.044804522407791
+          },
+          "nodeIndex": "Date Table",
+          "nodeLineageTag": "9e170364-2d90-4ef7-8068-ae1f7ab11f3d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 693.35176260931576
+          },
+          "nodeIndex": "Revenue Page by Product",
+          "nodeLineageTag": "d4b790a4-c0ee-4214-bc58-cab6e56ee82c",
+          "size": {
+            "height": 364.27701853961162,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 293.31967160820562,
+            "y": 689.4668858043251
+          },
+          "nodeIndex": "Revenue Page by Site",
+          "nodeLineageTag": "bbcb5044-bf0c-459e-b8d9-a967f0930b99",
+          "size": {
+            "height": 369.99053129868844,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 951.39492099614836,
+            "y": 0
+          },
+          "nodeIndex": "Switch Table",
+          "nodeLineageTag": "9f075d80-71c8-41f3-98d8-d9ab15e4046c",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 378.43279134991394,
+            "y": 344.75595667812092
+          },
+          "nodeIndex": "Sales Channel",
+          "nodeLineageTag": "13978ba8-da19-4806-b0a1-215f5ec429b3",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 403.43183798277869,
+            "y": 104.99237306291798
+          },
+          "nodeIndex": "Hierachy Bridge",
+          "nodeLineageTag": "34d94cde-21f5-438d-8dc0-cdc65f5526d5",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1276.1258295300577,
+            "y": 209.53384080035249
+          },
+          "nodeIndex": "RP Switch",
+          "nodeLineageTag": "c15e948c-bf09-4e29-bf94-1645492faa01",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 6
+        }
+      ],
+      "name": "Revenue",
+      "zoomValue": 70.0094699822893,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1165,
+            "y": 287.5
+          },
+          "nodeIndex": "Dim Hierarchy",
+          "nodeLineageTag": "da7891e3-5601-48f1-b74d-beb4e5f25f2e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1140.5,
+            "y": 0
+          },
+          "nodeIndex": "Switch Table",
+          "nodeLineageTag": "9f075d80-71c8-41f3-98d8-d9ab15e4046c",
+          "size": {
+            "height": 174.25,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 343.75,
+            "y": 556.25
+          },
+          "nodeIndex": "SnapShot by Site",
+          "nodeLineageTag": "46377360-c8ae-45b7-bba3-2110dcd8247d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 371.25,
+            "y": 7.5
+          },
+          "nodeIndex": "SnapShot by Product",
+          "nodeLineageTag": "d6c4baa0-c9df-4451-b143-23d1ba55e286",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 861.75,
+            "y": 372.5
+          },
+          "nodeIndex": "Hierachy Bridge",
+          "nodeLineageTag": "34d94cde-21f5-438d-8dc0-cdc65f5526d5",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 565.5,
+            "y": 381.25
+          },
+          "nodeIndex": "Account",
+          "nodeLineageTag": "c1633457-578f-4b48-8d36-994fbfeab317",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 293.75
+          },
+          "nodeIndex": "Date Table",
+          "nodeLineageTag": "9e170364-2d90-4ef7-8068-ae1f7ab11f3d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1156.75,
+            "y": 702.5
+          },
+          "nodeIndex": "Date Periodicity",
+          "nodeLineageTag": "df85cd9c-3df5-49ba-ae40-9191e57787f7",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "SnapShot",
+      "zoomValue": 80,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 3,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": -20,
+            "y": 548
+          },
+          "nodeIndex": "Production by Product",
+          "nodeLineageTag": "04c77ef6-5223-4d53-a8dd-07a0659a4dc1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 262,
+            "y": 555
+          },
+          "nodeIndex": "Production by Site",
+          "nodeLineageTag": "ab383674-fcf2-433f-bf41-000aa1313115",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": -24,
+            "y": 42
+          },
+          "nodeIndex": "Date Table",
+          "nodeLineageTag": "9e170364-2d90-4ef7-8068-ae1f7ab11f3d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 507,
+            "y": 556
+          },
+          "nodeIndex": "Production by 10K",
+          "nodeLineageTag": "5588f438-a6c2-4279-9938-e7bfa1dbf9bb",
+          "size": {
+            "height": 299,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 482,
+            "y": 50
+          },
+          "nodeIndex": "Hierachy Bridge",
+          "nodeLineageTag": "34d94cde-21f5-438d-8dc0-cdc65f5526d5",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 806.38398436806722,
+            "y": 142.39334542947179
+          },
+          "nodeIndex": "Dim Hierarchy",
+          "nodeLineageTag": "da7891e3-5601-48f1-b74d-beb4e5f25f2e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1947.3677175086432,
+            "y": 606.84790732496992
+          },
+          "nodeIndex": "Dim Period Comp",
+          "nodeLineageTag": "3ff9492c-8471-464a-861c-ede4a568a99b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2126.3530272079829,
+            "y": 843.61587606110436
+          },
+          "nodeIndex": "Date Periodicity",
+          "nodeLineageTag": "df85cd9c-3df5-49ba-ae40-9191e57787f7",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Production",
+      "zoomValue": 70.95554390096882,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 4,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 165,
+            "y": 30
+          },
+          "nodeIndex": "Date Table",
+          "nodeLineageTag": "9e170364-2d90-4ef7-8068-ae1f7ab11f3d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 308,
+            "y": 486
+          },
+          "nodeIndex": "C_Margins",
+          "nodeLineageTag": "9e823f99-5034-4024-9e5d-4868fc71d943",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 735,
+            "y": 563
+          },
+          "nodeIndex": "C_Margins per Lbs",
+          "nodeLineageTag": "88597c85-8171-4fe5-ada0-1edbde35d246",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 520,
+            "y": 88
+          },
+          "nodeIndex": "Customer Margin",
+          "nodeLineageTag": "577fe4c9-6daa-4a87-bac8-faea98f7b78b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 873,
+            "y": 243
+          },
+          "nodeIndex": "Customer_Page_Selector",
+          "nodeLineageTag": "152a8097-a9d9-4869-a94d-ed5f6a9f7313",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 4
+        }
+      ],
+      "name": "Customers",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 5,
+      "scrollPosition": {
+        "x": 0,
+        "y": 230.30292999999995
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 14.220910336968942,
+            "y": 41.082629862354743
+          },
+          "nodeIndex": "Hierachy Bridge",
+          "nodeLineageTag": "34d94cde-21f5-438d-8dc0-cdc65f5526d5",
+          "size": {
+            "height": 216.18718154719951,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 635.67959540579159,
+            "y": 230.69476768860744
+          },
+          "nodeIndex": "Date Table",
+          "nodeLineageTag": "9e170364-2d90-4ef7-8068-ae1f7ab11f3d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1150,
+            "y": 0
+          },
+          "nodeIndex": "Dim Hierarchy",
+          "nodeLineageTag": "da7891e3-5601-48f1-b74d-beb4e5f25f2e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1727.5092593448753,
+            "y": 380.65261615569625
+          },
+          "nodeIndex": "ExSite Products",
+          "nodeLineageTag": "a633ff2b-f5f9-4a41-afe2-6b43fab3b595",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 1733.9291581963232,
+            "y": 591.492413858592
+          },
+          "nodeIndex": "ExProducts Site",
+          "nodeLineageTag": "c9e40323-bf07-4b04-859c-89a8d5322817",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 2541.5186229999995,
+            "y": 859.2291839999998
+          },
+          "nodeIndex": "Dim Period Comp",
+          "nodeLineageTag": "3ff9492c-8471-464a-861c-ede4a568a99b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 2185.5092593448753,
+            "y": 467.65261615569625
+          },
+          "nodeIndex": "ExSwitch Table",
+          "nodeLineageTag": "fdb63fe0-4bfe-4b78-9e91-8aa3876bfa6d",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1730.9802384304712,
+            "y": 185.3986911463588
+          },
+          "nodeIndex": "ExOptionsCost",
+          "nodeLineageTag": "21ffe62a-b671-43c9-b4a4-b18fe9165747",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 2037.4905919321836,
+            "y": 179.50421228262363
+          },
+          "nodeIndex": "ExOptionsOps",
+          "nodeLineageTag": "cfddd8d7-dddf-457a-b3c6-a02255ecd289",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 1903.678389944238,
+            "y": 0
+          },
+          "nodeIndex": "ExSlicer",
+          "nodeLineageTag": "d703d6d8-bcb0-4a76-8aae-98690baea23e",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 6.3204045942084264,
+            "y": 660.26895589921924
+          },
+          "nodeIndex": "Manufacturing Cost",
+          "nodeLineageTag": "23a96389-e03a-4afe-96cd-4864ea1d608d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 1099.5370751967046
+          },
+          "nodeIndex": "SG&A",
+          "nodeLineageTag": "35c3b038-4fbd-4b6c-b398-80133a38489d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 2310.8802193065353,
+            "y": 183.07840903648321
+          },
+          "nodeIndex": "ExOptionsSGA",
+          "nodeLineageTag": "0ebb6aa9-8f65-4d54-8001-711772779e59",
+          "size": {
+            "height": 150.41989885144795,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 1349.4063808634983,
+            "y": 1211.7242567439041
+          },
+          "nodeIndex": "CAPEX",
+          "nodeLineageTag": "555ef909-2c96-469e-bde8-018531df915e",
+          "size": {
+            "height": 329.86677695299113,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 1892.1534149402273,
+            "y": 916.24534196466016
+          },
+          "nodeIndex": "Switch Table",
+          "nodeLineageTag": "9f075d80-71c8-41f3-98d8-d9ab15e4046c",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 2502.07245828134,
+            "y": 435.89459280482015
+          },
+          "nodeIndex": "ExOptions T&D",
+          "nodeLineageTag": "f1d8ef5a-210c-46d9-bc98-243988c13e85",
+          "size": {
+            "height": 210.46374249642781,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 1776.2042709999996,
+            "y": 1481.0470949999997
+          },
+          "nodeIndex": "Dim CAPEX",
+          "nodeLineageTag": "a7ab2888-8e6e-47d2-9a80-12ca2cd05646",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 2436.9965239999992,
+            "y": 1034.5916239999997
+          },
+          "nodeIndex": "ExCapex",
+          "nodeLineageTag": "b1e402fa-6882-48f1-a37f-5aa9d4819e4c",
+          "size": {
+            "height": 219.31931800000007,
+            "width": 234
+          },
+          "zIndex": 1
+        }
+      ],
+      "name": "Expenses",
+      "zoomValue": 56.447393005377755,
+      "pinKeyFieldsToTop": true,
+      "showExtraHeaderInfo": true,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 6,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 333,
+            "y": 375.5
+          },
+          "nodeIndex": "T&D",
+          "nodeLineageTag": "81a56cec-f240-4127-9196-206a5568360d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": -123,
+            "y": -56.5
+          },
+          "nodeIndex": "Date Table",
+          "nodeLineageTag": "9e170364-2d90-4ef7-8068-ae1f7ab11f3d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 563,
+            "y": 169.5
+          },
+          "nodeIndex": "T&D Seg",
+          "nodeLineageTag": "2907a684-4c3f-43b7-81e4-33114c75f2bd",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "T&D",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": true,
+      "showExtraHeaderInfo": true,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 7,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 568,
+            "y": 149
+          },
+          "nodeIndex": "Dim CAPEX",
+          "nodeLineageTag": "a7ab2888-8e6e-47d2-9a80-12ca2cd05646",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 25
+          },
+          "nodeIndex": "CAPEX",
+          "nodeLineageTag": "555ef909-2c96-469e-bde8-018531df915e",
+          "size": {
+            "height": 376,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 245,
+            "y": 371
+          },
+          "nodeIndex": "ExCapex",
+          "nodeLineageTag": "b1e402fa-6882-48f1-a37f-5aa9d4819e4c",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 99
+          },
+          "nodeIndex": "Dim Period Comp",
+          "nodeLineageTag": "3ff9492c-8471-464a-861c-ede4a568a99b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "CAPEX",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": true,
+      "showExtraHeaderInfo": true,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 8,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 204.5
+          },
+          "nodeIndex": "EBOptionsPP",
+          "nodeLineageTag": "6fda9268-21b1-43a9-beb5-26d9ae72aea6",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "EBOptionsCP",
+          "nodeLineageTag": "1f72736d-8735-412c-99f4-8eb2baf279b9",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 301,
+            "y": 111.5
+          },
+          "nodeIndex": "Dim Period Comp",
+          "nodeLineageTag": "3ff9492c-8471-464a-861c-ede4a568a99b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1643,
+            "y": 166
+          },
+          "nodeIndex": "Dim Hierarchy",
+          "nodeLineageTag": "da7891e3-5601-48f1-b74d-beb4e5f25f2e",
+          "size": {
+            "height": 464,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1308,
+            "y": 466.5
+          },
+          "nodeIndex": "EBITDA",
+          "nodeLineageTag": "80414e0e-a799-4a62-828f-1fda918517ff",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 1170,
+            "y": 0
+          },
+          "nodeIndex": "Hierachy Bridge",
+          "nodeLineageTag": "34d94cde-21f5-438d-8dc0-cdc65f5526d5",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 826,
+            "y": 336.5
+          },
+          "nodeIndex": "Date Table",
+          "nodeLineageTag": "9e170364-2d90-4ef7-8068-ae1f7ab11f3d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 359,
+            "y": 350.5
+          },
+          "nodeIndex": "EBITDA Accounts",
+          "nodeLineageTag": "2200522d-2457-4135-b769-cee409cd9b36",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 648.61381102972052,
+            "y": 827.75967764574261
+          },
+          "nodeIndex": "EBITDA Key Stats",
+          "nodeLineageTag": "384a79cc-2c1b-4522-9fe4-71016b6b500f",
+          "size": {
+            "height": 226.26475398194907,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 584.42410076871829
+          },
+          "nodeIndex": "EBITDA Comp",
+          "nodeLineageTag": "adcf2301-60e2-4441-8a61-b3e6f929ed5e",
+          "size": {
+            "height": 170.66273101090678,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 1111.5834475554875,
+            "y": 867.26220635954519
+          },
+          "nodeIndex": "EBITDA Table",
+          "nodeLineageTag": "b1b2acf3-0f83-4318-b49d-f89ec303e21f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 236.20741125762083,
+            "y": 783.51684548628373
+          },
+          "nodeIndex": "EBKeySCompOptions",
+          "nodeLineageTag": "9ca691f7-7fb6-41b3-b993-b135bbdfe43c",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "EBITDA",
+      "zoomValue": 63.287087723234038,
+      "pinKeyFieldsToTop": true,
+      "showExtraHeaderInfo": true,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

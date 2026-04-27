@@ -1,0 +1,110 @@
+table EPOptionsHY
+	isHidden
+	lineageTag: 557dbb8a-47df-4f3b-b04e-6d48c1fd7294
+
+	column EPOptionsHY
+		isHidden
+		lineageTag: a1475463-d7fd-42b8-8bc8-ac5852ca5a14
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'EPOptionsHY Order'
+
+		relatedColumnDetails
+			groupByColumn: 'EPOptionsHY Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"EPOptionsHY","TableItemName":"EPOptionsHY (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'EPOptionsHY Fields'
+		isHidden
+		lineageTag: e21b62cc-de5a-4de6-81da-00dd8e274aad
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'EPOptionsHY Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EPOptionsHY Order'
+		isHidden
+		formatString: 0
+		lineageTag: dfb154b4-0cf4-4e64-a844-0e3cf448245e
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EPOptionsHY (groups)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('EPOptionsHY'[EPOptionsHY]),
+				"(Blank)",
+				'EPOptionsHY'[EPOptionsHY] IN {"CA&D",
+					"PVC/VCM",
+					"NACV ELIMS"},
+				"0",
+				'EPOptionsHY'[EPOptionsHY] IN {"Chlor-Alkali",
+					"Derivatives",
+					"Solid Specialties",
+					"CA&D ELIMS"},
+				"1",
+				'EPOptionsHY'[EPOptionsHY] IN {"Ethylene",
+					"PVC",
+					"VCM",
+					"PVC/VCM ELIMS"},
+				"2",
+				'EPOptionsHY'[EPOptionsHY]
+			)
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: bca513b6-e3a6-4010-bf4a-6f24146c0482
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "EPOptionsHY"
+				          }
+				        },
+				        "Property": "EPOptionsHY"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"e","Entity":"EPOptionsHY"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"e"}},"Property":"EPOptionsHY"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"0","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"e"}},"Property":"EPOptionsHY"}}],"Values":[[{"Literal":{"Value":"'CA&D'"}}],[{"Literal":{"Value":"'PVC/VCM'"}}],[{"Literal":{"Value":"'NACV ELIMS'"}}]]}}},{"DisplayName":"1","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"e"}},"Property":"EPOptionsHY"}}],"Values":[[{"Literal":{"Value":"'Chlor-Alkali'"}}],[{"Literal":{"Value":"'Derivatives'"}}],[{"Literal":{"Value":"'Solid Specialties'"}}],[{"Literal":{"Value":"'CA&D ELIMS'"}}]]}}},{"DisplayName":"2","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"e"}},"Property":"EPOptionsHY"}}],"Values":[[{"Literal":{"Value":"'Ethylene'"}}],[{"Literal":{"Value":"'PVC'"}}],[{"Literal":{"Value":"'VCM'"}}],[{"Literal":{"Value":"'PVC/VCM ELIMS'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EPOptionsHY = calculated
+		mode: import
+		source = ```
+				{
+				    ("CA&D", NAMEOF('2 - EBITDA'[EBITDA FP CA&D]), 0),
+				    ("PVC/VCM", NAMEOF('2 - EBITDA'[EBITDA FP PVC/VCM]), 1),
+				    ("NACV ELIMS", NAMEOF('2 - EBITDA'[EBITDA FP ELIMS]), 2), 
+				    ("Chlor-Alkali", NAMEOF('2 - EBITDA'[EBITDA FP Chlor-Alkali]), 3),
+				    ("Derivatives", NAMEOF('2 - EBITDA'[EBITDA FP Derivatives]), 4),
+				    ("Solid Specialties", NAMEOF('2 - EBITDA'[EBITDA FP Solid Specialtiies]), 5),
+				    ("CA&D ELIMS", NAMEOF('2 - EBITDA'[EBITDA FP CAD ELIMS]), 6),
+				    ("Ethylene", NAMEOF('2 - EBITDA'[EBITDA FP Ethylene]), 7),
+				    ("PVC", NAMEOF('2 - EBITDA'[EBITDA FP PVC]), 8),
+				    ("VCM", NAMEOF('2 - EBITDA'[EBITDA FP VCM]), 9),
+				    ("PVC/VCM ELIMS", NAMEOF('2 - EBITDA'[EBITDA FP PVC ELIMS]), 10)
+				}
+				```
+
+	annotation PBI_Id = 0cf161c24bf54136b2e70408135c0115
+

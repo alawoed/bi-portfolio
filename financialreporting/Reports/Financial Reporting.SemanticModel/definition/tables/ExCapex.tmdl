@@ -1,0 +1,63 @@
+table ExCapex
+	isHidden
+	lineageTag: b1e402fa-6882-48f1-a37f-5aa9d4819e4c
+
+	column ExCapex
+		isHidden
+		lineageTag: d1419d96-0140-4a07-8c64-e027cdf75193
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'ExCapex Order'
+
+		relatedColumnDetails
+			groupByColumn: 'ExCapex Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExCapex Fields'
+		isHidden
+		lineageTag: 9113c81a-2eb5-4d2e-ac84-2d81d9db8165
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'ExCapex Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExCapex Order'
+		isHidden
+		formatString: 0
+		lineageTag: 4272129a-6e65-43ec-bb86-859a722a7f83
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SlicerValue = [ExCapex]
+		isHidden
+		lineageTag: ba6743ef-9e27-4330-a87b-444a16e1e7a4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ExCapex = calculated
+		mode: import
+		source =
+				{
+				    ("Budget", NAMEOF('5 - Expenditure'[CPX Latest Period Budget Matrix]), 0),
+				    ("Forecast", NAMEOF('5 - Expenditure'[CPX Latest Period Prev F Matrix]), 0),
+				    ("Budget", NAMEOF('5 - Expenditure'[CPX Latest Period Budget Matrix]), 1),
+				    ("Prev. Quarter", NAMEOF('5 - Expenditure'[CPX Latest Period Prev F Matrix]), 1),
+				    ("Budget", NAMEOF('5 - Expenditure'[CPX Latest Period Budget Matrix]), 2),
+				    ("Prev. YTD", NAMEOF('5 - Expenditure'[CPX Latest Period Prev F Matrix]), 2),
+				    ("Budget", NAMEOF('5 - Expenditure'[CPX Latest Period Budget Matrix]), 3),
+				    ("Prev. Year", NAMEOF('5 - Expenditure'[CPX Latest Period Prev F Matrix]), 3)
+				}
+
+	annotation PBI_Id = 9ee205e0f4fe4f2eb3b0f52893609c83
+

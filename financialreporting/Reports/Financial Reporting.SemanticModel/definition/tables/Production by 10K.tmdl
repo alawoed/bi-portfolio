@@ -1,0 +1,124 @@
+table 'Production by 10K'
+	isHidden
+	lineageTag: 5588f438-a6c2-4279-9938-e7bfa1dbf9bb
+
+	column UOM_O
+		dataType: string
+		isHidden
+		lineageTag: ae1561b4-3956-40ff-863d-859fcf04f928
+		summarizeBy: none
+		sourceColumn: UOM_O
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: c586c719-e5af-433a-a0ae-efd2f7f7e482
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Entity
+		dataType: string
+		isHidden
+		lineageTag: f02e7c2b-597b-4f15-afa2-f5bf8c03b5a6
+		summarizeBy: none
+		sourceColumn: Entity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column '10K Capacity lbs_O'
+		dataType: double
+		isHidden
+		lineageTag: b46cd182-dbb8-43b1-8e2e-4fcd9e3401cf
+		summarizeBy: sum
+		sourceColumn: 10K Capacity lbs_O
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '10K Capacity lbs'
+		dataType: double
+		isHidden
+		lineageTag: 7cce1aa8-2b41-4a0a-9079-de2783f1a39e
+		summarizeBy: sum
+		sourceColumn: 10K Capacity lbs
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: c6711db5-a456-4a0f-be99-b37aab1531ec
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Value_O
+		dataType: double
+		isHidden
+		lineageTag: a5cfff48-b6ab-4c4c-a901-44b291836511
+		summarizeBy: sum
+		sourceColumn: Value_O
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: 3c9b34cc-e7aa-4986-8657-e6f4f5df1ce9
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Production by 10K' = m
+		mode: import
+		queryGroup: 'Fact Tables\Production'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Production Page by 10K_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Production Page by 10K",version=""]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(#"Production Page by 10K_", each ([UOM] <> "MWhr")),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","G9_VIN_GRNLR_NATR","G9_VINYLS_GRANULAR",Replacer.ReplaceText,{"Entity"})
+				in
+				    #"Replaced Value"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

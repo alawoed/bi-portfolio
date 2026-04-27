@@ -1,0 +1,107 @@
+table 'SnapShot by Site'
+	isHidden
+	lineageTag: 46377360-c8ae-45b7-bba3-2110dcd8247d
+
+	column CATEGORY
+		dataType: string
+		isHidden
+		lineageTag: 1d794c50-dd37-422b-be37-392cdd09a717
+		summarizeBy: none
+		sourceColumn: CATEGORY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ENTITY
+		dataType: string
+		isHidden
+		lineageTag: 361cc4c7-c421-4ba2-9a52-1bb8dbb7f31b
+		summarizeBy: none
+		sourceColumn: ENTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACCOUNT
+		dataType: string
+		isHidden
+		lineageTag: 5ff374f2-404c-4439-b628-cd646bebd4aa
+		summarizeBy: none
+		sourceColumn: ACCOUNT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: 07ffb97e-eddd-4bff-942e-d6929263e68a
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period / Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: 54f7d97c-784a-4439-8c8a-36deaead966b
+		summarizeBy: none
+		sourceColumn: Period / Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: a60af047-b752-4614-bf13-88693deb9d0f
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 07e6c0e3-bb61-4cbf-8242-ec1aa2661740
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'SnapShot by Site' = m
+		mode: import
+		queryGroup: 'Fact Tables\SnapShot'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Results by Site_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Results by Site",version=""]}[Data],
+				    //#"Replaced Value" = Table.ReplaceValue(#"Results by Site_","PRODUCTION","910000",Replacer.ReplaceText,{"ACCOUNT"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Results by Site_", each ([UOM] <> "MWHr"))
+				in
+				    #"Filtered Rows"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

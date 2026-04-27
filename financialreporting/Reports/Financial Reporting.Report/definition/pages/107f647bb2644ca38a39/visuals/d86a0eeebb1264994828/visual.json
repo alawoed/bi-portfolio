@@ -1,0 +1,45 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "d86a0eeebb1264994828",
+  "position": {
+    "x": 110,
+    "y": 23,
+    "z": 0,
+    "height": 38.90289103039288,
+    "width": 915.64121571534463,
+    "tabOrder": 12000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "TOP CUSTOMERS |",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontFamily": "Verdana",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": " Revenue, Volume, Average Price",
+                    "textStyle": {
+                      "fontFamily": "Verdana",
+                      "fontSize": "14pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "4ef4acefe319589cd970",
+  "position": {
+    "x": 110,
+    "y": 23,
+    "z": 0,
+    "height": 28.465530022238696,
+    "width": 897.61304670126015,
+    "tabOrder": 14000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "KEY FINANCIAL KPIS | ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontFamily": "Verdana",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": "Key Drivers",
+                    "textStyle": {
+                      "fontFamily": "Verdana",
+                      "fontSize": "14pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

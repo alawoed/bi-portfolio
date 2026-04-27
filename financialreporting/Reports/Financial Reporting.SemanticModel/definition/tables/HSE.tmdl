@@ -1,0 +1,88 @@
+table HSE
+	isHidden
+	lineageTag: 7cef933d-da07-4523-b303-02332278b013
+
+	measure 'Incidents Rate' = SUM( HSE[Incidents] )
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: 1ca583e4-2133-4f06-ba5a-8d6f1e64ee59
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average TRIR' = ```
+			
+			CALCULATE(AVERAGEX(
+			    HSE,
+			    [Incidents Rate]
+			), 
+			'Date Table'[Is Current Year] = TRUE()
+			)
+			
+			
+			```
+		isHidden
+		displayFolder: 0-Base Measures
+		lineageTag: c3729425-8a1a-446d-ad5e-32908fdb7f8a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Site
+		dataType: string
+		isHidden
+		lineageTag: ddf03a16-97f0-42b0-b2c5-514e8c351d9e
+		summarizeBy: none
+		sourceColumn: Site
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 58eba47e-6700-42c4-a996-da5c5397ac7e
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Incidents
+		dataType: double
+		isHidden
+		lineageTag: 1317cbf5-6783-4e42-8a7c-7fd18dc38620
+		summarizeBy: sum
+		sourceColumn: Incidents
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition HSE = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    HSE_ = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="HSE",version=""]}[Data]
+				in
+				    HSE_
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

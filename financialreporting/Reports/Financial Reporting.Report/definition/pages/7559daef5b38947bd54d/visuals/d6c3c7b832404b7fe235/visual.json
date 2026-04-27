@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "d6c3c7b832404b7fe235",
+  "position": {
+    "x": 27,
+    "y": 183,
+    "z": 9000,
+    "height": 513.13477088948787,
+    "width": 1233,
+    "tabOrder": 2000
+  },
+  "visualGroup": {
+    "displayName": "SG&A",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

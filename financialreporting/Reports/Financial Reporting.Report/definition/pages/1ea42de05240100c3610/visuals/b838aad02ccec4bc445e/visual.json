@@ -1,0 +1,760 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "b838aad02ccec4bc445e",
+  "position": {
+    "x": 14.138438880706921,
+    "y": 442.06185567010306,
+    "z": 3000,
+    "height": 267.68777614138435,
+    "width": 702.20913107511035,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "SimpleWaterfall",
+    "query": {
+      "queryState": {
+        "measure": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_Prior_FY_Year_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_Prior_FY_Year_2",
+              "nativeQueryRef": "Prior FY Forecast",
+              "displayName": "Prior FY Forecast"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_Sales Price_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_Sales Price_2",
+              "nativeQueryRef": "Sales Price",
+              "displayName": "Sales Price"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_Variable Costs_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_Variable Costs_2",
+              "nativeQueryRef": "Variable Costs",
+              "displayName": "Variable Costs"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_Volume_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_Volume_2",
+              "nativeQueryRef": "Volume",
+              "displayName": "Volume"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_FixedCashConversionCosts_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_FixedCashConversionCosts_2",
+              "nativeQueryRef": "Fixed Cash Conversion",
+              "displayName": "Fixed Cash Conversion"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_Fixed T&D Costs_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_Fixed T&D Costs_2",
+              "nativeQueryRef": "Fixed T&D Costs",
+              "displayName": "Fixed T&D Costs"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_SG&A_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_SG&A_2",
+              "nativeQueryRef": "SG&A",
+              "displayName": "SG&A"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_Ethylene_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_Ethylene_2",
+              "nativeQueryRef": "Ethylene",
+              "displayName": "Ethylene"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_Other_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_Other_2",
+              "nativeQueryRef": "Other",
+              "displayName": "Other"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ebitda_Price_Vol_FvF"
+                    }
+                  },
+                  "Property": "Ebitda_Current_Year_2"
+                }
+              },
+              "queryRef": "Ebitda_Price_Vol_FvF.Ebitda_Current_Year_2",
+              "nativeQueryRef": "Current FY Forecast",
+              "displayName": "Current FY Forecast"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Ebitda_Price_Vol_FvF"
+                  }
+                },
+                "Property": "Ebitda_Prior_FY_Year_2"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "definePillars": [
+        {
+          "properties": {
+            "Totalpillar": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "pillars": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "2 - EBITDA"
+                          }
+                        },
+                        "Property": "Account"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Prior Year'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "pillars": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "2 - EBITDA"
+                          }
+                        },
+                        "Property": "Account"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Current FY Forecast'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "pillars": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Price_Vol_FvF.Ebitda_Prior_FY_Year_2"
+          }
+        },
+        {
+          "properties": {
+            "pillars": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ebitda_Price_Vol_FvF.Ebitda_Current_Year_2"
+          }
+        }
+      ],
+      "chartOrientation": [
+        {
+          "properties": {
+            "sortData": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Vertical'"
+                }
+              }
+            },
+            "limitBreakdown": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "LabelsFormatting": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "decimalPlaces": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#444444'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "xAxisFormatting": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "gridLineStrokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "gridLineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "padding": {
+              "expr": {
+                "Literal": {
+                  "Value": "5L"
+                }
+              }
+            },
+            "labelWrapText": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fitToWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#444444'"
+                    }
+                  }
+                }
+              }
+            },
+            "showGridLine": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI'', wf_segoe-ui_normal, helvetica, arial, sans-serif'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "yAxisFormatting": [
+        {
+          "properties": {
+            "showZeroAxisGridLine": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridLineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#444444'"
+                    }
+                  }
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "sentimentColor": [
+        {
+          "properties": {
+            "sentimentColorTotal": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#3a5896'"
+                    }
+                  }
+                }
+              }
+            },
+            "sentimentColorFavourable": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1aab40'"
+                    }
+                  }
+                }
+              }
+            },
+            "sentimentColorAdverse": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#d64554'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'EBITDA BRIDGE - PRICE/VOLUME ($M)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "preset": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Custom'"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Outer'"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#001A29'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "75D"
+                }
+              }
+            },
+            "shadowSpread": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "shadowBlur": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "angle": {
+              "expr": {
+                "Literal": {
+                  "Value": "45D"
+                }
+              }
+            },
+            "shadowDistance": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3ab33ac08563178bcd64",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Convert to Millions"
+              }
+            },
+            "Property": "Convert to Millions"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      }
+    ]
+  },
+  "isHidden": true
+}

@@ -1,0 +1,178 @@
+table 'Customer Margin'
+	lineageTag: 577fe4c9-6daa-4a87-bac8-faea98f7b78b
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7006f428-96a8-415d-a5fd-461ff515b5ed
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Market Segment'
+		dataType: string
+		lineageTag: 98a514cd-e56e-41c6-aabf-cb41851f1bb6
+		summarizeBy: none
+		sourceColumn: Market Segment
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Channel'
+		dataType: string
+		lineageTag: 7263e45d-e3c5-4ca4-8157-348ab232e922
+		summarizeBy: none
+		sourceColumn: Sales Channel
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOMLbs
+		dataType: string
+		lineageTag: 1d6337ca-6313-4897-8885-6c3c9f0cedc5
+		summarizeBy: none
+		sourceColumn: UOMLbs
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'UOM Converted'
+		dataType: string
+		lineageTag: 23657fc3-2b09-4b7a-86ed-b970246ce430
+		summarizeBy: none
+		sourceColumn: UOM Converted
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column VolumeLb
+		dataType: double
+		lineageTag: 7a5207fb-5210-4a35-a2d8-f020768d8780
+		summarizeBy: sum
+		sourceColumn: VolumeLb
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Volume Converted'
+		dataType: double
+		lineageTag: 41a7ab11-6290-4f12-acd4-080378f764d2
+		summarizeBy: sum
+		sourceColumn: Volume Converted
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Selling Plant'
+		dataType: string
+		lineageTag: d7c9e16e-83a8-4fbe-81e6-cfce331c4d5e
+		summarizeBy: none
+		sourceColumn: Selling Plant
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Parent Name'
+		dataType: string
+		lineageTag: 0a6a6687-2d40-4531-b2a7-2b8112b87f72
+		summarizeBy: none
+		sourceColumn: Customer Parent Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 873333f9-b7dd-4c48-8b3c-e4051f16980e
+		summarizeBy: none
+		sourceColumn: Product
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NetSales
+		dataType: double
+		lineageTag: de832876-7b52-43aa-bf4a-eb49101465c1
+		summarizeBy: sum
+		sourceColumn: NetSales
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NetBack
+		dataType: double
+		lineageTag: cf09fffc-e0d3-4814-b0e7-70e3f2b99678
+		summarizeBy: sum
+		sourceColumn: NetBack
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Contribution Margin'
+		dataType: double
+		lineageTag: 370decfe-29e4-4248-8a1a-245e46448e20
+		summarizeBy: sum
+		sourceColumn: Contribution Margin
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Gross Cash Margin'
+		dataType: double
+		lineageTag: 8b461c4d-6550-4dcb-b54d-ff560cbd4980
+		summarizeBy: sum
+		sourceColumn: Gross Cash Margin
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Customer Margin' = m
+		mode: import
+		queryGroup: 'Fact Tables\Customer Margins'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Customer Margin Page_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Customer Margin Page",version=""]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(#"Customer Margin Page_", each ([Market Segment] <> "#N/A"))
+				in
+				    #"Filtered Rows"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

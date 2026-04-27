@@ -1,0 +1,123 @@
+table CAPEX
+	isHidden
+	lineageTag: 555ef909-2c96-469e-bde8-018531df915e
+
+	column Entity
+		dataType: string
+		isHidden
+		lineageTag: 4f00150f-d486-49a7-b8f9-37ee89eb1975
+		summarizeBy: none
+		sourceColumn: Entity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account
+		dataType: string
+		isHidden
+		lineageTag: b6956852-4377-4cb5-a955-3836c85a3170
+		summarizeBy: none
+		sourceColumn: Account
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: 3bbe01cc-f020-4dfe-833d-055b1abd5b4f
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: a1da189d-99b7-4db1-8c35-37142b014698
+		summarizeBy: none
+		sourceColumn: Period Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: 962d790f-b06c-405c-bb95-a3c6fdbc03c4
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: b27e30f5-38cf-4920-ab00-44d0e5750de8
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ab79396a-262b-4d28-b42f-2d710f97a7a3
+		summarizeBy: none
+		sourceColumn: Ordinal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACCOUNT_NO
+		dataType: string
+		isHidden
+		lineageTag: 53b963d9-3eb1-41bb-a9a1-20744fa6340d
+		summarizeBy: none
+		sourceColumn: ACCOUNT_NO
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CAPEX = m
+		mode: import
+		queryGroup: 'Fact Tables\Expenditure'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    Capex_ = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="CAPEX",version=""]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(Capex_, each ([ACCOUNT_NO] <> "")),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","915037","Capital TA",Replacer.ReplaceText,{"ACCOUNT_NO"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","915036","Discretionary Capex",Replacer.ReplaceText,{"ACCOUNT_NO"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","915035","Non-discretionary Capex",Replacer.ReplaceText,{"ACCOUNT_NO"})
+				in
+				    #"Replaced Value2"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

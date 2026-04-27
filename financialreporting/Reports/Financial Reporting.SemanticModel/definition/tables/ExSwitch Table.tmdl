@@ -1,0 +1,42 @@
+table 'ExSwitch Table'
+	isHidden
+	lineageTag: fdb63fe0-4bfe-4b78-9e91-8aa3876bfa6d
+
+	column Value
+		dataType: string
+		isHidden
+		lineageTag: c9d63450-685e-427d-bcfa-9c21e55482de
+		summarizeBy: none
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 64cc6c6a-b83c-489f-9813-bf77cebcdf43
+		summarizeBy: none
+		sourceColumn: Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'ExSwitch Table' = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = #"Switch Table"
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,75 @@
+table ExOptionsCost
+	isHidden
+	lineageTag: 21ffe62a-b671-43c9-b4a4-b18fe9165747
+
+	column ExOptions
+		isHidden
+		lineageTag: 6de6c84d-de5d-47b1-8f84-1ce294ba044f
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'ExOptions Order'
+
+		relatedColumnDetails
+			groupByColumn: 'ExOptions Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExOptions Fields'
+		isHidden
+		lineageTag: c33e7f59-534b-44b5-9fdd-6e802d039736
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'ExOptions Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExOptions Order'
+		isHidden
+		formatString: 0
+		lineageTag: e1e9ebfc-9c2e-4db4-adc6-1a73f1e50654
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SlicerValue = ```
+			
+			TRIM(
+				RIGHT(
+			[ExOptions],
+				LEN([ExOptions]) - FIND("Cost Per Unit", 
+			[ExOptions], 1) - LEN("Cost Per Unit")))
+			
+			```
+		isHidden
+		lineageTag: c8e8d8f8-5acb-4144-8731-582ed79f0bdc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ExOptionsCost = calculated
+		mode: import
+		source =
+				{
+				    ("Cost Per Unit Prev Month", NAMEOF('5 - Expenditure'[MC CC Previous Period]), 0),
+				    ("Cost Per Unit Budget", NAMEOF('5 - Expenditure'[MC CC Latest Period Budget]), 0),
+				    ("Cost Per Unit Forecast", NAMEOF('5 - Expenditure'[MC CC Latest Period Prev Forecast]), 0),
+				    ("Cost Per Unit SQLY", NAMEOF('5 - Expenditure'[MC CC Previous Period]), 1),
+				    ("Cost Per Unit Budget", NAMEOF('5 - Expenditure'[MC CC Latest Period Budget]), 1),
+				    ("Cost Per Unit Prev Quarter", NAMEOF('5 - Expenditure'[MC CC Latest Period Forecast]), 1),
+				    ("Cost Per Unit YTDLY", NAMEOF('5 - Expenditure'[MC CC Previous Period]), 2),
+				    ("Cost Per Unit Budget", NAMEOF('5 - Expenditure'[MC CC Latest Period Budget]), 2),
+				    ("Cost Per Unit Forecast", NAMEOF('5 - Expenditure'[MC CC Latest Period Prev Forecast]), 2),
+				    ("Cost Per Unit Prev Year", NAMEOF('5 - Expenditure'[MC CC Previous Period]), 3),
+				    ("Cost Per Unit Budget", NAMEOF('5 - Expenditure'[MC CC Latest Period Budget]), 3),
+				    ("Cost Per Unit Forecast", NAMEOF('5 - Expenditure'[MC CC Latest Period Prev Forecast]), 3)
+				}
+
+	annotation PBI_Id = d17e9e46af2d4501b776388b042319d0
+

@@ -1,0 +1,51 @@
+table 'RP Rev Matrix'
+	isHidden
+	lineageTag: ea06992e-3639-404b-9de7-132d7e6dea6a
+
+	column 'Comp Variance'
+		isHidden
+		lineageTag: e0aab8c7-97ad-4bfc-980d-8dcccf79db58
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 90b6149d-db7b-4777-a1c1-b33001730abe
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 74fef718-cd95-4bae-9e33-79b28bc6edd4
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'RP Rev Matrix' = calculated
+		mode: import
+		source =
+				{
+				    ("Budget Rev. $(m)", NAMEOF('1 - Revenue'[RP CY Budget Matrix]), 0),
+				    ("PF Rev. $(m)", NAMEOF('1 - Revenue'[RP CY Prev Forecast Matrix]), 1),
+				    ("PY Rev. $(m)", NAMEOF('1 - Revenue'[RP PY NR Actual]), 2)
+				}
+
+	annotation PBI_Id = 8822bf73cf124e8c95a30ebdf44fa223
+

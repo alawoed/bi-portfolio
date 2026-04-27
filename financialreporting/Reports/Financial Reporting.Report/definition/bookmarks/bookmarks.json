@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmarksMetadata/1.0.0/schema.json",
+  "items": [
+    {
+      "name": "5b235683a27bc62c4db0",
+      "displayName": "Snapshot",
+      "children": [
+        "9446be1f49ded03a9bb3",
+        "3e820383ecb7f190127c",
+        "ad14b6e94d13d2ce956a",
+        "39ab0dd43ab687171967",
+        "ab7d569c973f54f3f87a"
+      ]
+    },
+    {
+      "name": "a59b40b53be7a0586d94",
+      "displayName": "Customers",
+      "children": [
+        "0751d2fe6bf84d3ecc43",
+        "68f156cdab672a687b87"
+      ]
+    },
+    {
+      "name": "71b3c8d58ce68df20388",
+      "displayName": "EBITDA",
+      "children": [
+        "806710d4698263ead5ff",
+        "929c4933659bc23d44ee"
+      ]
+    },
+    {
+      "name": "2c6a388c105f5efa9e83",
+      "displayName": "Financials",
+      "children": [
+        "923bd8e00a0d9b977639"
+      ]
+    },
+    {
+      "name": "d02e6b046d0dad8c7ee6",
+      "displayName": "Mobile-Snapshot",
+      "children": [
+        "997a5d618abb5c0aa839",
+        "fb281671d752974a9abb",
+        "c3a122d7cb58e9eced07",
+        "5c1c0adb4055a7810e83",
+        "4c05700073cda7106a28"
+      ]
+    },
+    {
+      "name": "e897a0e16a1008a5a478",
+      "displayName": "Expenditure",
+      "children": [
+        "addb9bff1e42bdfa610b",
+        "e6b85cc13a85862e9fa6",
+        "f742adabaf11acc02462",
+        "95398645ce1ad6072705"
+      ]
+    }
+  ]
+}

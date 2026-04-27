@@ -1,0 +1,55 @@
+table ExSlicer
+	isHidden
+	lineageTag: d703d6d8-bcb0-4a76-8aae-98690baea23e
+
+	measure SlicerFilter = ```
+			
+			IF(
+			    SELECTEDVALUE('Dim Period Comp'[Order]) = 0 &&
+			    SELECTEDVALUE('ExSlicer'[Value]) IN {"Budget", "Prev Month", "Forecast"}, 1, 
+			IF(
+			    SELECTEDVALUE('Dim Period Comp'[Order]) = 1 &&
+			    SELECTEDVALUE('ExSlicer'[Value]) IN  {"Budget", "Prev Quarter", "SQLY"}, 1, 
+			IF(
+			    SELECTEDVALUE('Dim Period Comp'[Order]) = 2 &&
+			    SELECTEDVALUE('ExSlicer'[Value]) IN  {"Budget", "YTDLY"}, 1, 
+			IF(
+			    SELECTEDVALUE('Dim Period Comp'[Order]) = 3 &&
+			    SELECTEDVALUE('ExSlicer'[Value]) IN  {"Budget", "Prev Year", "Forecast"}, 1, 
+			    0
+			))))
+			```
+		isHidden
+		lineageTag: 9bf1d9e9-2ca5-4057-b9be-12332157932a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value
+		dataType: string
+		isHidden
+		lineageTag: d9a1cb02-18cd-423b-be29-3cc0eca14d5e
+		summarizeBy: none
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ExSlicer = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcipNSU8tUYrViVZyyy9KTU4shnACilLLFHzz80oyENzA0sSiktQihEBkaiKEFxzoEwlmRIa4gFixAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Value = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Value", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

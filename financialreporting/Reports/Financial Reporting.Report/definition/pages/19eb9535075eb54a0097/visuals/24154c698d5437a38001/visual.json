@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "24154c698d5437a38001",
+  "position": {
+    "x": 111.00537221795855,
+    "y": 115.35626511067011,
+    "z": 8000,
+    "height": 67.782041442824251,
+    "width": 81.534919416730617,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "image",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "imageUrl": {
+              "expr": {
+                "ResourcePackageItem": {
+                  "PackageName": "RegisteredResources",
+                  "PackageType": 1,
+                  "ItemName": "Westlake-W-RGB6573003964221269.png"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "81694dbaee859ec8c237",
+  "howCreated": "InsertVisualButton"
+}

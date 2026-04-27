@@ -1,0 +1,2654 @@
+table '5 - Expenditure'
+	lineageTag: 36603f72-7c48-4516-b5d5-c41c65d1d2ac
+
+	measure 'MC Value' = SUM('Manufacturing Cost'[Value])/1000000
+		displayFolder: 1-Mft Cost
+		lineageTag: e66a4d42-786d-422a-bd53-f9fcd1aa7850
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Value_Actual' = ```
+			CALCULATE(
+			                            [MC Value],
+			                            'Manufacturing Cost'[Period Set of Books] = "Actual / Current Forecast" &&
+			                            'Manufacturing Cost'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			```
+		displayFolder: 1-Mft Cost
+		lineageTag: 49ad966b-2d0a-40ed-9af0-9a2b385be708
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Value_Forecast' =
+			CALCULATE(
+			                            [MC Value],
+			                            'Manufacturing Cost'[Period Set of Books] = "Actual / Current Forecast" &&
+			                            'Manufacturing Cost'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+		displayFolder: 1-Mft Cost
+		lineageTag: 7ba151aa-49e2-4892-8d6d-dcf5baf85743
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Value_Prev Forecast' =
+			CALCULATE(
+			                            [MC Value],
+			                            'Manufacturing Cost'[Period Set of Books] = "Previous Forecast" )
+		displayFolder: 1-Mft Cost
+		lineageTag: 18613964-1591-4be0-8b41-84b4aaee58b4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Value_Budget' =
+			CALCULATE(
+			                            [MC Value],
+			                            'Manufacturing Cost'[Period Set of Books] = "Budget")
+		displayFolder: 1-Mft Cost
+		lineageTag: 62a87e6b-1f61-418a-b499-0c4b9e0daf7f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Value_Vol = ```
+			
+			VAR _orgvalprd = SUM('Production by Product'[Value_O])/1000000
+			VAR _newvalprd = SUM('Production by Product'[Value])
+			VAR _orgvalst  = SUM('Production by Site'[Value_O])/1000000
+			VAR _newvalst  = SUM('Production by Site'[Value])
+			
+			VAR _product = SWITCH([PP Hier SBU Filter], 0 , _orgvalprd , 1 , _newvalprd)
+			VAR _site = SWITCH([PP Hier SBU Filter], 0 , _orgvalst , 1 , _orgvalst)
+			
+			VAR _UOMp =  SELECTEDVALUE('Production by Product'[UOM])
+			VAR _UOMs = SELECTEDVALUE('Production by Site'[UOM])
+			VAR _pval = IF(_UOMp = "Ktons - Thousand of Tons", _newvalprd/1000, _orgvalprd )
+			VAR _sval = IF(_UOMs = "Ktons - Thousand of Tons", _newvalst/1000, _orgvalst )
+			
+			RETURN
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _sval, 
+			    _pval )
+			
+			```
+		displayFolder: 0-Volume
+		lineageTag: e972cf9e-7fd3-4cbe-97d9-ca80f1242d74
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Value_Volume_Actual = ```
+			
+			VAR _product = CALCULATE([Value_Vol], 
+			                'Production by Product'[Period / Set of Books] = "Actual / Current Forecast"
+			                    && 'Production by Product'[CATEGORY] = "FORECAST"
+			                    && 'Production by Product'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			
+			
+			VAR _site = CALCULATE([Value_Vol], 
+			                'Production by Site'[Period / Set of Books] = "Actual / Current Forecast"
+			                    && 'Production by Site'[CATEGORY] = "FORECAST"
+			                    && 'Production by Site'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			RETURN 
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _site, 
+			    _product )
+			```
+		displayFolder: 0-Volume
+		lineageTag: a4a30812-c556-461b-bbe2-38858ddaa4b4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Value_Volume_Budget = ```
+			
+			VAR _product = CALCULATE([Value_Vol], 
+			                'Production by Product'[Period / Set of Books] = "Budget")
+			
+			
+			
+			VAR _site = CALCULATE([Value_Vol], 
+			                'Production by Site'[Period / Set of Books] = "Budget")
+			
+			RETURN 
+			IF(
+			    SELECTEDVALUE('ExSwitch Table'[Order]) = 0 , 
+			    _site, 
+			    _product )
+			```
+		displayFolder: 0-Volume
+		lineageTag: 53f5b62c-383c-415a-bb96-d31d09fc96f7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Value_Volume_Prev Forecast' = ```
+			
+			VAR _product = CALCULATE([Value_Vol], 
+			                'Production by Product'[Period / Set of Books] = "Previous Forecast")
+			
+			
+			
+			VAR _site = CALCULATE([Value_Vol], 
+			                'Production by Site'[Period / Set of Books] = "Previous Forecast")
+			
+			RETURN 
+			IF(
+			    SELECTEDVALUE('ExSwitch Table'[Order]) = 0 , 
+			    _site, 
+			    _product )
+			```
+		displayFolder: 0-Volume
+		lineageTag: bf73c0fb-98f7-4868-a3a3-2818a8663a7b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Value_Capacity10K = ```
+			
+			VAR _orgval= SUM('Production by 10K'[Value_O])/1000000
+			VAR _newval = SUM('Production by 10K'[Value] )
+			
+			VAR _product = SWITCH([PP Hier SBU Filter], 0 , _orgval , 1 , _newval)
+			VAR _site = SWITCH([PP Hier SBU Filter], 0 , _newval , 1 , _newval)
+			
+			VAR _UOMp =  SELECTEDVALUE('Production by 10K'[UOM])
+			VAR _UOMs = SELECTEDVALUE('Production by 10K'[UOM])
+			VAR _pval = IF(_UOMp = "Ktons", _newval/1000, _orgval )
+			VAR _sval = IF(_UOMs = "Ktons", _newval/1000, _orgval )
+			
+			RETURN
+			IF(
+			    SELECTEDVALUE('Switch Table'[Order]) = 0 , 
+			    _sval, 
+			    _pval )
+			```
+		displayFolder: 0-Volume
+		lineageTag: 8038a6da-b363-4689-b6d9-263641b5ba76
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC CC Cost Actual' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Cash Cost Value Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Cash Cost Value Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] < 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Cash Cost Value Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Cash Cost Value Actual] + [MC Cash Cost Value Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _alltimeoffset = CALCULATE(
+			        [MC Cash Cost Value Actual],
+			        'Date Table'[Year Offset] < 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, _alltimeoffset)
+			
+			VAR _UOM = CALCULATE(SELECTEDVALUE('Hierachy Bridge'[UOM]), 'Hierachy Bridge'[UOM] <> BLANK())
+			
+			VAR _final = SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			
+			RETURN 
+			
+			SWITCH(
+			    TRUE(),
+			    _UOM = "Ton", 
+			    _final, 
+			    _final * 100)
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: c0041892-2c27-4822-a654-c02c0d3e181c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC CC Cost Budget' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Cash Cost Value Budget],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_monthoffset, 3,_monthoffset, BLANK())
+			
+			VAR _UOM = CALCULATE(SELECTEDVALUE('Hierachy Bridge'[UOM]), 'Hierachy Bridge'[UOM] <> BLANK())
+			
+			VAR _final = SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			
+			RETURN 
+			
+			SWITCH(
+			    TRUE(),
+			    _UOM = "Ton", 
+			    _final, 
+			    _final * 100)
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 679c8592-c583-4ee4-923d-523ee7ef5778
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC CC Cost Prev Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Cash Cost Value Prev Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_monthoffset, 3,_monthoffset, BLANK())
+			
+			
+			VAR _UOM = CALCULATE(SELECTEDVALUE('Hierachy Bridge'[UOM]), 'Hierachy Bridge'[UOM] <> BLANK())
+			
+			VAR _final = SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			
+			RETURN 
+			
+			SWITCH(
+			    TRUE(),
+			    _UOM = "Ton", 
+			    _final, 
+			    _final * 100)
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 3b1962d5-3091-4699-a31f-d1ec3f4fdc9e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Value_Volume_Forecast = ```
+			
+			VAR _product = CALCULATE([Value_Vol], 
+			                'Production by Product'[Period / Set of Books] = "Actual / Current Forecast"
+			                    && 'Production by Product'[CATEGORY] = "FORECAST"
+			                    && 'Production by Product'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			
+			
+			VAR _site = CALCULATE([Value_Vol], 
+			                'Production by Site'[Period / Set of Books] = "Actual / Current Forecast"
+			                    && 'Production by Site'[CATEGORY] = "FORECAST"
+			                    && 'Production by Site'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			RETURN 
+			IF(
+			    SELECTEDVALUE('ExSwitch Table'[Order]) = 0 , 
+			    _site, 
+			    _product )
+			```
+		displayFolder: 0-Volume
+		lineageTag: 9eb1dc0e-601d-42a1-8f96-477cbc18dcd4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC CC Cost Forecast' = ```
+			
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Cash Cost Value Forecast],
+			        'Date Table'[Year Offset] = 0 )
+			
+			VAR _alltimeoffset = CALCULATE(
+			        [MC Cash Cost Value Actual] + [MC Cash Cost Value Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_monthoffset, 3,_monthoffset, _alltimeoffset)
+			
+			
+			VAR _UOM = CALCULATE(SELECTEDVALUE('Hierachy Bridge'[UOM]), 'Hierachy Bridge'[UOM] <> BLANK())
+			
+			VAR _final = SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			
+			RETURN 
+			
+			SWITCH(
+			    TRUE(),
+			    _UOM = "Ton", 
+			    _final, 
+			    _final * 100)
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 21b01ef9-ad85-4ed4-b451-e8f365b0e485
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC UOM' = ```
+			
+			VAR _UOM = CALCULATE(SELECTEDVALUE('Hierachy Bridge'[UOM]), 'Hierachy Bridge'[UOM] <> BLANK())
+			VAR __offset_1 = SWITCH(
+			                        TRUE(),
+			                        _UOM = "lbs",
+			                        "ct/" & _UOM,
+			                        _UOM = "Ton",
+			                        "$/" & _UOM)
+			
+			RETURN
+			IF(ISINSCOPE('Hierachy Bridge'[Products]) && _UOM <> BLANK(),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) && SELECTEDVALUE('Hierachy Bridge'[Site]) <> BLANK(), "-", BLANK())
+			)
+			```
+		displayFolder: 1-Mft Cost
+		lineageTag: cbcf41f3-af06-4274-8069-bfa3f778331d
+
+	measure 'MC CC Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Cash Cost Value Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Cash Cost Value Actual + Forecast],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Cash Cost Value Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Cash Cost Value Actual + Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			VAR final = 
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			
+			
+			VAR nodec = FORMAT(final, "0")
+			VAR dec = FORMAT(final * 100, "0.0")
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE('Hierachy Bridge'[UOM]),
+			    "Ton", nodec, 
+			    "lbs", dec)
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 670b7e89-be5b-42bc-9c83-c144a48dcba7
+
+	measure 'MC CC Latest Period Budget' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Cash Cost Value Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Cash Cost Value Budget],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Cash Cost Value Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Cash Cost Value Budget],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			VAR final = 
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			
+			VAR nodec = FORMAT(final, "0")
+			VAR dec = FORMAT(final * 100, "0.0")
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE('Hierachy Bridge'[UOM]),
+			    "Ton", nodec, 
+			    "lbs", dec)
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: dd34b450-a081-4b27-bde9-277f2e3b3ec4
+
+	measure 'MC Operating Rates Actual' =
+			
+			VAR volume_in_lbs = [Value_Volume_Actual]
+			
+			VAR oper_rate = [Value_Capacity10K]
+			
+			RETURN
+			DIVIDE(
+			    volume_in_lbs,
+			    oper_rate,
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5-MC Ops Rate
+		lineageTag: 546c6a93-f058-4bf9-a1d6-c45766aed2f7
+
+	measure 'MC Operating Rates Budget' =
+			
+			VAR volume_in_lbs = [Value_Volume_Budget]
+			
+			VAR oper_rate = [Value_Capacity10K]
+			
+			RETURN
+			DIVIDE(
+			    volume_in_lbs,
+			    oper_rate,
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5-MC Ops Rate
+		lineageTag: 5a13ec5f-ee7b-4d11-a21d-5409fdb45c2d
+
+	measure 'MC Ops Rate Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Operating Rates Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Operating Rates Actual] + [MC Operating Rates Forecast],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Operating Rates Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Operating Rates Actual] +  [MC Operating Rates Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5-MC Ops Rate
+		lineageTag: 5f40c821-3b70-49bb-aa98-7def071e11b1
+
+	measure 'MC Ops Rate Latest Budget' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Operating Rates Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Operating Rates Budget],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Operating Rates Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Operating Rates Budget],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5-MC Ops Rate
+		lineageTag: 6020c31f-a888-4491-84fe-99a0439a0fd0
+
+	measure 'MC FCC Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC FCC Actual],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [MC FCC Actual] + [MC FCC Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] < 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [MC FCC Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			         [MC FCC Actual] + [MC FCC Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _alloffset = CALCULATE(
+			         [MC FCC Actual],
+			        'Date Table'[Year Offset] < 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, _alloffset)
+			
+			RETURN 
+			
+			   SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			```
+		formatString: #,0.00
+		displayFolder: 3-MC Fixed Conv. Cost
+		lineageTag: b003cdfd-4b90-453d-8a46-265bec9f66d2
+
+	measure 'MC FCC Latest Period Budget' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC FCC Budget],
+			        'Date Table'[Year Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [MC FCC Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_monthoffset, 3,_monthoffset, BLANK())
+			
+			
+			RETURN 
+			
+			   SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			```
+		displayFolder: 3-MC Fixed Conv. Cost
+		lineageTag: edb37fff-7c00-4d0e-85dd-95c902d386f0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC FCC Latest Period Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC FCC Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] > -1)
+			        
+			VAR _qtdoffset = CALCULATE(
+			        [MC FCC Actual] + [MC FCC Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] >=0)
+			
+			VAR _alltime = CALCULATE(
+			        [MC FCC Actual] + [MC FCC Forecast],
+			        'Date Table'[Year Offset] = 0 )
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_monthoffset, 4, _alltime, BLANK())
+			
+			
+			RETURN 
+			
+			   SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			```
+		displayFolder: 3-MC Fixed Conv. Cost
+		lineageTag: e3512a6e-db87-449c-b3fc-8bba2c1ee5c3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC FCC Latest Prev Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC FCC Prev Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _qtdoffset = _monthoffset
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [MC FCC Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = _monthoffset
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		formatString: #,0.00
+		displayFolder: 3-MC Fixed Conv. Cost
+		lineageTag: e4607ee9-5e05-42d5-9c5e-47c93c8fe679
+
+	measure 'MC FCC Actual' = ```
+			
+			VAR _fcc = CALCULATE([MC Value_Actual], 
+			                        'Manufacturing Cost'[Account_3] IN {"Fixed Cash Conversion Costs"})
+			
+			VAR _vol = [Value_Volume_Actual]
+			
+			
+			RETURN
+			_fcc
+			```
+		displayFolder: 3-MC Fixed Conv. Cost
+		lineageTag: 48e7cabc-0601-43a4-b7e5-5f629f46230d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC FCC Budget' = ```
+			
+			VAR _fcc = CALCULATE([MC Value_Budget], 
+			                        'Manufacturing Cost'[Account_3] IN {"Fixed Cash Conversion Costs"})
+			VAR _vol = [Value_Volume_Budget]
+			
+			
+			RETURN
+			
+			_fcc
+			
+			```
+		displayFolder: 3-MC Fixed Conv. Cost
+		lineageTag: 8b3eb604-87f6-47a7-8211-49d088008ac6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC FCC Prev Forecast' = ```
+			CALCULATE([MC Value_Prev Forecast], 
+			                        'Manufacturing Cost'[Account_3] = "Fixed Cash Conversion Costs")
+			```
+		displayFolder: 3-MC Fixed Conv. Cost
+		lineageTag: c6dd7caf-3cb4-498c-8f89-a9e06620beb9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Value_Actual + Forecast' = [MC Value_Actual] + [MC Value_Forecast]
+		displayFolder: 1-Mft Cost
+		lineageTag: 7e85df36-d59c-460e-88b1-d113e0ce6150
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC FCC Forecast' = ```
+			
+			VAR _fcc = CALCULATE([MC Value_Actual + Forecast], 
+			                        'Manufacturing Cost'[Account_3] IN {"Fixed Cash Conversion Costs"})
+			                        
+			VAR _vol = [Value_Volume_Actual] + [Value_Volume_Forecast]
+			
+			
+			RETURN
+			
+			_fcc
+			```
+		displayFolder: 3-MC Fixed Conv. Cost
+		lineageTag: a15f2cf5-a005-400c-a7b3-d917b3ed7350
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC VCC Actual' = ```
+			
+			
+			VAR _vcc = CALCULATE([MC Value_Actual + Forecast], 
+			                        'Manufacturing Cost'[Account_3] IN {"Variable Conversion Costs"})
+			
+			VAR _vol = [Value_Volume_Actual]
+			
+			
+			RETURN
+			_vcc
+			/*DIVIDE(_vcc,
+			        _vol,
+			        BLANK())*/
+			```
+		displayFolder: 4-MC Variable Conv. Cost
+		lineageTag: 3be3182c-673d-4d83-a58f-465f4d0834ee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC VCC Budget' = ```
+			
+			
+			VAR _vcc = CALCULATE([MC Value_Forecast], 
+			                        'Manufacturing Cost'[Account_3] IN {"Variable Conversion Costs"})
+			
+			VAR _vol = [Value_Volume_Forecast]
+			
+			
+			RETURN
+			
+			DIVIDE(_vcc,
+			        _vol,
+			        BLANK())
+			```
+		displayFolder: 4-MC Variable Conv. Cost
+		lineageTag: 9b281da6-4dbe-4bb8-a671-4349a00120d4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC VCC Forecast' = ```
+			
+			
+			VAR _vcc = CALCULATE([MC Value_Actual + Forecast], 
+			                        'Manufacturing Cost'[Account_3] IN {"Variable Conversion Costs"})
+			
+			VAR _vol = [Value_Volume_Actual] + [Value_Volume_Forecast]
+			
+			
+			RETURN
+			
+			DIVIDE(_vcc,
+			        _vol,
+			        BLANK())
+			```
+		displayFolder: 4-MC Variable Conv. Cost
+		lineageTag: bf999b4b-9b41-44d1-805d-1a2c3be94a65
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC VCC Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC VCC Actual],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [MC VCC Actual] + [MC VCC Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [MC VCC Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			         [MC VCC Actual] + [MC VCC Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _alloffset = CALCULATE(
+			         [MC VCC Actual],
+			        'Date Table'[Year Offset] < 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_fyroffset, _alloffset)
+			
+			
+			RETURN 
+			
+			   SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			```
+		displayFolder: 4-MC Variable Conv. Cost
+		lineageTag: 58521ff5-902f-4313-ba71-c2324d033728
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC VCC Latest Period Budget' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC VCC Budget],
+			        'Date Table'[Year Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [MC VCC Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_monthoffset, 3,_monthoffset, BLANK())
+			
+			
+			RETURN 
+			
+			       SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			```
+		displayFolder: 4-MC Variable Conv. Cost
+		lineageTag: 4322fb59-6b26-4a45-af8d-deac99323449
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC VCC Latest Period Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC VCC Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] > -1)
+			        
+			VAR _qtdoffset = CALCULATE(
+			        [MC VCC Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] >=0)
+			
+			VAR _alltime = CALCULATE(
+			        [MC VCC Actual] + [MC VCC Forecast],
+			        'Date Table'[Year Offset] = 0 )
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_monthoffset, 3,_monthoffset, 4, _alltime, BLANK())
+			
+			
+			RETURN 
+			
+			       SWITCH([PP Hier SBU Filter], 0 , BLANK() , 1 , __offset_1) 
+			```
+		displayFolder: 4-MC Variable Conv. Cost
+		lineageTag: f605fbc6-b1c5-41aa-9e7f-95fdcf2ae816
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure ExpSubtitle = "($) - Millions of Dollars - " & [Page Period Card Title]
+		lineageTag: 86839e11-abe0-4691-8021-e4888d109a4d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure ExGraphTitle = ```
+			
+			VAR _brf = "CASH CONVERSION COSTS TRENDS - "
+			
+			RETURN
+			IF(SELECTEDVALUE('Manufacturing Cost'[Account_3 (groups)]) = "Fixed Conv. Cost", _brf &  "Fixed", 
+			    IF(SELECTEDVALUE('Manufacturing Cost'[Account_3 (groups)]) = "Variable Conv. Cost", _brf & "Variable" , _brf & "Fixed + Variable"
+			    ))
+			```
+		lineageTag: 7f1eb12a-bcb8-4c9e-94e8-f0ae8a411054
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC CC Latest Period Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Cash Cost Value Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Cash Cost Value Actual],
+			        'Date Table'[Quarter Offset] = -1)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Cash Cost Value Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Cash Cost Value Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			VAR final =
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			
+			VAR nodec = FORMAT(final, "0")
+			VAR dec = FORMAT(final * 100, "0.0")
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE('Hierachy Bridge'[UOM]),
+			    "Ton", nodec, 
+			    "lbs", dec)
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 42719949-73ad-40f8-b06f-6e7da9bb2ae3
+
+	measure 'MC CC Previous Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Cash Cost Value Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -2)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Cash Cost Value Actual],
+			        'Date Table'[Quarter Offset] = -4)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Cash Cost Value Actual],
+			        'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] <= -13)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Cash Cost Value Actual],
+			        'Date Table'[Year Offset] = -1)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			VAR final =
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			
+			VAR nodec = FORMAT(final, "0")
+			VAR dec = FORMAT(final * 100, "0.0")
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE('Hierachy Bridge'[UOM]),
+			    "Ton", nodec, 
+			    "lbs", dec)
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: c463e646-bb8e-4d6d-8da6-c5319ea3d2fd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Ops Rate Previous Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Operating Rates Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -2)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Operating Rates Actual],
+			        'Date Table'[Quarter Offset] = -4)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Operating Rates Actual],
+			        'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] <= -11)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Operating Rates Actual],
+			        'Date Table'[Year Offset] = -1)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, [RP Net Revenue Actual])
+			
+			
+			RETURN 
+			
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5-MC Ops Rate
+		lineageTag: 9ba68389-1257-49d5-a896-93cab984da1d
+
+	measure 'MC Operating Rates Forecast' =
+			
+			VAR volume_in_lbs = [Value_Volume_Forecast]
+			
+			VAR oper_rate = [Value_Capacity10K]
+			
+			RETURN
+			DIVIDE(
+			    volume_in_lbs,
+			    oper_rate,
+			    BLANK()
+			)
+		displayFolder: 5-MC Ops Rate
+		lineageTag: 76be6aab-e61a-4872-a606-9d73ec0224d1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Ops Rate Latest Period Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Operating Rates Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Operating Rates Actual],
+			        'Date Table'[Quarter Offset] = -1)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Operating Rates Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			          [MC Operating Rates Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5-MC Ops Rate
+		lineageTag: b9ff45cf-b43e-468b-8a65-45ca907d83a5
+
+	measure SGA_Value = SUM('SG&A'[Value])/1000000
+		displayFolder: 6-SG&A
+		lineageTag: 066e173e-a1a2-42bf-921c-880b93817bf1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SGA_Value_Actual =
+			CALCULATE(
+			                            [SGA_Value],
+			                            'SG&A'[Period Set of Books] = "Actual / Current Forecast" &&
+			                            'SG&A'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+		displayFolder: 6-SG&A
+		lineageTag: 25f1cb40-f4c4-46dc-85bc-6046be3b0c2b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SGA_Value_Budget =
+			CALCULATE(
+			                            [SGA_Value],
+			                            'SG&A'[Period Set of Books] = "Budget" )
+		formatString: 0.0
+		displayFolder: 6-SG&A
+		lineageTag: f4fcb6b5-59dd-483b-b214-05fb682ab9ab
+
+	measure SGA_Value_Forecast =
+			CALCULATE(
+			                            [SGA_Value],
+			                            'SG&A'[Period Set of Books] = "Actual / Current Forecast" &&
+			                            'SG&A'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+		displayFolder: 6-SG&A
+		lineageTag: ced7a83d-9bfe-42ca-b83c-2742168f05da
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SGA_Value_Prev Forecast' =
+			CALCULATE(
+			                            [SGA_Value],
+			                            'SG&A'[Period Set of Books] = "Previous Forecast" )
+		displayFolder: 6-SG&A
+		lineageTag: bfce09ed-168f-4516-b843-b8f36212dfb1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SGA Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [SGA_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [SGA_Value_Actual + Forecast],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [SGA_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [SGA_Value_Actual + Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		formatString: 0.0
+		displayFolder: 6-SG&A
+		lineageTag: 09b62af3-5fbd-4f69-99cb-e1eb8cac60fe
+
+	measure 'SGA_Value_Actual + Forecast' = [SGA_Value_Actual] + [SGA_Value_Forecast]
+		displayFolder: 6-SG&A
+		lineageTag: fb13d29a-44e6-430d-a116-9bc4e75b3d5a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SGA Previous Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [SGA_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -2)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [SGA_Value_Actual],
+			        'Date Table'[Quarter Offset] = -4)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [SGA_Value_Actual],
+			        'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] < -12)
+			
+			VAR _fyroffset = CALCULATE(
+			        [SGA_Value_Actual],
+			        'Date Table'[Year Offset] = -1)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		formatString: #,0.0
+		displayFolder: 6-SG&A
+		lineageTag: 6dac7f9a-4175-41d1-917b-52eaf75a3548
+
+	measure 'SGA Actual' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [SGA_Value_Actual],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [SGA_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] < 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [SGA_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			         [SGA_Value_Actual],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _alloffset = CALCULATE(
+			         [SGA_Value_Actual],
+			        'Date Table'[Year Offset] < 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, _alloffset)
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 6-SG&A
+		lineageTag: 626e8a0e-ac27-4ea7-a44e-ac4e1cc01da0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SGA Budget' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [SGA_Value_Budget],
+			        'Date Table'[Year Offset] = 0)
+			
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [SGA_Value_Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			
+			VAR _alloffset = CALCULATE(
+			         [SGA_Value_Budget],
+			        'Date Table'[Year Offset] < 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_monthoffset, 3,_monthoffset, _alloffset)
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 6-SG&A
+		lineageTag: a03668f2-c514-4b27-9f54-31e5330442e0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SGA Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [SGA_Value_Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] > -1)
+			        
+			VAR _qtdoffset = CALCULATE(
+			        [SGA_Value_Actual + Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] >=0)
+			
+			VAR _alltime = CALCULATE(
+			        [SGA_Value_Forecast],
+			        'Date Table'[Year Offset] = 0 )
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2, _monthoffset, 3,_monthoffset, _alltime)
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 6-SG&A
+		lineageTag: c44573e9-29bc-4c6d-99cd-b7373ff4b880
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SGA Revenue Actual' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [RP Net Revenue Actual + Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [RP Net Revenue Actual + Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] < 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [RP Net Revenue Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			         [RP Net Revenue Actual + Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _alloffset = CALCULATE(
+			        [RP Net Revenue Actual],
+			        'Date Table'[Year Offset] < 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_monthoffset, 3,_fyroffset, _alloffset)/1000000
+			
+			
+			RETURN 
+			DIVIDE([SGA Actual] + [SGA Forecast], __offset_1, 0)
+			```
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: 6-SG&A
+		lineageTag: bd37ae1d-ac67-44f6-98dc-3437f6d90654
+
+	measure 'SGA Latest Period Budget' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [SGA_Value_Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [SGA_Value_Budget],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [SGA_Value_Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [SGA_Value_Budget],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset,  BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		formatString: #,0.0
+		displayFolder: 6-SG&A
+		lineageTag: e751bc9c-3f34-4f1d-bb09-42fd81f81e0f
+
+	measure 'SGA Latest Prev Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [SGA_Value_Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [SGA_Value_Actual],
+			        'Date Table'[Quarter Offset] = -1)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [SGA_Value_Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [SGA_Value_Prev Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset,  BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 6-SG&A
+		lineageTag: e68894ec-d6e8-4149-89dd-46b4609d700e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SGA Variance' =
+			
+			VAR _monthrevA = [SGA Variance Vlue Switch]
+			VAR _monthrevB = [SGA Latest Period]
+			VAR _monthvar = _monthrevB - _monthrevA
+			VAR _monthvarper = DIVIDE(_monthvar, ABS(_monthrevA))
+			
+			RETURN
+			
+			_monthvar
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		displayFolder: 6-SG&A
+		lineageTag: 1e1868af-3606-4b0f-93ec-689c537718a6
+
+	measure 'SGA Variance Vlue Switch' =
+			
+			SWITCH(
+			    SELECTEDVALUE('ExSlicer'[Value]),
+			    "Prev Month", [SGA Previous Period],
+			    "Budget", [SGA Latest Period Budget],
+			    "Prev Forecast", [SGA Latest Prev Forecast],
+			    "SQLY", [SGA Previous Period],
+			    "Prev Quarter", [SGA Latest Prev Forecast],
+			    "YTDLY", [SGA Previous Period],
+			    "Prev Year", [SGA Previous Period],
+			    BLANK()
+			)
+		displayFolder: 6-SG&A
+		lineageTag: 37569854-47bb-49c0-b059-b5e8dcd77a46
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SGA Variance %' =
+			
+			VAR _monthrevA = [SGA Variance Vlue Switch]
+			VAR _monthrevB = [SGA Latest Period]
+			VAR _monthvar = _monthrevB - _monthrevA
+			VAR _monthvarper = DIVIDE(_monthvar, ABS(_monthrevA))
+			
+			RETURN
+			
+			IF(_monthrevB = 0 || _monthrevB = BLANK(), BLANK(), _monthvarper)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 6-SG&A
+		lineageTag: c7896a4a-c16a-43de-847d-37de9be3b34d
+
+	measure T&D_Value = SUM('T&D'[Value])
+		displayFolder: 7-T&D
+		lineageTag: 825f1d18-3e3c-400c-a6c9-e9efc328cc81
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Vol Actual' = CALCULATE([T&D_Value_Actual], 'T&D'[Account] = "Volume")
+		displayFolder: 7-T&D
+		lineageTag: e7dde336-c636-4103-8baa-1a86fb5888f6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D_Value_FC Actual' = CALCULATE([T&D_Value_Actual], 'T&D'[Account] = "Fixed Cost")
+		displayFolder: 7-T&D
+		lineageTag: 6139b29e-a5a0-40e8-8166-821db66c3af7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_VC = CALCULATE([T&D_Value_Actual], 'T&D'[Account] = "Variable Cost")
+		displayFolder: 7-T&D
+		lineageTag: ac381e27-27b6-4a7e-a785-454e8686d602
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_FC+VC = [T&D_Value_FC Actual] + [T&D_Value_VC]
+		displayFolder: 7-T&D
+		lineageTag: a4e341f6-59a2-40a5-97be-9ba2a9d573f9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_Actual = ```
+			CALCULATE(
+			                            [T&D_Value], 
+			                            'T&D'[Period Set of Books] = "Actual / Current Forecast" &&
+			                            'T&D'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			```
+		displayFolder: 7-T&D
+		lineageTag: bb0186d1-b817-426e-a139-44f800ff0473
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_Forecast = ```
+			CALCULATE(
+			                            [T&D_Value], 
+			                            'T&D'[Period Set of Books] = "Actual / Current Forecast" &&
+			                            'T&D'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			```
+		displayFolder: 7-T&D
+		lineageTag: adfc17c3-e5ba-495e-a2a0-5cdc392ba88c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_Budget = ```
+			CALCULATE(
+			                            [T&D_Value], 
+			                            'T&D'[Period Set of Books] = "Budget" )
+			```
+		displayFolder: 7-T&D
+		lineageTag: 9bf9e7bd-c8b6-4bdb-a75a-4490b5af1fad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Vol Budget' = CALCULATE([T&D_Value_Budget], 'T&D'[Account] = "Volume")
+		displayFolder: 7-T&D
+		lineageTag: af87b9ca-9553-4687-8d27-f3022f7cc8f2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Vol Forecast' = CALCULATE([T&D_Value_Forecast], 'T&D'[Account] = "Volume")
+		displayFolder: 7-T&D
+		lineageTag: a72c1fe0-fcff-4587-b58e-b0f19dcc8bfc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D UOM' = ```
+			
+			 
+			 VAR _volUOM = CALCULATE(
+			    SELECTEDVALUE('T&D'[UOM]),
+			        'T&D'[Account] = "Volume")
+			
+			VAR _cashUOM = IF(_volUOM = "Ktons", "$/tons", IF(_volUOM = "lbs(m)", "ct/lbs"))
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE(
+			        'T&D Seg'[Accounts]),
+			         "Volume", _volUOM, 
+			         "Cash Cost", _cashUOM,
+			         BLANK())
+			```
+		formatString: 0000000
+		displayFolder: 7-T&D
+		lineageTag: 29208f51-4ed5-42fd-9627-f38039e938b1
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'T&D Vol Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [T&D_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [T&D_Value_Actual] + [T&D_Value_Forecast],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [T&D_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [T&D_Value_Actual] + [T&D_Value_Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 7-T&D
+		lineageTag: a2780bdb-6e78-4702-bc22-edff78f6b6ee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Vol Latest Period Budget' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [T&D_Value_Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [T&D_Value_Budget],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [T&D_Value_Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			         [T&D_Value_Budget],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 7-T&D
+		lineageTag: 5be8fb7b-8027-4d8f-b838-1233b7699793
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cash Cost' = ```
+			
+			VAR cash_cost_in_USD = CALCULATE([T&D_Value_Actual], 'T&D'[Account (groups)] = "Cash Cost")
+			
+			VAR volume_in_lbs = [T&D Vol Actual]
+			
+			VAR product = MIN( 'T&D'[Products] )
+			
+			RETURN
+			
+			IF(
+			    product IN {"VCM", "PVC", "ETH"},
+			    DIVIDE(
+			        cash_cost_in_USD*100, -- USD to cents
+			        volume_in_lbs,
+			        BLANK()
+			    ),
+			    DIVIDE(
+			        cash_cost_in_USD, 
+			        volume_in_lbs/2000,  -- Lb to Ton
+			        BLANK()
+			    )
+			)/1000000
+			```
+		displayFolder: 7-T&D
+		lineageTag: d14cecc4-67a3-4f83-9149-13a7a50cdfef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Cash Cost FC' = ```
+			
+			VAR _vol = CALCULATE([T&D Graph1 Actual], 'T&D'[Account (groups)] = "Volume")
+			VAR _costst = CALCULATE([T&D Graph1 Actual], 'T&D'[Account] = "Fixed Cost")
+			VAR product = MIN( 'T&D'[Products] )
+			VAR _volUOM = CALCULATE(SELECTEDVALUE('T&D'[UOM]), 'T&D'[Account] = "Volume")
+			VAR _costlbs = DIVIDE((_costst/1000000) * 100, _vol, BLANK())
+			VAR _costtons = DIVIDE(_costst/1000, _vol, BLANK())
+			
+			VAR _cost = IF(_volUOM = "Ktons", _costtons, IF(_volUOM = "lbs(m)", _costlbs))
+			
+			
+			RETURN
+			   SWITCH(
+			            IF(
+			                HASONEFILTER('T&D'[Products]) &&
+			                COUNTROWS(ALLSELECTED('T&D'[Products])) = 1,
+			                1,0),
+			                0 , BLANK() , 1 , _cost) 
+			```
+		displayFolder: 7-T&D
+		lineageTag: e4cf129f-dca0-46e9-8fae-e77d5c36668d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Final Actual' = ```
+			
+			VAR _vol = CALCULATE([T&D Vol Latest Period], 'T&D'[Account (groups)] = "Volume")
+			VAR _costst = CALCULATE([T&D Vol Latest Period], 'T&D'[Account (groups)] = "Cash Cost")
+			VAR product = MIN( 'T&D'[Products] )
+			VAR _volUOM = CALCULATE(SELECTEDVALUE('T&D'[UOM]), 'T&D'[Account] = "Volume")
+			VAR _costlbs = DIVIDE((_costst/1000000) * 100, _vol, BLANK())
+			VAR _costtons = DIVIDE(_costst/1000, _vol, BLANK())
+			
+			VAR _cost = IF(_volUOM = "Ktons", _costtons, IF(_volUOM = "lbs(m)", _costlbs))
+			
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE(
+			        'T&D Seg'[Accounts]),
+			         "Volume", _vol, 
+			         "Cash Cost", FORMAT(_cost , "0.0"),
+			         BLANK())
+			```
+		formatString: 0.0
+		displayFolder: 7-T&D
+		lineageTag: 76588fde-26fb-4695-89a2-f61f9a6b52f0
+
+	measure 'T&D Final Budget' = ```
+			
+			VAR _vol = CALCULATE([T&D Vol Latest Period Budget], 'T&D'[Account (groups)] = "Volume")
+			VAR _costst = CALCULATE([T&D Vol Latest Period Budget], 'T&D'[Account (groups)] = "Cash Cost")
+			VAR product = MIN( 'T&D'[Products] )
+			VAR _volUOM = CALCULATE(SELECTEDVALUE('T&D'[UOM]), 'T&D'[Account] = "Volume")
+			VAR _costlbs = DIVIDE((_costst/1000000) * 100, _vol, BLANK())
+			VAR _costtons = DIVIDE(_costst/1000, _vol, BLANK())
+			
+			VAR _cost = IF(_volUOM = "Ktons", _costtons, IF(_volUOM = "lbs(m)", _costlbs))
+			
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE(
+			        'T&D Seg'[Accounts]),
+			         "Volume", _vol, 
+			         "Cash Cost", FORMAT(_cost , "0.0"),
+			         BLANK())
+			```
+		displayFolder: 7-T&D
+		lineageTag: 45b865be-56bf-44ae-99f2-1f9ec6dd7b00
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D FC Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [T&D_Value_FC Actual],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [T&D_Value_FC Actual] + [T&D_Value_FC Forecast],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [T&D_Value_FC Actual],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _fyroffset = CALCULATE(
+			        [T&D_Value_FC Actual],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _alltime = CALCULATE(
+			        [T&D_Value_FC Actual] + [T&D_Value_FC Forecast],
+			        'Date Table'[Year Offset] < 0)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_ytdoffset, 3,_fyroffset, 4, _alltime)/1000000
+			
+			
+			RETURN 
+			   SWITCH(
+			            IF(
+			                HASONEFILTER('T&D'[Products]) &&
+			                COUNTROWS(ALLSELECTED('T&D'[Products])) = 1,
+			                1,0),
+			                0 , BLANK() , 1 , __offset_1) 
+			```
+		displayFolder: 7-T&D
+		lineageTag: c17377b3-8945-4ae9-988a-ee869350c892
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D_Value_FC Budget' = CALCULATE([T&D_Value_Budget], 'T&D'[Account] = "Fixed Cost")
+		displayFolder: 7-T&D
+		lineageTag: ed6a1283-d576-4f07-b7ce-255f66878d2a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D FC Latest Period Budget' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [T&D_Value_FC Budget],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [T&D_Value_FC Budget],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [T&D_Value_FC Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [T&D_Value_FC Budget],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())/1000000
+			
+			
+			RETURN 
+			   SWITCH(
+			            IF(
+			                HASONEFILTER('T&D'[Products]) &&
+			                COUNTROWS(ALLSELECTED('T&D'[Products])) = 1,
+			                1,0),
+			                0 , BLANK() , 1 , __offset_1) 
+			```
+		displayFolder: 7-T&D
+		lineageTag: 1e9e4290-da14-428d-9d81-58e52614c69f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D_Value_FC Forecast' = CALCULATE([T&D_Value_Forecast], 'T&D'[Account] = "Fixed Cost")
+		displayFolder: 7-T&D
+		lineageTag: 54f65f27-7873-4a7f-9d10-a56a46f22089
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D FC Latest Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [T&D_Value_FC Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [T&D_Value_FC Forecast] + [T&D_Value_FC Actual],
+			        'Date Table'[Quarter Offset] >=  0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [T&D_Value_FC Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _fyroffset = CALCULATE(
+			        [T&D_Value_FC Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _alltime = CALCULATE(
+			        [T&D_Value_FC Forecast] + [T&D_Value_FC Actual],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, 4, _alltime )/1000000
+			
+			
+			RETURN 
+			   SWITCH(
+			            IF(
+			                HASONEFILTER('T&D'[Products]) &&
+			                COUNTROWS(ALLSELECTED('T&D'[Products])) = 1,
+			                1,0),
+			                0 , BLANK() , 1 , __offset_1) 
+			```
+		displayFolder: 7-T&D
+		lineageTag: 024abbbb-942d-4357-9b5b-5cc3d666f445
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Graph1 Actual' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [T&D_Value_Actual] + [T&D_Value_Forecast],
+			        'Date Table'[Year Offset] = 0)
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _monthoffset, 2,_monthoffset, 3,_monthoffset, [T&D_Value_Actual] + [T&D_Value_Forecast])
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 7-T&D
+		lineageTag: a775225e-2b88-4bb8-b264-fca828fe67c5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Graph1 Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [T&D_Value_Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [T&D_Value_Forecast],
+			        'Date Table'[Quarter Offset] >= 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [T&D_Value_Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _fyroffset = CALCULATE(
+			        [T&D_Value_Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 7-T&D
+		lineageTag: ddb785d0-c66a-4c83-b9cd-e8c13fd42e5d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Cash Cost VC' = ```
+			
+			VAR _vol = CALCULATE([T&D Graph1 Actual], 'T&D'[Account (groups)] = "Volume")
+			VAR _costst = CALCULATE([T&D Graph1 Actual], 'T&D'[Account] = "Variable Cost")
+			VAR product = MIN( 'T&D'[Products] )
+			VAR _volUOM = CALCULATE(SELECTEDVALUE('T&D'[UOM]), 'T&D'[Account] = "Volume")
+			VAR _costlbs = DIVIDE((_costst/1000000) * 100, _vol, BLANK())
+			VAR _costtons = DIVIDE(_costst/1000, _vol, BLANK())
+			
+			VAR _cost = IF(_volUOM = "Ktons", _costtons, IF(_volUOM = "lbs(m)", _costlbs))
+			
+			
+			RETURN
+			   SWITCH(
+			            IF(
+			                HASONEFILTER('T&D'[Products]) &&
+			                COUNTROWS(ALLSELECTED('T&D'[Products])) = 1,
+			                1,0),
+			                0 , BLANK() , 1 , _cost) 
+			```
+		displayFolder: 7-T&D
+		lineageTag: 4c8d0c1a-e67f-4138-bb59-66a49b7d00b6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC UOM sub' =
+			
+			
+			VAR _UOM = CALCULATE(SELECTEDVALUE('Hierachy Bridge'[UOM]), 'Hierachy Bridge'[UOM] <> BLANK())
+			VAR _new = IF(_UOM <> BLANK() , _UOM, "lbs")
+			
+			RETURN
+			IF(_new = "lbs",
+			"ct/" & _new & " - Cents per " & _new,
+			IF(_new = "Ton",
+			"$/" & _new & " - Dollars per " & _new)
+			)
+		displayFolder: 1-Mft Cost
+		lineageTag: d583060f-92d4-49d9-9255-26f53c41ff1e
+
+	measure 'T&D Final Prev Period' = ```
+			
+			VAR _vol = CALCULATE([T&D Vol Latest Prev Period], 'T&D'[Account (groups)] = "Volume")
+			VAR _costst = CALCULATE([T&D Vol Latest Prev Period], 'T&D'[Account (groups)] = "Cash Cost")
+			VAR product = MIN( 'T&D'[Products] )
+			VAR _volUOM = CALCULATE(SELECTEDVALUE('T&D'[UOM]), 'T&D'[Account] = "Volume")
+			VAR _costlbs = DIVIDE((_costst/1000000) * 100, _vol, BLANK())
+			VAR _costtons = DIVIDE(_costst/1000, _vol, BLANK())
+			
+			VAR _cost = IF(_volUOM = "Ktons", _costtons, IF(_volUOM = "lbs(m)", _costlbs))
+			
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE(
+			        'T&D Seg'[Accounts]),
+			         "Volume", _vol, 
+			         "Cash Cost", FORMAT(_cost , "0.0"),
+			         BLANK())
+			```
+		displayFolder: 7-T&D
+		lineageTag: 5743b6ae-018e-4bc2-ba24-428aec9e57c0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Vol Latest Prev Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [T&D_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -2)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [T&D_Value_Actual],
+			        'Date Table'[Quarter Offset] = -4)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [T&D_Value_Actual],
+			        'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] <= -13)
+			
+			VAR _fyroffset = CALCULATE(
+			         [T&D_Value_Actual],
+			        'Date Table'[Year Offset] = -1)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 7-T&D
+		lineageTag: f544ca39-d781-4ae7-ad99-8819a0230bd6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D_Value_Prev Forecast' = ```
+			CALCULATE(
+			                            [T&D_Value], 
+			                            'T&D'[Period Set of Books] = "Previous Forecast" )
+			```
+		displayFolder: 7-T&D
+		lineageTag: 98eecfd3-5728-4e2f-a864-43acfe60bc9a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Vol Latest Period Prev Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [T&D_Value_Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [T&D_Value_Actual],
+			        'Date Table'[Quarter Offset] = -1)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [T&D_Value_Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			         [T&D_Value_Prev Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1
+			```
+		displayFolder: 7-T&D
+		lineageTag: 58824295-0db7-40cd-b85f-0308faf36313
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D Final Prev Forecast' = ```
+			
+			VAR _vol = CALCULATE([T&D Vol Latest Period Prev Forecast], 'T&D'[Account (groups)] = "Volume")
+			VAR _costst = CALCULATE([T&D Vol Latest Period Prev Forecast], 'T&D'[Account (groups)] = "Cash Cost")
+			VAR product = MIN( 'T&D'[Products] )
+			VAR _volUOM = CALCULATE(SELECTEDVALUE('T&D'[UOM]), 'T&D'[Account] = "Volume")
+			VAR _costlbs = DIVIDE((_costst/1000000) * 100, _vol, BLANK())
+			VAR _costtons = DIVIDE(_costst/1000, _vol, BLANK())
+			
+			VAR _cost = IF(_volUOM = "Ktons", _costtons, IF(_volUOM = "lbs(m)", _costlbs))
+			
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE(
+			        'T&D Seg'[Accounts]),
+			         "Volume", _vol, 
+			         "Cash Cost", FORMAT(_cost , "0.0"),
+			         BLANK())
+			```
+		displayFolder: 7-T&D
+		lineageTag: c7a9f6c7-4824-4cca-a88f-9059375f008a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'T&D UOM Sub' = ```
+			
+			 VAR _volUOM = CALCULATE(
+			    SELECTEDVALUE('T&D'[UOM]),
+			        'T&D'[Account] = "Volume"
+			)
+			
+			RETURN
+			IF(
+			    CONTAINSSTRING(_volUOM, "tons"), 
+			        "USD/tons - Dollars per Ton", 
+			         "ct/lbs - Cent per Lbs")
+			```
+		displayFolder: 7-T&D
+		lineageTag: 15f3ff0f-cbf5-497b-afcf-45d57db6d208
+
+	measure _CPX_Value = SUM('CAPEX'[Value])
+		displayFolder: 8-CAPEX
+		lineageTag: 3b81bedb-9c46-47fd-82f8-9b5d11fd9656
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _CPX_Value_Actual = ```
+			
+			                 CALCULATE([_CPX_Value], 
+			                'CAPEX'[Period Set of Books] = "Actual / Current Forecast"
+			                    && 'CAPEX'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			
+			```
+		displayFolder: 8-CAPEX
+		lineageTag: 1fc2fab2-732f-4de2-90d4-9921245f4576
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _CPX_Value_Forecast = ```
+			
+			                 CALCULATE([_CPX_Value], 
+			                'CAPEX'[Period Set of Books] = "Actual / Current Forecast"
+			                    && 'CAPEX'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			```
+		displayFolder: 8-CAPEX
+		lineageTag: 56eb0bb9-ce4a-4ba1-adac-d1725b127663
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _CPX_Value_Budget = ```
+			
+			                 CALCULATE([_CPX_Value], 
+			                'CAPEX'[Period Set of Books] = "Budget")
+			```
+		displayFolder: 8-CAPEX
+		lineageTag: 45a8d2b6-f3c4-41f0-9e56-1d8bdc9d1732
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_CPX_Value_Prev Forecast' = ```
+			
+			                 CALCULATE([_CPX_Value], 
+			                'CAPEX'[Period Set of Books] = "Previous Forecast")
+			```
+		displayFolder: 8-CAPEX
+		lineageTag: e13ac701-f930-49c7-b0c2-dfdc49d6ce9e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CPX Latest Period Actual Matrix' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [_CPX_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [_CPX_Value_Actual + Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [_CPX_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			         [_CPX_Value_Actual + Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1/1000000
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 8-CAPEX
+		lineageTag: 4667e1d0-778a-468b-9d3d-f29b0d87525d
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure '_CPX_Value_Actual + Forecast' = [_CPX_Value_Actual] + [_CPX_Value_Forecast]
+		displayFolder: 8-CAPEX
+		lineageTag: 2d79cb12-f1ba-4dd9-8c04-b14eec2af7dc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CPX Latest Period Budget Matrix' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [_CPX_Value_Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [_CPX_Value_Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [_CPX_Value_Budget],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			         [_CPX_Value_Budget],
+			        'Date Table'[Year Offset] = 0)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1/1000000
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 8-CAPEX
+		lineageTag: 5a3a29d6-0f6c-4fc0-99fd-fe0c7ebd3eed
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'CPX Latest Period Prev F Matrix' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [_CPX_Value_Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			         [_CPX_Value_Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = -1)
+			        
+			VAR _ytdoffset = CALCULATE(
+			        [_CPX_Value_Actual],
+			        'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] < -12)
+			
+			VAR _fyroffset = CALCULATE(
+			         [_CPX_Value_Actual],
+			        'Date Table'[Year Offset] = -1)
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			
+			    __offset_1/1000000
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: 8-CAPEX
+		lineageTag: 8c36c2a9-276b-4f4b-9fb4-7f07d01c383a
+
+	measure 'CPX Latest Period Delta' =
+			
+			VAR _e = [CPX Latest Period Actual Matrix]
+			VAR _f = [CPX Latest Period Prev F Matrix]
+			VAR _cp = (_e - _f)
+			
+			VAR _sl = SELECTEDVALUE(ExCapex[SlicerValue])
+			VAR _bt = [CPX Latest Period Budget Matrix]
+			VAR _bdgt = (_e - _bt)
+			
+			RETURN
+			IF(_sl = "Budget", _bdgt, _cp)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 8-CAPEX
+		lineageTag: e5d9a57a-671a-4c84-8c3a-96aa3801dce2
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'CPX Latest Period Delta %' =
+			
+			VAR _e = [CPX Latest Period Actual Matrix]
+			VAR _f = [CPX Latest Period Prev F Matrix]
+			VAR _cp = DIVIDE((_e - _f), _f, 0)
+			
+			VAR _sl = SELECTEDVALUE(ExCapex[SlicerValue])
+			VAR _bt = [CPX Latest Period Budget Matrix]
+			VAR _bdgt = DIVIDE((_e - _bt), _bt, 0)
+			
+			RETURN
+			IF(_sl = "Budget", _bdgt, _cp)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 8-CAPEX
+		lineageTag: 62d799f7-ecb4-4acd-a518-159e2337b705
+
+	measure 'CPX Latest Period Actual Chart' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [_CPX_Value_Actual + Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR _alltime =  [_CPX_Value_Actual + Forecast]
+			
+			
+			RETURN 
+			SWITCH(
+			    SELECTEDVALUE(
+			        'Dim Period Comp'[Order]), 
+			        4, _alltime/1000000,
+			    _monthoffset/1000000)
+			```
+		displayFolder: 8-CAPEX
+		lineageTag: 929d3b7d-f47a-46cc-8dcc-76ce05f9989e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CPX CAPEX' = [_CPX_Value_Actual + Forecast]/ 1000000
+		displayFolder: 8-CAPEX
+		lineageTag: a0f4afe7-bd20-43bb-922b-7410b18a9748
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CPX D&A' = ```
+			
+			        CALCULATE([MC Value_Actual + Forecast], 'Manufacturing Cost'[Account_3 (groups)] = "D&A")--/1000000
+			```
+		displayFolder: 8-CAPEX
+		lineageTag: 0b3c8a8a-262f-4ea4-8958-66c2b5defec7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CapexFilter = ```
+			
+			            IF(SELECTEDVALUE('Dim CAPEX'[Ordinal]) = 1 && SELECTEDVALUE(CAPEX[ACCOUNT_NO]) = "Capital TA" , 1 ,
+			             IF(SELECTEDVALUE('Dim CAPEX'[Ordinal]) = 2 && SELECTEDVALUE(CAPEX[ACCOUNT_NO]) IN {"Non-discretionary Capex", "Discretionary Capex"} , 1 ,
+			             IF(SELECTEDVALUE('Dim CAPEX'[Ordinal]) = 3 && SELECTEDVALUE(CAPEX[ACCOUNT_NO]) IN {"Non-discretionary Capex", "Discretionary Capex", "Capital TA"} , 1 ,0)))
+			```
+		formatString: 0
+		displayFolder: 8-CAPEX
+		lineageTag: 28f23c35-911b-4fd1-b8fa-04a0c3219ac2
+
+	measure 'MC FSTK CC Actual' = ```
+			
+			
+			VAR _fcc = CALCULATE([MC Value_Actual], 
+			                        'Manufacturing Cost'[Account_3] IN {"Feedstocks"})
+			VAR _vol = [Value_Volume_Actual]
+			
+			
+			RETURN
+			IF(SELECTEDVALUE('Manufacturing Cost'[Product1]) = "ECU",
+			DIVIDE(_fcc,
+			        _vol,
+			        BLANK()), BLANK())
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 8dafee72-da39-4427-b524-fc470dca9724
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Cash Cost Value Actual' = ```
+			
+			VAR _nonecu =  CALCULATE([MC Value_Actual],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A" &&
+			                        'Manufacturing Cost'[Account_3] <> "Feedstocks" ))
+			
+			VAR _ecu =  CALCULATE([MC Value_Actual],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A"))
+			
+			VAR _fcc = IF(
+			    CONTAINSSTRING(SELECTEDVALUE(
+			        'Manufacturing Cost'[Product1]), "ECU"), 
+			        _ecu, 
+			        IF(
+			         SELECTEDVALUE('Manufacturing Cost'[Product1]) IN {"DIAPHRAGM", "MERCURY"}, 
+			         _ecu,
+			           _nonecu))
+			
+			VAR _vol = [Value_Volume_Actual]
+			
+			
+			RETURN
+			
+			DIVIDE(_fcc,
+			        _vol,
+			        BLANK())
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: bd985aa8-6265-4949-afe2-b68e38405351
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Cash Cost Value Forecast' = ```
+			
+			VAR _nonecu =  CALCULATE([MC Value_Forecast],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A" &&
+			                        'Manufacturing Cost'[Account_3] <> "Feedstocks" ))
+			
+			VAR _ecu =  CALCULATE([MC Value_Forecast],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A"))
+			
+			VAR _fcc = IF(
+			    CONTAINSSTRING(SELECTEDVALUE(
+			        'Manufacturing Cost'[Product1]), "ECU"), 
+			        _ecu, 
+			        IF(
+			         SELECTEDVALUE('Manufacturing Cost'[Product1]) IN {"DIAPHRAGM", "MERCURY"}, 
+			         _ecu,
+			           _nonecu))
+			
+			VAR _vol = [Value_Volume_Forecast]
+			
+			
+			RETURN
+			
+			DIVIDE(_fcc,
+			        _vol,
+			        BLANK())
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: fa44acff-eff3-446e-ac2c-282a6bc9ed05
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Cash Cost Value Budget' = ```
+			
+			VAR _nonecu =  CALCULATE([MC Value_Budget],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A" &&
+			                        'Manufacturing Cost'[Account_3] <> "Feedstocks" ))
+			
+			VAR _ecu =  CALCULATE([MC Value_Budget],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A"))
+			
+			VAR _fcc = IF(
+			    CONTAINSSTRING(SELECTEDVALUE(
+			        'Manufacturing Cost'[Product1]), "ECU"), 
+			        _ecu, 
+			        IF(
+			         SELECTEDVALUE('Manufacturing Cost'[Product1]) IN {"DIAPHRAGM", "MERCURY"}, 
+			         _ecu,
+			           _nonecu))
+			
+			VAR _vol = [Value_Volume_Budget]
+			
+			
+			RETURN
+			
+			DIVIDE(_fcc,
+			        _vol,
+			        BLANK())
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: a3a82b4d-a0a9-4fa3-82b0-32f1cd94adf8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Total Cash Cost' = [MC CC Cost Actual] + [MC CC Cost Forecast]
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 74fb648b-66a9-4409-b481-fcbb0671143b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Data Labels' =
+			
+			VAR mcvalue = [MC CC Cost Actual] + [MC CC Cost Forecast]
+			VAR nodec = FORMAT(mcvalue, "0")
+			VAR dec = FORMAT(mcvalue, "0.0")
+			VAR _UOM = CALCULATE(SELECTEDVALUE('Hierachy Bridge'[UOM]), 'Hierachy Bridge'[UOM] <> BLANK())
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    CONTAINS(VALUES('Hierachy Bridge'[UOM]), 'Hierachy Bridge'[UOM], "Ton") &&
+			    CONTAINS(VALUES('Hierachy Bridge'[UOM]), 'Hierachy Bridge'[UOM], "lbs"), dec,
+			    _UOM = "Ton", nodec,
+			    _UOM = "lbs", dec,
+			    TRUE(), dec
+			)
+		displayFolder: 1-Mft Cost
+		lineageTag: 031fecea-d324-4474-b10d-1e0776fa6fe0
+
+	measure 'Checking Measure Cost' = ```
+			
+			VAR _nonecu =  CALCULATE([MC Value_Actual],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A" &&
+			                        'Manufacturing Cost'[Account_3] <> "Feedstocks" ))
+			
+			VAR _ecu =  CALCULATE([MC Value_Actual],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A"))
+			
+			VAR _fcc = IF(
+			    CONTAINSSTRING(SELECTEDVALUE(
+			        'Manufacturing Cost'[Product1]), "ECU"), 
+			        _ecu, 
+			        IF(
+			         SELECTEDVALUE('Manufacturing Cost'[Product1]) IN {"DIAPHRAGM", "MERCURY"}, 
+			         _ecu,
+			           _nonecu))
+			
+			RETURN
+			_fcc
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: edbef3d3-f376-4bdd-a701-72bb35bf711d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Matrix Filter' = ```
+			
+			            IF(
+			                SELECTEDVALUE('Switch Table'[Order]) = 1 && SELECTEDVALUE('Hierachy Bridge'[Products]) = BLANK() , 0,
+			            IF(
+			                SELECTEDVALUE('Switch Table'[Order]) = 0 && SELECTEDVALUE('Hierachy Bridge'[Site]) = BLANK() , 0,
+			                1))
+			```
+		formatString: 0
+		displayFolder: 1-Mft Cost
+		lineageTag: 98f00e9e-3216-427c-89e0-3de1e69fd9b1
+
+	measure 'MC CC Latest Period Prev Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Cash Cost Value Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Cash Cost Value Prev Forecast],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Cash Cost Value Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Cash Cost Value Prev Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			VAR final = 
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			
+			
+			VAR nodec = FORMAT(final, "0")
+			VAR dec = FORMAT(final * 100, "0.0")
+			
+			RETURN
+			SWITCH(
+			    SELECTEDVALUE('Hierachy Bridge'[UOM]),
+			    "Ton", nodec, 
+			    "lbs", dec)
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 44ae86f5-59af-4754-9b4a-30f09101cec8
+
+	measure 'MC Cash Cost Value Prev Forecast' = ```
+			
+			VAR _nonecu =  CALCULATE([MC Value_Prev Forecast],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A" &&
+			                        'Manufacturing Cost'[Account_3] <> "Feedstocks" ))
+			
+			VAR _ecu =  CALCULATE([MC Value_Prev Forecast],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A"))
+			
+			VAR _fcc = IF(
+			    CONTAINSSTRING(SELECTEDVALUE(
+			        'Manufacturing Cost'[Product1]), "ECU"), 
+			        _ecu, 
+			        IF(
+			         SELECTEDVALUE('Manufacturing Cost'[Product1]) IN {"DIAPHRAGM", "MERCURY"}, 
+			         _ecu,
+			           _nonecu))
+			
+			VAR _vol = [Value_Volume_Prev Forecast]
+			
+			
+			RETURN
+			
+			DIVIDE(_fcc,
+			        _vol,
+			        BLANK())
+			```
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 426e79ef-03bb-44dc-bbc8-a6fee81f8800
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MC Operating Rates Prev Forecast' =
+			
+			VAR volume_in_lbs = [Value_Volume_Prev Forecast]
+			
+			VAR oper_rate = [Value_Capacity10K]
+			
+			RETURN
+			DIVIDE(
+			    volume_in_lbs,
+			    oper_rate,
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 5-MC Ops Rate
+		lineageTag: de1e36e4-e129-4c41-9636-052fbe2e6443
+
+	measure 'MC Ops Rate Latest Period Prev Forecast' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [MC Operating Rates Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _qtdoffset = CALCULATE(
+			        [MC Operating Rates Prev Forecast],
+			        'Date Table'[Quarter Offset] = 0)
+			        
+			VAR _ytdoffset = CALCULATE(
+			       [MC Operating Rates Prev Forecast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [MC Operating Rates Prev Forecast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			IF(ISINSCOPE('Hierachy Bridge'[Products]),
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Period]),
+			    "All Time", BLANK(),
+			    __offset_1
+			), 
+			IF(ISINSCOPE('Hierachy Bridge'[Site]) , BLANK())
+			)
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 5-MC Ops Rate
+		lineageTag: 765ef90b-5911-44ad-be78-50e1b8fa0497
+
+	measure 'MC Cash Cost Value Actual + Forecast' = ```
+			
+			VAR _nonecu =  CALCULATE([MC Value_Actual] + [MC Value_Forecast],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A" &&
+			                        'Manufacturing Cost'[Account_3] <> "Feedstocks" ))
+			
+			VAR _ecu =  CALCULATE([MC Value_Actual] + [MC Value_Forecast],
+			                    FILTER('Manufacturing Cost',
+			                        'Manufacturing Cost'[Account_3] <> "D&A"))
+			
+			VAR _fcc = IF(
+			    CONTAINSSTRING(SELECTEDVALUE(
+			        'Manufacturing Cost'[Product1]), "ECU"), 
+			        _ecu, 
+			        IF(
+			         SELECTEDVALUE('Manufacturing Cost'[Product1]) IN {"DIAPHRAGM", "MERCURY"}, 
+			         _ecu,
+			           _nonecu))
+			
+			VAR _vol = [Value_Volume_Actual] +[Value_Volume_Forecast]
+			
+			
+			RETURN
+			
+			DIVIDE(_fcc,
+			        _vol,
+			        BLANK())
+			```
+		formatString: 0
+		displayFolder: 2-MC Cash Cost
+		lineageTag: 24b2d8ed-9f75-4312-b96c-c2a5fe1fb0b8
+
+	measure 'T&D UOM_vol' = ```
+			
+			 
+			 VAR _volUOM = CALCULATE(
+			    SELECTEDVALUE('T&D'[UOM]),
+			        'T&D'[Account] = "Volume")
+			
+			RETURN
+			 _volUOM
+			```
+		displayFolder: 7-T&D
+		lineageTag: 81da447c-68fe-41c2-8e2b-a55a57b038f2
+
+	measure 'T&D UOM_cst' = ```
+			
+			 
+			 VAR _cstUOM = CALCULATE(
+			    SELECTEDVALUE('T&D'[UOM]),
+			        'T&D'[Account Category] = "Cash Cost")
+			
+			RETURN
+			 _cstUOM
+			```
+		displayFolder: 7-T&D
+		lineageTag: 790f819f-e4ee-4ca6-b686-9ba31dc52eb8
+
+	measure 'Value_Volume_Actual + Forecast' = [Value_Volume_Actual] + [Value_Volume_Forecast]
+		displayFolder: 0-Volume
+		lineageTag: 64e406fd-fa2e-4b35-b034-07dfd61e7418
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_Actual_Vol = ```
+			CALCULATE(
+			                            [T&D_Value], 
+			                            'T&D'[Period Set of Books] = "Actual / Current Forecast" &&
+			                            'T&D'[Account Category] = "Volume" &&
+			                            'T&D'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			```
+		displayFolder: 7-T&D
+		lineageTag: 5f7ddfcf-2c06-4753-8eea-55595fc5e54e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_Actual_Cost = ```
+			CALCULATE(
+			                            [T&D_Value], 
+			                            'T&D'[Period Set of Books] = "Actual / Current Forecast" &&
+			                            'T&D'[Account Category] = "Cash Cost" &&
+			                            'T&D'[Date] <= DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			```
+		displayFolder: 7-T&D
+		lineageTag: 8f74c4ad-d501-4ed5-b60c-72ccea6ac849
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_Budget_Vol = ```
+			CALCULATE(
+			                            [T&D_Value], 
+			                            'T&D'[Period Set of Books] = "Budget" &&
+			                            'T&D'[Account Category] = "Volume" )
+			```
+		displayFolder: 7-T&D
+		lineageTag: c1346209-e45f-43e2-b18f-dbe677f3c1a2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_Forecast_Vol = ```
+			CALCULATE(
+			                            [T&D_Value], 
+			                            'T&D'[Period Set of Books] = "Actual / Current Forecast" &&
+			                            'T&D'[Account Category] = "Volume" &&
+			                            'T&D'[Date] > DATE( YEAR(MIN('Today'[Today])), MONTH(MIN('Today'[Today]))-1, 01))
+			```
+		displayFolder: 7-T&D
+		lineageTag: 06b21360-ea79-4145-87c2-3b7ff00ef5c7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure T&D_Value_Budget_Cost = ```
+			CALCULATE(
+			                            [T&D_Value], 
+			                            'T&D'[Period Set of Books] = "Budget" &&
+			                            'T&D'[Account Category] = "Cash Cost" )
+			```
+		displayFolder: 7-T&D
+		lineageTag: 70e7ad75-d16d-4cec-9507-79368df42355
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition '5 - Expenditure' = m
+		mode: import
+		queryGroup: 'Calculation Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

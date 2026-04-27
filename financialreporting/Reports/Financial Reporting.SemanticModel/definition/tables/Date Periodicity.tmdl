@@ -1,0 +1,57 @@
+table 'Date Periodicity'
+	isHidden
+	lineageTag: df85cd9c-3df5-49ba-ae40-9191e57787f7
+
+	column 'Date Periodicity'
+		isHidden
+		lineageTag: 81fbcc1d-23ec-41c5-899e-92977ee40729
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Date Periodicity Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Date Periodicity Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Periodicity Fields'
+		isHidden
+		lineageTag: 8e1ef581-8e53-4199-a178-4f888f4630f7
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Date Periodicity Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Periodicity Order'
+		isHidden
+		formatString: 0
+		lineageTag: 5f9c8242-4b13-46a5-b01d-9131fd08af67
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Date Periodicity' = calculated
+		mode: import
+		source =
+				{
+				    ("Month", NAMEOF('Date Table'[MM'Yr]), 0),
+				    ("Month", NAMEOF('Date Table'[Month Name Short]), 0),
+				    ("Quarter", NAMEOF('Date Table'[QQ-Month]), 1),
+				    ("Quarter", NAMEOF('Date Table'[Quarter Name]), 1),
+				    ("YTD", NAMEOF('Date Table'[MM'Yr]), 2),
+				    ("YTD", NAMEOF('Date Table'[Month Name Short]), 2),
+				    ("FY", NAMEOF('Date Table'[MM'Yr]), 3),
+				    ("FY", NAMEOF('Date Table'[Month Name Short]), 3),
+				    ("All time", NAMEOF('Date Table'[Year]), 4)
+				}
+
+	annotation PBI_Id = ded8ef67f4144e129721f82a82805289
+

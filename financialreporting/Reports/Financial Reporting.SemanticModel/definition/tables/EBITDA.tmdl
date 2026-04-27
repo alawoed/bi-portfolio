@@ -1,0 +1,117 @@
+table EBITDA
+	isHidden
+	lineageTag: 80414e0e-a799-4a62-828f-1fda918517ff
+
+	column CATEGORY
+		dataType: string
+		isHidden
+		lineageTag: 77d2fc2a-6001-4e3d-ac47-bb73ed33e56d
+		summarizeBy: none
+		sourceColumn: CATEGORY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: 126e4e8a-188b-460a-8a92-6d0e82c082d2
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 44106ec4-b217-43c4-a190-b712c9fd6ed8
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: 45b039e6-3096-4801-ad9f-f72a6ac91bf6
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ENTITY
+		dataType: string
+		isHidden
+		lineageTag: 613da3fc-9968-4e1d-b5af-6230805f1fb3
+		summarizeBy: none
+		sourceColumn: ENTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACCOUNT
+		dataType: string
+		isHidden
+		lineageTag: 7e53d7e4-ce83-4155-8284-1df877908995
+		summarizeBy: none
+		sourceColumn: ACCOUNT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Reporting Unit'
+		dataType: string
+		isHidden
+		lineageTag: c1f095f0-ec74-46db-9e56-8ac4dd1b3b75
+		summarizeBy: none
+		sourceColumn: Reporting Unit
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period / Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: 47b4a8bc-a780-489c-891a-28e772b5536b
+		summarizeBy: none
+		sourceColumn: Period / Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EBITDA = m
+		mode: import
+		queryGroup: 'Fact Tables\EBITDA'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Results by Product_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Results by Product",version=""]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(#"Results by Product_", each ([ACCOUNT] = "EBITDA"))
+				in
+				    #"Filtered Rows"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

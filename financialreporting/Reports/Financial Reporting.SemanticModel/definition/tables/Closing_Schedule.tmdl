@@ -1,0 +1,62 @@
+table Closing_Schedule
+	isHidden
+	lineageTag: 29c0ebfa-e384-4727-8ef0-79f4ca9d67bc
+
+	column 'Close Month'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 71733a02-6841-44a6-acb8-d8c65b9f1446
+		summarizeBy: none
+		sourceColumn: Close Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Consolidation Date'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 65eb9ac0-762e-417a-bd44-ba47aa90b825
+		summarizeBy: none
+		sourceColumn: Consolidation Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Forecast Date'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: feecada6-e89e-4c96-9f32-649224e5a20c
+		summarizeBy: none
+		sourceColumn: Forecast Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Closing_Schedule = m
+		mode: import
+		queryGroup: 'Fact Tables\Customer Margins'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMjDXNzDUNzIwMlXSUbLQt0AwDU0h7FgdoCoLJFWW+pYIpqEZVFUsAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Close Month" = _t, #"Consolidation Date" = _t, #"Forecast Date" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Close Month", type date}, {"Consolidation Date", type date}, {"Forecast Date", type date}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

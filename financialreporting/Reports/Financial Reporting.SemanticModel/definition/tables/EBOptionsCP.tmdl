@@ -1,0 +1,52 @@
+table EBOptionsCP
+	isHidden
+	lineageTag: 1f72736d-8735-412c-99f4-8eb2baf279b9
+
+	column EBOptionsCP
+		isHidden
+		lineageTag: 31dfd50b-4f38-4410-aa8e-c0724b1acc37
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'EBOptionsCP Order'
+
+		relatedColumnDetails
+			groupByColumn: 'EBOptionsCP Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EBOptionsCP Fields'
+		isHidden
+		lineageTag: 05e9ecf7-8912-4634-b5aa-7e88dd100505
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'EBOptionsCP Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EBOptionsCP Order'
+		isHidden
+		formatString: 0
+		lineageTag: fad5d291-1298-4a18-b565-fc785373a3c4
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EBOptionsCP = calculated
+		mode: import
+		source =
+				{
+				    ("Month Actuals", NAMEOF('2 - EBITDA'[EBITDA Variance]), 0),
+				    ("Quarter Actuals", NAMEOF('2 - EBITDA'[EBITDA Variance]), 1),
+				    ("YTD Actuals", NAMEOF('2 - EBITDA'[EBITDA Variance]), 2),
+				    ("Year Actuals", NAMEOF('2 - EBITDA'[EBITDA Variance]), 3)
+				}
+
+	annotation PBI_Id = a9ea4e86ad7b4283ab50296945545671
+

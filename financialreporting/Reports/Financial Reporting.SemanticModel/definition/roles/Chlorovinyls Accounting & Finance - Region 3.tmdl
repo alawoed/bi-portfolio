@@ -1,0 +1,34 @@
+role 'Chlorovinyls Accounting & Finance - Region 3'
+	modelPermission: read
+
+	tablePermission 'Dim Hierarchy' = and( [SBU] IN {"Calvert City","Natrium","Beauharnois","Longview"}, [Ordinal] = 0 )
+
+	tablePermission 'SnapShot by Product'
+		metadataPermission: none
+
+	tablePermission SG&A
+		metadataPermission: none
+
+	tablePermission 'Working Capital'
+		metadataPermission: none
+
+	tablePermission 'Revenue Page by Product'
+		metadataPermission: none
+
+	tablePermission 'Revenue Page by Site'
+		metadataPermission: none
+
+	tablePermission 'Production by Product'
+		metadataPermission: none
+
+	tablePermission EBITDA
+		metadataPermission: none
+
+	tablePermission 'EBITDA Accounts'
+		metadataPermission: none
+
+	tablePermission 'EBITDA Table'
+		metadataPermission: none
+
+	annotation PBI_Id = 55827f6b01b04f60a60a8ef8be592040
+

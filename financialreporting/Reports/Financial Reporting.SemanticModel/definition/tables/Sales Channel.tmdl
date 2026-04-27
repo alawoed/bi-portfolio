@@ -1,0 +1,31 @@
+table 'Sales Channel'
+	isHidden
+	lineageTag: 13978ba8-da19-4806-b0a1-215f5ec429b3
+
+	column 'Sales Channel'
+		dataType: string
+		isHidden
+		lineageTag: bb2a5be0-d636-4ad2-b448-0f7a2ab6e46a
+		summarizeBy: none
+		sourceColumn: Sales Channel
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Sales Channel' = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcsnPTS0uyUxWitWJVvLUdwbTrhUF+UUlSrGxAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Sales Channel" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Sales Channel", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

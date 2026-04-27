@@ -1,0 +1,294 @@
+table 'Manufacturing Cost'
+	isHidden
+	lineageTag: 23a96389-e03a-4afe-96cd-4864ea1d608d
+
+	column Entity
+		dataType: string
+		isHidden
+		lineageTag: 518678cd-a6a9-48ff-b90a-9845c38cb965
+		summarizeBy: none
+		sourceColumn: Entity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost Center'
+		dataType: string
+		isHidden
+		lineageTag: 4db56aff-0fc7-4c4a-8786-5645a281de2d
+		summarizeBy: none
+		sourceColumn: Cost Center
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account
+		dataType: string
+		isHidden
+		lineageTag: 988b47ca-9a22-4895-86d8-4703619a2064
+		summarizeBy: none
+		sourceColumn: Account
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account_1
+		dataType: string
+		isHidden
+		lineageTag: 44bb63f3-a9c1-4aa2-ae02-c3cd84bfd952
+		summarizeBy: none
+		sourceColumn: Account_1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Manufacturing Cost","TableItemName":"Account_1 (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column Account_2
+		dataType: string
+		isHidden
+		lineageTag: d94dc807-6484-45b0-8e3c-665936703720
+		summarizeBy: none
+		sourceColumn: Account_2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account_3
+		dataType: string
+		isHidden
+		lineageTag: d5ffbae7-8deb-4cbe-a3c4-d308fc5b7980
+		summarizeBy: none
+		sourceColumn: Account_3
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Manufacturing Cost","TableItemName":"Account_3 (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column Site
+		dataType: string
+		isHidden
+		lineageTag: 9de072bc-74f8-4def-a1bb-48efb97d5f16
+		summarizeBy: none
+		sourceColumn: Site
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product1
+		dataType: string
+		isHidden
+		lineageTag: cf0b9bbb-5b32-4fc5-a64a-e6d58900a9bf
+		summarizeBy: none
+		sourceColumn: Product1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product2
+		dataType: string
+		isHidden
+		lineageTag: 61f8fad0-35cd-4405-bc97-a66554b3fbd7
+		summarizeBy: none
+		sourceColumn: Product2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period Set of Books'
+		dataType: string
+		isHidden
+		lineageTag: 43a794d5-d01b-4a65-ae4a-b444b857b0d5
+		summarizeBy: none
+		sourceColumn: Period Set of Books
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: ce11828c-a81c-4fa1-aa13-548abe28b58f
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		isHidden
+		lineageTag: f2ea5780-15ca-466b-a6b5-4b04277fd0cd
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 8abb16c4-d2e2-4e49-9115-97c09271723f
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Account_1 (groups)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('Manufacturing Cost'[Account_1]),
+				"(Blank)",
+				'Manufacturing Cost'[Account_1] IN {"Amortization",
+					"Depreciation"},
+				"Amortization & Depreciation",
+				'Manufacturing Cost'[Account_1] IN {"Feedstock"},
+				"Feedstock",
+				'Manufacturing Cost'[Account_1] IN {"Maintenance"},
+				"Maintenance",
+				'Manufacturing Cost'[Account_1] IN {"Materials"},
+				"Materials",
+				'Manufacturing Cost'[Account_1] IN {"Allocations",
+					"Insurance / Taxes",
+					"Other Costs",
+					"Safety, Security & Environmental"},
+				"Overhead",
+				'Manufacturing Cost'[Account_1] IN {"Production Labor"},
+				"Production Labor",
+				'Manufacturing Cost'[Account_1] IN {"Electricity",
+					"Fuel/Natural Gas",
+					"Other Utilities",
+					"Steam"},
+				"Utilities",
+				'Manufacturing Cost'[Account_1]
+			)
+		isHidden
+		lineageTag: 068b427c-75d6-4009-b278-73810084052f
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Manufacturing Cost"
+				          }
+				        },
+				        "Property": "Account_1"
+				      }
+				    }
+				  ]
+				}
+
+		changedProperty = IsHidden
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"m","Entity":"Manufacturing Cost"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_1"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Amortization & Depreciation","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_1"}}],"Values":[[{"Literal":{"Value":"'Amortization'"}}],[{"Literal":{"Value":"'Depreciation'"}}]]}}},{"DisplayName":"Feedstock","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_1"}}],"Values":[[{"Literal":{"Value":"'Feedstock'"}}]]}}},{"DisplayName":"Maintenance","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_1"}}],"Values":[[{"Literal":{"Value":"'Maintenance'"}}]]}}},{"DisplayName":"Materials","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_1"}}],"Values":[[{"Literal":{"Value":"'Materials'"}}]]}}},{"DisplayName":"Overhead","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_1"}}],"Values":[[{"Literal":{"Value":"'Allocations'"}}],[{"Literal":{"Value":"'Insurance / Taxes'"}}],[{"Literal":{"Value":"'Other Costs'"}}],[{"Literal":{"Value":"'Safety, Security & Environmental'"}}]]}}},{"DisplayName":"Production Labor","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_1"}}],"Values":[[{"Literal":{"Value":"'Production Labor'"}}]]}}},{"DisplayName":"Utilities","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_1"}}],"Values":[[{"Literal":{"Value":"'Electricity'"}}],[{"Literal":{"Value":"'Fuel/Natural Gas'"}}],[{"Literal":{"Value":"'Other Utilities'"}}],[{"Literal":{"Value":"'Steam'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account_3 (groups)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('Manufacturing Cost'[Account_3]),
+				"(Blank)",
+				'Manufacturing Cost'[Account_3] IN {"Fixed Cash Conversion Costs"},
+				"Fixed Conv. Cost",
+				'Manufacturing Cost'[Account_3] IN {"Feedstocks",
+					"Variable Conversion Costs"},
+				"Variable Conv. Cost",
+				'Manufacturing Cost'[Account_3]
+			)
+		isHidden
+		lineageTag: 294d3ccc-cf56-45c0-a0e4-08f8b9127a87
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Manufacturing Cost"
+				          }
+				        },
+				        "Property": "Account_3"
+				      }
+				    }
+				  ]
+				}
+
+		changedProperty = IsHidden
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"m","Entity":"Manufacturing Cost"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_3"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Fixed Conv. Cost","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_3"}}],"Values":[[{"Literal":{"Value":"'Fixed Cash Conversion Costs'"}}]]}}},{"DisplayName":"Variable Conv. Cost","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"m"}},"Property":"Account_3"}}],"Values":[[{"Literal":{"Value":"'Feedstocks'"}}],[{"Literal":{"Value":"'Variable Conversion Costs'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4e76ca1e-89f3-4334-81a6-5b7343f43dc1
+		summarizeBy: none
+		sourceColumn: Ordinal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SBU
+		dataType: string
+		isHidden
+		lineageTag: 8b27a5d2-5d5b-4c8c-8f17-17fdd753904a
+		summarizeBy: none
+		sourceColumn: SBU
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Manufacturing Cost' = m
+		mode: import
+		queryGroup: 'Fact Tables\Expenditure'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Manufacturing Cost Page_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Manufacturing Cost Data",version=""]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(#"Manufacturing Cost Page_", each ([Product1] <> "Power")),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","CAU","CLH",Replacer.ReplaceText,{"Entity"})
+				in
+				    #"Replaced Value"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

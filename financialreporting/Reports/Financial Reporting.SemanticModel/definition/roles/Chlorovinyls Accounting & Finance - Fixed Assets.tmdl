@@ -1,0 +1,38 @@
+role 'Chlorovinyls Accounting & Finance - Fixed Assets'
+	modelPermission: read
+
+	tablePermission 'SnapShot by Product'
+		metadataPermission: none
+
+	tablePermission 'SnapShot by Site'
+		metadataPermission: none
+
+	tablePermission EBITDA
+		metadataPermission: none
+
+	tablePermission 'EBITDA Table'
+		metadataPermission: none
+
+	tablePermission 'EBITDA Accounts'
+		metadataPermission: none
+
+	tablePermission 'Revenue Page by Product'
+		metadataPermission: none
+
+	tablePermission 'Revenue Page by Site'
+		metadataPermission: none
+
+	tablePermission 'Production by Site'
+		metadataPermission: none
+
+	tablePermission 'Production by Product'
+		metadataPermission: none
+
+	tablePermission SG&A
+		metadataPermission: none
+
+	tablePermission 'Working Capital'
+		metadataPermission: none
+
+	annotation PBI_Id = 0017f188b4db4bfea6e985dc8f6cc0d8
+

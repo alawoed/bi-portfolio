@@ -1,0 +1,37 @@
+table 'T&D Seg'
+	isHidden
+	lineageTag: 2907a684-4c3f-43b7-81e4-33114c75f2bd
+
+	column Accounts
+		isHidden
+		lineageTag: 79460b29-d30d-4305-985c-70e2f1e6c804
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Accounts]
+		sortByColumn: Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		isHidden
+		formatString: 0
+		lineageTag: 9154d70f-5a4a-431b-865c-555277db6df1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'T&D Seg' = calculated
+		mode: import
+		source = ```
+				DATATABLE("Accounts" , STRING,
+				                        "Order", INTEGER, 
+				                        {
+				                            {"Volume", 1}, 
+				                            {"Cash Cost", 2}
+				                            })
+				```
+
+	annotation PBI_Id = 616d054c438442039ea710e702c4fd97
+

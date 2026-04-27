@@ -1,0 +1,251 @@
+table 'EBITDA Table'
+	isHidden
+	lineageTag: b1b2acf3-0f83-4318-b49d-f89ec303e21f
+
+	measure 'EBITDA Matrix Value' = SUM('EBITDA Table'[VALUE])
+		isHidden
+		lineageTag: dfcbcbe2-02fd-44f5-9743-671ad9e0d4de
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Matrix Value Actual' = ```
+			
+			                    CALCULATE([EBITDA Matrix Value], 
+			                    'EBITDA Table'[PERIOD_SET_OF_BOOKS] = "Actual / Current Forecast"
+			                   )
+			
+			```
+		isHidden
+		lineageTag: e1cfb351-02bc-49a0-aac1-fe62627286c6
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Matrix Latest Period' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [EBITDA Matrix Value Actual],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [EBITDA Matrix Value Actual],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			    __offset_1
+			
+			```
+		isHidden
+		lineageTag: 3f5cb232-31f2-4dc3-a047-49f230db01fe
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Matrix Comp Prev Period' = ```
+			
+			VAR _prvmonth = CALCULATE(
+			         [EBITDA Matrix Value Actual],
+			        'Date Table'[Month Offset] = -2)
+			
+			VAR _currmothnfcst = CALCULATE(
+			        [EBITDA Matrix Value Actual],
+			        'Date Table'[Month Offset] = -1)
+			
+			VAR _nxtmonthfcst = CALCULATE(
+			        [EBITDA Matrix Value Actual],
+			        'Date Table'[Month Offset] = 0)
+			
+			VAR _curryrfcst = CALCULATE(
+			        [EBITDA Matrix Value Actual],
+			        'Date Table'[Month Offset] = -1)
+			
+			VAR _prevyear = CALCULATE(
+			        [EBITDA Matrix Value Actual],
+			        'Date Table'[Year Offset] = -1)
+			
+			VAR __offset_1 = IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _currmothnfcst,
+			                    IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 3, _nxtmonthfcst,
+			                        IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 0 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 2, _prvmonth,
+			                            IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 3 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 1, _curryrfcst,
+			                                IF(SELECTEDVALUE('Dim Period Comp'[Order]) = 3 && SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]) = 4, _prevyear,BLANK())
+			                    ))))
+			
+			
+			RETURN 
+			    __offset_1
+			```
+		isHidden
+		lineageTag: 5cc9440b-3c6d-4f52-ba1d-9566fb814618
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Matrix Value Prev Forcast' = ```
+			
+			                    CALCULATE([EBITDA Matrix Value], 
+			                    'EBITDA Table'[PERIOD_SET_OF_BOOKS] = "Previous Forecast"
+			                   )
+			```
+		isHidden
+		lineageTag: 480d9eda-fb63-48fa-a45f-2d2def51909e
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Matrix Latest Period PF' = ```
+			
+			VAR _monthoffset = CALCULATE(
+			        [EBITDA Matrix Value Prev Forcast],
+			        'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] = -1)
+			
+			VAR _fyroffset = CALCULATE(
+			        [EBITDA Matrix Value Prev Forcast],
+			        'Date Table'[Year Offset] = 0)
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 3,_fyroffset, BLANK())
+			
+			
+			RETURN 
+			    __offset_1
+			```
+		isHidden
+		lineageTag: b9318f56-a966-45c2-87cc-6be01caa2ffb
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'EBITDA Matrix Comp' = ```
+			
+			VAR _vsfcts = [EBITDA Matrix Latest Period PF]
+			
+			VAR _vsprevp = [EBITDA Matrix Comp Prev Period]
+			
+			RETURN
+			SWITCH(
+			        SELECTEDVALUE('EBITDA Comp'[Comp Ordinal]), 
+			        1, _vsfcts,
+			        2, _vsprevp,
+			        3, _vsfcts
+			)
+			```
+		isHidden
+		lineageTag: 41323e31-4c4c-486d-8ff7-2437ae32ebb9
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PRODUCT
+		dataType: string
+		isHidden
+		lineageTag: acfdb120-b977-46a9-8be4-2a4d92f8b22e
+		summarizeBy: none
+		sourceColumn: PRODUCT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UOM
+		dataType: string
+		isHidden
+		lineageTag: ff1bbe0a-0ee7-4305-b5f0-04672f84e343
+		summarizeBy: none
+		sourceColumn: UOM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CATEGORY
+		dataType: string
+		isHidden
+		lineageTag: 8fddb7b2-38fd-4908-88c8-fc421af4d475
+		summarizeBy: none
+		sourceColumn: CATEGORY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERIOD_SET_OF_BOOKS
+		dataType: string
+		isHidden
+		lineageTag: efc1490d-f237-48f2-9142-cffb598eb273
+		summarizeBy: none
+		sourceColumn: PERIOD_SET_OF_BOOKS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_AVG
+		dataType: double
+		isHidden
+		lineageTag: 9150b99e-3cf6-4c1f-a6fa-a241028c98f9
+		summarizeBy: sum
+		sourceColumn: TOTAL_AVG
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DATE
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: eda4e2ce-3ad8-49c8-a0ea-85cbede7fa8c
+		summarizeBy: none
+		sourceColumn: DATE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column VALUE
+		dataType: double
+		isHidden
+		lineageTag: 1fed1f0b-7516-4636-a9c6-651124ae4b43
+		summarizeBy: sum
+		sourceColumn: VALUE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'EBITDA Table' = m
+		mode: import
+		queryGroup: 'Fact Tables\EBITDA'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"EBITDA Page_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="EBITDA Table",version=""]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(#"EBITDA Page_",{{"DATE", type date}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

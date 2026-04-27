@@ -1,0 +1,45 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "3c1171c9e78cd34b2d1c",
+  "position": {
+    "x": 109.68772694262891,
+    "y": 23.238925199709517,
+    "z": 1000,
+    "height": 39.041394335511988,
+    "width": 1084.7930283224403,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "CUSTOMER MARGIN |",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontFamily": "Verdana",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": " Net Sales, Net Back, Contribution & Gross Cash Margin, Top Customers, Volume Sold",
+                    "textStyle": {
+                      "fontFamily": "Verdana",
+                      "fontSize": "14pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,68 @@
+table 'ExOptions T&D'
+	isHidden
+	lineageTag: f1d8ef5a-210c-46d9-bc98-243988c13e85
+
+	column 'ExOptions T&D'
+		isHidden
+		lineageTag: 2e33cf4e-a576-4ae8-aac9-096e528c45c8
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'ExOptions T&D Order'
+
+		relatedColumnDetails
+			groupByColumn: 'ExOptions T&D Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExOptions T&D Fields'
+		isHidden
+		lineageTag: 1bb3e4cd-caec-4f77-bd38-b99f4474bcaa
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'ExOptions T&D Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ExOptions T&D Order'
+		isHidden
+		formatString: 0
+		lineageTag: 7d22f44d-05c8-4a62-86d1-daac64bac85a
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SlicerValue = 'ExOptions T&D'[ExOptions T&D]
+		isHidden
+		lineageTag: 8f224d78-87c8-4e09-849f-fcbc073e1737
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'ExOptions T&D' = calculated
+		mode: import
+		source =
+				
+				{
+				    ("Prev Month", NAMEOF('5 - Expenditure'[T&D Final Prev Period]), 0),
+				    ("Budget", NAMEOF('5 - Expenditure'[T&D Final Budget]), 0),
+				    ("Forecast", NAMEOF('5 - Expenditure'[T&D Final Prev Forecast]), 0),
+				    ("SQLY", NAMEOF('5 - Expenditure'[T&D Final Prev Period]), 1),
+				    ("Budget", NAMEOF('5 - Expenditure'[T&D Final Budget]), 1),
+				    ("Prev Quarter", NAMEOF('5 - Expenditure'[T&D Final Prev Forecast]), 1),
+				    ("YTDLY", NAMEOF('5 - Expenditure'[T&D Final Prev Period]), 2),
+				    ("Budget", NAMEOF('5 - Expenditure'[T&D Final Budget]), 2),
+				    ("Forecast", NAMEOF('5 - Expenditure'[T&D Final Prev Forecast]), 2),
+				    ("Prev Year", NAMEOF('5 - Expenditure'[T&D Final Prev Period]), 3),
+				    ("Budget", NAMEOF('5 - Expenditure'[T&D Final Budget]), 3),
+				    ("Forecast", NAMEOF('5 - Expenditure'[T&D Final Prev Forecast]), 3)
+				}
+
+	annotation PBI_Id = 5e827097b98d4b60b1df5a2f622fc219
+

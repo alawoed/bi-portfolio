@@ -1,0 +1,78 @@
+table 'RP Switch'
+	isHidden
+	lineageTag: c15e948c-bf09-4e29-bf94-1645492faa01
+
+	measure 'RP Chart Title' = ```
+			
+			SWITCH(
+			    SELECTEDVALUE('RP Switch'[RP Switch Order]), 
+			    0, "REVENUE DISTRIBUTION TREND",
+			    1, "VOLUME DISTRIBUTION TREND"
+			)
+			```
+		isHidden
+		lineageTag: f3f539f3-aec2-4848-8569-4e58fb620ca0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'RP Chart SubTitle' = ```
+			
+			SWITCH(
+			    SELECTEDVALUE('RP Switch'[RP Switch Order]), 
+			    0, "Millions of Dollars",
+			    1, 
+			        SWITCH(
+			            CALCULATE(SELECTEDVALUE('Revenue Page by Product'[UOM]),'Revenue Page by Product'[Account] = "Sales Volumes" && 'Revenue Page by Product'[UOM] <> "USD"),
+			            "Ktons" , "Ktons - Thousand of Tons", 
+			                "lbs(m) - Millions of Lbs")
+			)
+			```
+		isHidden
+		lineageTag: 2acbd2e8-fb31-4f94-b90e-813e73060f0e
+
+	column 'RP Switch'
+		isHidden
+		lineageTag: c19a5bad-7e0d-43a9-8f18-54fe17f89d94
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'RP Switch Order'
+
+		relatedColumnDetails
+			groupByColumn: 'RP Switch Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RP Switch Fields'
+		isHidden
+		lineageTag: 7c5c6b34-6d02-4924-8cf4-0cb59998893b
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'RP Switch Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RP Switch Order'
+		isHidden
+		formatString: 0
+		lineageTag: 5a4343fa-4f36-47f8-9775-cfc465af27fb
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'RP Switch' = calculated
+		mode: import
+		source =
+				{
+				    ("Net Revenue", NAMEOF('1 - Revenue'[RP CY NR Actual + Forecast]), 0),
+				    ("Volume", NAMEOF('1 - Revenue'[RP CY SV Actual + Forecast]), 1)
+				}
+
+	annotation PBI_Id = 6b1e9f9fb6374a5f88fc08c7f2d82a38
+

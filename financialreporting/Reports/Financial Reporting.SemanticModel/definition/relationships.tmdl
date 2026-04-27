@@ -1,0 +1,257 @@
+relationship 67b9076f-6d91-4b4e-9032-c3ce494ccbad
+	fromColumn: 'SnapShot by Product'.ACCOUNT
+	toColumn: Account.ACCOUNT
+
+relationship d8a7ab24-aa25-4447-856d-b17f32fecba5
+	fromColumn: 'SnapShot by Product'.Date
+	toColumn: 'Date Table'.Date
+
+relationship c851e04e-93c3-5259-024e-351d399cef81
+	fromColumn: 'SnapShot by Product'.ENTITY
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship 3f777e08-eb5d-41df-b4be-8362c46a24ad
+	fromColumn: 'SnapShot by Site'.ACCOUNT
+	toColumn: Account.ACCOUNT
+
+relationship 0f7af71f-6e33-44ee-917e-1eda1931e7c7
+	fromColumn: 'SnapShot by Site'.Date
+	toColumn: 'Date Table'.Date
+
+relationship f4901da4-1288-03b5-fdee-dfaf8b55f27b
+	fromColumn: 'SnapShot by Site'.ENTITY
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship 6bb1db5d-363d-25ce-092e-e689d9e2c551
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'Dim Hierarchy'.ENTITY
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship fdfaa4cf-2048-36d3-ff85-f6746d35eed0
+	fromColumn: 'Dim Hierarchy'.Ordinal
+	toColumn: 'Switch Table'.Order
+
+relationship b45108f1-aa27-4ea8-a814-042cec9db17f
+	fromColumn: 'Revenue Page by Product'.Date
+	toColumn: 'Date Table'.Date
+
+relationship a2a148ee-1b5b-090a-75c6-ee66ee37b427
+	fromColumn: 'Revenue Page by Site'.'Sales Channel'
+	toColumn: 'Sales Channel'.'Sales Channel'
+
+relationship f55c3103-6289-ecb4-75af-75e354ac8937
+	fromColumn: 'Revenue Page by Product'.'Sales Channel'
+	toColumn: 'Sales Channel'.'Sales Channel'
+
+relationship cb92d2a5-658d-4191-01b4-28535012a0e4
+	fromColumn: 'Revenue Page by Product'.ENTITY
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship 8b73fbaf-2985-f192-f58c-2b0fb110f878
+	fromColumn: 'Revenue Page by Site'.ENTITY
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship 417904f4-f132-91d5-12dd-9203ce3ef47d
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'RP Rev Matrix'.'Parameter Order'
+	toColumn: 'RP Dim Matrix'.Order
+
+relationship 16541245-e1f3-9fad-07b4-f22b4b3d2f3f
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'RP Dim Matrix'.Order
+	toColumn: 'RP Vol Matrix'.'RP Vol Matrix Order'
+
+relationship 2230d4fc-3d49-8fb0-dffa-d36af842212e
+	fromColumn: 'Production by Product'.Date
+	toColumn: 'Date Table'.Date
+
+relationship c653965a-5dae-aa7b-dcf3-a29c68c1fd56
+	fromColumn: 'Production by Site'.Date
+	toColumn: 'Date Table'.Date
+
+relationship 6f7dc517-78bc-159d-c799-e16f4f6a6bd3
+	fromColumn: 'Production by 10K'.Date
+	toColumn: 'Date Table'.Date
+
+relationship db650cb1-5b38-5a88-75db-a2586ccc9e3c
+	fromColumn: 'Production by Site'.Entity
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship 98e2b57f-36f5-f9bb-9f65-419e8bc43990
+	fromColumn: 'Production by 10K'.Entity
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship 9005591e-5b73-7647-1a71-704f4f181d3f
+	fromColumn: 'Date Periodicity'.'Date Periodicity Order'
+	toColumn: 'Dim Period Comp'.Order
+
+relationship 37c4bf64-7d27-cb28-4d95-5dbbd03f6696
+	fromColumn: HSE.Date
+	toColumn: 'Date Table'.Date
+
+relationship 74b480aa-d00b-2351-26fc-2f186fd8b239
+	fromColumn: 'Production by Product'.Entity
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship 7817c454-3ba2-1d05-6210-201b4990b5ac
+	fromColumn: ExOptionsCost.SlicerValue
+	toColumn: ExSlicer.Value
+
+relationship 110a2358-2c91-1d5b-2e70-c9ae9d33d2c0
+	fromColumn: ExOptionsOps.SlicerValue
+	toColumn: ExSlicer.Value
+
+relationship AutoDetected_80e450bb-7fb5-46b0-b35e-fad63ce09b28
+	fromColumn: SG&A.'Period Set of Books'
+	toColumn: 'Dim_Period / Set of Books'.'Period / Set of Books'
+
+relationship AutoDetected_a8fb260e-48b5-4ee7-9318-5483525246ae
+	fromColumn: 'Manufacturing Cost'.'Period Set of Books'
+	toColumn: 'Dim_Period / Set of Books'.'Period / Set of Books'
+
+relationship b727e81f-eb16-32f3-c4cd-effc712110ad
+	fromColumn: 'Manufacturing Cost'.Date
+	toColumn: 'Date Table'.Date
+
+relationship a7b7c08b-07db-e54f-b30c-92b4bcae0387
+	fromColumn: SG&A.Date
+	toColumn: 'Date Table'.Date
+
+relationship e6888dc8-197c-b932-4a0d-41d738092c77
+	fromColumn: 'Revenue Page by Site'.Date
+	toColumn: 'Date Table'.Date
+
+relationship 191638fe-bc2d-56f9-04b0-52085eb93390
+	fromColumn: ExOptionsSGA.SlicerFilter
+	toColumn: ExSlicer.Value
+
+relationship AutoDetected_0b4d28ad-0219-4343-8ac5-58e436da6112
+	fromColumn: CAPEX.'Period Set of Books'
+	toColumn: 'Dim_Period / Set of Books'.'Period / Set of Books'
+
+relationship AutoDetected_62a15ff4-e6cc-494b-8efa-d4f9c74d84a7
+	fromColumn: CAPEX.Entity
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship fb977698-3968-2eaf-7878-e3d9f7b1afd0
+	fromColumn: CAPEX.Date
+	toColumn: 'Date Table'.Date
+
+relationship a40b6774-cb5b-25e7-f484-34ec4def9d17
+	fromColumn: CAPEX.Ordinal
+	toColumn: 'Switch Table'.Order
+
+relationship c00627a0-1954-1ca4-df7f-2d57357ce49e
+	fromColumn: 'Manufacturing Cost'.Entity
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship 24254868-75b0-8502-6493-3fbf6eaa4455
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Switch Table'.Order
+	toColumn: 'ExSwitch Table'.Order
+
+relationship 50ca3633-3afe-f069-9806-4584c4b18180
+	fromColumn: 'Manufacturing Cost'.Ordinal
+	toColumn: 'Switch Table'.Order
+
+relationship AutoDetected_ca290154-0241-4d7b-9d71-9238bae5350d
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'ExSwitch Table'.Order
+	toColumn: 'ExProducts Site'.'Products Site Order'
+
+relationship e61fec4b-1748-41a8-8f96-e00a374a6a56
+	fromColumn: T&D.Date
+	toColumn: 'Date Table'.Date
+
+relationship a49b92d1-02b4-ed75-4455-453b8a47ac57
+	fromColumn: 'ExOptions T&D'.SlicerValue
+	toColumn: ExSlicer.Value
+
+relationship AutoDetected_7dd0dce1-ab02-4279-8de1-c33176a129d0
+	fromColumn: EBITDA.ACCOUNT
+	toColumn: Account.ACCOUNT
+
+relationship AutoDetected_38f6ce96-7130-4312-bcfe-50544bd901c8
+	fromColumn: EBITDA.'Period / Set of Books'
+	toColumn: 'Dim_Period / Set of Books'.'Period / Set of Books'
+
+relationship 012a8aa9-c6de-eab9-84ef-47f01a101942
+	fromColumn: EBITDA.ENTITY
+	toColumn: 'Hierachy Bridge'.ENTITY
+
+relationship 6f23ad3f-cb07-9ffc-1a6f-858296fd45fb
+	fromColumn: EBITDA.Date
+	toColumn: 'Date Table'.Date
+
+relationship c570ea19-5c88-6e54-f737-1145b8e07417
+	fromColumn: 'EBITDA Accounts'.Period
+	toColumn: 'Dim Period Comp'.Period
+
+relationship AutoDetected_528fbb9f-99b7-487f-8c70-b74632095234
+	fromColumn: 'EBITDA Key Stats'.'Ordinal Key'
+	toColumn: 'Dim CAPEX'.Ordinal
+
+relationship 3324a503-4bd6-fb5e-97aa-a814340ffdff
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'EBITDA Accounts'.'Comp Ordinal'
+	toColumn: 'EBITDA Comp'.'Comp Ordinal'
+
+relationship f8c468b8-91ce-dfb0-03ff-b1f4a7e66012
+	fromColumn: EBOptionsPP.'EBOptionsPP (groups)'
+	toColumn: 'EBITDA Comp'.'Comp Ordinal'
+
+relationship 6499c442-e25d-a498-8b75-f6376e00321b
+	fromColumn: 'EBITDA Table'.DATE
+	toColumn: 'Date Table'.Date
+
+relationship 6169ee07-2572-1107-4a28-5b4a1edac011
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'ExSite Products'.'Site Products Order'
+	toColumn: 'ExSwitch Table'.Order
+
+relationship 6eda47d7-f107-ed23-8183-b3988331f89e
+	fromColumn: EBOptionsCP.'EBOptionsCP Order'
+	toColumn: 'Dim Period Comp'.Order
+
+relationship 48e0688c-14b6-e69f-80a4-1752b2cedbb1
+	fromColumn: EBOptionsPP.'EBOptionsPP Order'
+	toColumn: 'Dim Period Comp'.Order
+
+relationship 5c6d8e1a-6c1e-0616-3eed-17c9c0180bea
+	fromColumn: EBKeySCompOptions.'EBKeySOptions Order'
+	toColumn: 'EBITDA Comp'.'Comp Ordinal'
+
+relationship e6385b6d-e6c1-f473-7416-cf2681a281ef
+	fromColumn: ExOptionsSGA.'ExOptionsSGA Order'
+	toColumn: 'Dim Period Comp'.Order
+
+relationship 27ec6d32-dc76-84fb-d131-89b8df1c2ff0
+	fromColumn: ExOptionsCost.'ExOptions Order'
+	toColumn: 'Dim Period Comp'.Order
+
+relationship e6e8732d-9dd8-22e4-984e-b070d55e7209
+	fromColumn: ExOptionsOps.'ExOptionsOps Order'
+	toColumn: 'Dim Period Comp'.Order
+
+relationship fc17572a-b1e2-dd7d-bd1f-f6d081e582e0
+	fromColumn: 'Customer Margin'.Date
+	toColumn: 'Date Table'.Date
+
+relationship e500b842-ad6b-4342-7c75-c95c19e5c227
+	fromColumn: ExCapex.'ExCapex Order'
+	toColumn: 'Dim Period Comp'.Order
+
+relationship 5d4ecdc8-e2fd-b138-1656-ebbd3f7e372c
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'C_Margins per Lbs'.'Margins Order'
+	toColumn: C_Margins.'C_Margins Order'
+
+relationship 5b420921-98f1-0638-796a-0ab1a3dd6630
+	fromColumn: 'ExOptions T&D'.'ExOptions T&D Order'
+	toColumn: 'Dim Period Comp'.Order
+

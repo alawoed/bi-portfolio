@@ -1,0 +1,45 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
+  "name": "7aa305c6a4b03e775e13",
+  "position": {
+    "x": 109.97833935018051,
+    "y": 23.104693140794225,
+    "z": 0,
+    "height": 37.891696750902526,
+    "width": 899.23465703971124,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "EXPENDITURE PERFORMANCE | ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontFamily": "Verdana",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": "Manufacturing, Logistics, SG&A, CAPEX",
+                    "textStyle": {
+                      "fontFamily": "Verdana",
+                      "fontSize": "14pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

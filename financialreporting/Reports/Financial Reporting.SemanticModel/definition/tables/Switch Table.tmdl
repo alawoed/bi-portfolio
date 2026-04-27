@@ -1,0 +1,46 @@
+table 'Switch Table'
+	isHidden
+	lineageTag: 9f075d80-71c8-41f3-98d8-d9ab15e4046c
+
+	column Value
+		dataType: string
+		isHidden
+		lineageTag: 3e6b0b06-3520-4a57-8940-a6e73009058c
+		summarizeBy: none
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1c7c18c3-deda-45ce-97e9-f9de8ccc16c3
+		summarizeBy: none
+		sourceColumn: Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Switch Table' = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29" = Workspaces{[workspaceId="fbb5ab74-7061-4026-9a6e-0b28fe91ef29"]}[Data],
+				    #"d14f74e0-2546-4158-95d6-8618c96bd502" = #"fbb5ab74-7061-4026-9a6e-0b28fe91ef29"{[dataflowId="d14f74e0-2546-4158-95d6-8618c96bd502"]}[Data],
+				    #"Switch Table_" = #"d14f74e0-2546-4158-95d6-8618c96bd502"{[entity="Switch Table",version=""]}[Data]
+				in
+				    #"Switch Table_"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

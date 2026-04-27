@@ -1,0 +1,52 @@
+table EBKeySCompOptions
+	isHidden
+	lineageTag: 9ca691f7-7fb6-41b3-b993-b135bbdfe43c
+
+	column EBKeySOptions
+		isHidden
+		lineageTag: 32bd87b5-acfc-4ca2-9797-faed946de455
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'EBKeySOptions Order'
+
+		relatedColumnDetails
+			groupByColumn: 'EBKeySOptions Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EBKeySOptions Fields'
+		isHidden
+		lineageTag: f3e6a3f4-2675-47ac-bbfe-dd1c0427d560
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'EBKeySOptions Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EBKeySOptions Order'
+		isHidden
+		formatString: 0
+		lineageTag: ae47bb93-b67b-4f01-bcec-e2c01a5e9073
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EBKeySCompOptions = calculated
+		mode: import
+		source =
+				{
+				    ("Current Forecast", NAMEOF('EBITDA Key Stats'[EB Comparitive Period]), 1),
+				    ("Prev. Month", NAMEOF('EBITDA Key Stats'[EB Comparitive Period]), 2),
+				    ("Nxt. Month Forecast", NAMEOF('EBITDA Key Stats'[EB Comparitive Period]), 3),
+				    ("Prev. Year", NAMEOF('EBITDA Key Stats'[EB Comparitive Period]), 4)
+				}
+
+	annotation PBI_Id = 622c9042faca4756ae2b278db9da385a
+

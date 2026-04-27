@@ -1,0 +1,369 @@
+table '4 - Customers'
+	lineageTag: b4056e41-921a-4003-aaf7-06edc5e410e1
+
+	measure 'Net Back' = ```
+			
+			VAR _monthoffset = CALCULATE( SUM('Customer Margin'[NetBack] ), 'Date Table'[Month Offset] = -1)
+			VAR _qtdoffset = CALCULATE( SUM('Customer Margin'[NetBack] ), 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = -1)
+			VAR _ytdoffset = CALCULATE( SUM('Customer Margin'[NetBack] ), 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE( SUM('Customer Margin'[NetBack] ), 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE( SUM('Customer Margin'[NetBack] ) , 'Date Table'[Year Offset] <= 0 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 74f9f908-d3c5-4e10-81fb-8f2a0b3d15fe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Back per Unit' = ```
+			
+			VAR net_back = [Net Back]
+			VAR volume = IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", [CM Volume Sold Actual for Bubble Chart] * 1000, [CM Volume Sold Actual for Bubble Chart] * 1000000 )
+			VAR per_unit = 
+			DIVIDE(
+			    net_back,
+			    volume,
+			    BLANK()
+			)
+			RETURN
+			IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", per_unit, per_unit * 100 )
+			--IF (per_unit > 10, BLANK(), per_unit ) * 100
+			```
+		formatString: 0.00
+		displayFolder: 0-Base Measures
+		lineageTag: a3de666b-717e-4457-9910-ebe7e243504a
+
+	measure 'Net Back per Lb in USD' =
+			
+			//Since we are using the Convert To Millions calculation Group, we need to multiply by 1,000,000 the Net back per Lb to account for the millions division performed by the calculation group "Convert to Millions" over the whole visual
+			[Net Back per Unit] * 1000000
+		displayFolder: 0-Base Measures
+		lineageTag: 34d2ace5-0728-4679-b160-8e4284476b32
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Sales' = ```
+			
+			VAR _monthoffset = CALCULATE( SUM('Customer Margin'[NetSales] ), 'Date Table'[Month Offset] = -1)
+			VAR _qtdoffset = CALCULATE( SUM('Customer Margin'[NetSales] ), 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = -1)
+			VAR _ytdoffset = CALCULATE( SUM('Customer Margin'[NetSales] ), 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE( SUM('Customer Margin'[NetSales] ), 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE( SUM('Customer Margin'[NetSales] ) , 'Date Table'[Year Offset] <= 0 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 13d4d739-327f-4f89-81a2-2808d9cd279f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Sales per Unit' = ```
+			
+			VAR net_sales = [Net Sales]
+			VAR volume = IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", [CM Volume Sold Actual for Bubble Chart] * 1000, [CM Volume Sold Actual for Bubble Chart] * 1000000 )
+			VAR per_unit = 
+			DIVIDE(
+			    net_sales,
+			    volume,
+			    BLANK()
+			)
+			RETURN
+			IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", per_unit, per_unit * 100 )
+			--IF (per_unit > 10, BLANK(), per_unit ) * 100
+			```
+		formatString: 0.00
+		displayFolder: 0-Base Measures
+		lineageTag: f3fe5a57-05e5-41e2-9a78-4935afcf42f6
+
+	measure 'Volume Sold by Converted Volume' =
+			
+			IF(
+			    SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic",
+			    SUM( 'Customer Margin'[Volume Converted] )/1000,
+			    SUM( 'Customer Margin'[Volume Converted] )/1000000
+			)
+		displayFolder: 0-Base Measures
+		lineageTag: afe124b5-8312-4142-b52b-f59271f6c7a2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CM CY Vol Actual' = ```
+			
+			VAR _monthoffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = 0)
+			VAR _qtdoffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = -1)
+			VAR _ytdoffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] <= 0)
+			
+			
+			VAR __offset_1 = 
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Order]), 
+			    0, _monthoffset, 
+			    1, _qtdoffset, 
+			    2, _ytdoffset, 
+			    3, _fyroffset, 
+			    _alltime
+			)
+			
+			RETURN 
+			    __offset_1
+			```
+		formatString: #,0
+		displayFolder: 2-Volume
+		lineageTag: 1bd9eb7e-2825-4738-a85f-d9056dcfa4fb
+
+	measure 'CM PY Vol Actual' = ```
+			
+			VAR _monthoffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = -1 )
+			VAR _qtdoffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = -1 && 'Date Table'[Quarter Offset] < 4)
+			VAR _ytdoffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = -1 && 'Date Table'[Month Offset] <-12)
+			VAR _fyroffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = -1)
+			VAR _alltime = BLANK()
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		formatString: #,0
+		displayFolder: 2-Volume
+		lineageTag: be5c3e68-b55a-4a01-bd17-0523217cc2bc
+
+	measure 'CM Hier Filter' =
+			
+			VAR Level2 = IF(ISFILTERED('Customer Margin'[Sales Channel]), 1)
+			VAR SBU = IF(ISFILTERED('Customer Margin'[Market Segment]), 0)
+			VAR final = COALESCE(SBU, Level2, 2 )
+			
+			
+			RETURN
+			IF(SELECTEDVALUE(Customer_Page_Selector[Parameter Order]) = final, 1, 0)
+		displayFolder: 0-Base Measures
+		lineageTag: 9b71ef14-97eb-4300-b48b-191e8613b50f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CM CY Net Sales Actual' = ```
+			
+			VAR _monthoffset = CALCULATE([Net Sales], 'Date Table'[Month Offset] = -1)
+			VAR _qtdoffset = CALCULATE([Net Sales], 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = -1)
+			VAR _ytdoffset = CALCULATE([Net Sales], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE([Net Sales], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([Net Sales], 'Date Table'[Year Offset] <= 0 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		formatString: 0.0
+		displayFolder: 1-Net Sales
+		lineageTag: aca0e6fb-fd2f-45a5-b8d0-d77d323c44ea
+
+	measure 'Contribution Margin' = ```
+			
+			VAR _monthoffset = CALCULATE(SUM('Customer Margin'[Contribution Margin]), 'Date Table'[Month Offset] = -1)
+			VAR _qtdoffset = CALCULATE(SUM('Customer Margin'[Contribution Margin]), 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = -1)
+			VAR _ytdoffset = CALCULATE(SUM('Customer Margin'[Contribution Margin]), 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE(SUM('Customer Margin'[Contribution Margin]), 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE( SUM('Customer Margin'[Contribution Margin] ) , 'Date Table'[Year Offset] <= 0 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		formatString: 0.0
+		displayFolder: 0-Base Measures
+		lineageTag: 077886d9-f2cd-4595-9078-c7e40dac0d61
+
+	measure 'Contribution Margin Per Unit' = ```
+			
+			VAR net_back = [Contribution Margin]
+			VAR volume = IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", [CM Volume Sold Actual for Bubble Chart] * 1000, [CM Volume Sold Actual for Bubble Chart] * 1000000 )
+			VAR per_unit = 
+			DIVIDE(
+			    net_back,
+			    volume,
+			    BLANK()
+			)
+			RETURN
+			IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", per_unit, per_unit * 100 )
+			--IF (per_unit > 10, BLANK(), per_unit ) * 100
+			```
+		formatString: 0.00
+		displayFolder: 0-Base Measures
+		lineageTag: f562b471-2772-40c4-b8c4-e839dbede265
+
+	measure 'Gross Cash Margin' = ```
+			
+			VAR _monthoffset = CALCULATE(SUM('Customer Margin'[Gross Cash Margin]), 'Date Table'[Month Offset] = -1)
+			VAR _qtdoffset = CALCULATE(SUM('Customer Margin'[Gross Cash Margin]), 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = -1)
+			VAR _ytdoffset = CALCULATE(SUM('Customer Margin'[Gross Cash Margin]), 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE(SUM('Customer Margin'[Gross Cash Margin]), 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE( SUM('Customer Margin'[Gross Cash Margin] ) , 'Date Table'[Year Offset] <= 0 )
+			
+			
+			VAR __offset_1 = SWITCH(SELECTEDVALUE('Dim Period Comp'[Order]), 0, _monthoffset, 1, _qtdoffset, 2,_ytdoffset, 3,_fyroffset, _alltime)
+			
+			RETURN 
+			    __offset_1
+			```
+		formatString: 0.0
+		displayFolder: 0-Base Measures
+		lineageTag: 66305836-02b1-4049-a23d-d056c8c75e38
+
+	measure 'Gross Cash Margin per Unit' = ```
+			
+			VAR net_back = [Gross Cash Margin]
+			VAR volume = IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", [CM Volume Sold Actual for Bubble Chart] * 1000, [CM Volume Sold Actual for Bubble Chart] * 1000000 )
+			VAR per_unit = 
+			DIVIDE(
+			    net_back,
+			    volume,
+			    BLANK()
+			)
+			RETURN
+			IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", per_unit, per_unit * 100 )
+			--IF (per_unit > 10, BLANK(), per_unit ) * 100
+			```
+		formatString: 0.00
+		displayFolder: 0-Base Measures
+		lineageTag: 7ba56be8-34c9-487e-93b8-326e10c1696a
+
+	measure 'Subtitle Bubble Chart' =
+			
+			VAR _product = IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", "$/KTon", "ct/lb" )
+			RETURN "Y-axis in " & _product & "   |   Size of bubble in $(M)" & "   -   " & [Page Period Card Title]
+		displayFolder: 0-Base Measures
+		lineageTag: 943d28ad-9dcc-4924-9dc7-400622b80a93
+
+	measure 'CM Volume Sold Actual for Bubble Chart' = ```
+			
+			VAR _monthoffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Month Offset] = -1)
+			VAR _qtdoffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = 0 && 'Date Table'[Quarter Offset] = -1)
+			VAR _ytdoffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = 0 && 'Date Table'[Month Offset] <= -1)
+			VAR _fyroffset = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] = 0)
+			VAR _alltime = CALCULATE([Volume Sold by Converted Volume], 'Date Table'[Year Offset] <= 0)
+			 
+			 
+			VAR __offset_1 =
+			SWITCH(
+			    SELECTEDVALUE('Dim Period Comp'[Order]),
+			    0, _monthoffset,
+			    1, _qtdoffset,
+			    2, _ytdoffset,
+			    3, _fyroffset,
+			    BLANK()
+			)
+			 
+			RETURN
+			__offset_1
+			   --if( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic", __offset_1/1000, __offset_1/1000000 ) 
+			```
+		formatString: 0.0
+		displayFolder: 2-Volume
+		lineageTag: 1d64f8c7-109a-427f-adf8-4aa62d4ef16b
+
+	measure 'Title Bubble Chart' = ```
+			
+			VAR _product = IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic" , "KTON", "LB" ) 
+			RETURN
+			
+			SWITCH(
+			    SELECTEDVALUE( 'C_Margins per Lbs'[Margins Order] ),
+			    0, "NET BACK PER " & _product,
+			    1, "CONTRIBUTION MARGIN PER " & _product,
+			    2, "GROSS CASH MARGIN PER " & _product,
+			    "NET SALES PER " & _product
+			)
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: dae56610-d2c4-4e76-b360-9d35e4e58208
+
+	measure 'Title Top Customers' = ```
+			
+			"TOP CUSTOMERS BY " & 
+			SWITCH(
+			    SELECTEDVALUE( 'C_Margins per Lbs'[Margins Order] ),
+			    0, "NET BACK",
+			    1, "CONTRIBUTION MARGIN",
+			    2, "GROSS CASH MARGIN",
+			    "NET SALES"
+			)
+			& " $(M)"
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 1b1acc2d-ebd7-4728-b681-bea9878edfbf
+
+	measure 'Net Back in Millions' = [Net Back] / 1000000
+		formatString: 0.00
+		displayFolder: 0-Base Measures
+		lineageTag: 12e83186-805e-419f-b503-dd71c6d43dc3
+
+	measure 'Net Sales in Millions' = [Net Sales] / 1000000
+		formatString: 0.00
+		displayFolder: 0-Base Measures
+		lineageTag: a1ba70c2-64aa-4a97-a9e0-e28b9d94cd82
+
+	measure 'Gross Cash Margin in Millions' = [Gross Cash Margin] / 1000000
+		formatString: 0.00
+		displayFolder: 0-Base Measures
+		lineageTag: 897eec70-26f3-4737-91d9-f0664f60130e
+
+	measure 'Contribution Margin in Millions' = [Contribution Margin] / 1000000
+		formatString: 0.00
+		displayFolder: 0-Base Measures
+		lineageTag: 4864be2a-5632-4ea8-b9c2-58a1807fb7d2
+
+	measure 'Title Volume Trend' = ```
+			
+			VAR _product = IF( SELECTEDVALUE( 'Customer Margin'[Product] ) = "Caustic" , "KTON", "LB(M)" ) 
+			RETURN
+			"VOLUME SOLD IN " & _product 
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 878b111f-dca8-4d2a-ac83-2637b6774bca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Margin Definitions' = ```
+			
+			"-Netbacks (defined as Net sales, less cost to serve) -  Net sales is the gross revenue, net of rebates and other discounts and Cost to serve is the freight and handling cost incurred to deliver the product to the customer." 
+			& UNICHAR(10) & 
+			"-Variable Margin (defined as netback, less variable mfg. cost) -also referred to as Contribution Margin, represents the incremental dollars generated from selling an incremental unit of product." 
+			& UNICHAR(10) &
+			"-Gross Cash Margin (defined as Variable Margin, less fixed cash operating costs) – represents how much of the contribution or variable margin is left after covering fixed opex costs."
+			```
+		displayFolder: 0-Base Measures
+		lineageTag: 1ac97701-ed8f-40c4-a545-67551748a5f5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition '4 - Customers' = m
+		mode: import
+		queryGroup: 'Calculation Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

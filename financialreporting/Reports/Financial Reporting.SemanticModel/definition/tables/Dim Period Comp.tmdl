@@ -1,0 +1,46 @@
+table 'Dim Period Comp'
+	isHidden
+	lineageTag: 3ff9492c-8471-464a-861c-ede4a568a99b
+
+	column Period
+		dataType: string
+		isHidden
+		lineageTag: 4ca30ea1-b037-45aa-bc92-2326485dffa4
+		summarizeBy: none
+		sourceColumn: Period
+		sortByColumn: Order
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 571b7f1c-f88a-46de-90dd-39de07190216
+		summarizeBy: none
+		sourceColumn: Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Period Comp' = m
+		mode: import
+		queryGroup: 'Dim Tables'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8s3PK8nIqVTSUTJQitWJVgosTSxJLQILGIIFIkNcgGwjMNutNCdHITI1sQgoYgwWcQQKhGTmpgIFTJRiYwE=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Period = _t, Order = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Period", type text}, {"Order", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

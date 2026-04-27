@@ -1,0 +1,48 @@
+table 'C_Margins per Lbs'
+	lineageTag: 88597c85-8171-4fe5-ada0-1edbde35d246
+
+	column Margins
+		lineageTag: b195eae2-9c64-44d1-8f83-1b7db96987dd
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Margins Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Margins Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Margins Fields'
+		lineageTag: e662e849-ccec-4d15-adb6-bd593c0f51bf
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Margins Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Margins Order'
+		formatString: 0
+		lineageTag: 6428de7d-ffa3-4e02-8bc8-e06be07e0163
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'C_Margins per Lbs' = calculated
+		mode: import
+		source =
+				{
+				    ("Net Back per Unit", NAMEOF('4 - Customers'[Net Back per Unit]), 0),
+				    ("Contribution Margin per Unit", NAMEOF('4 - Customers'[Contribution Margin Per Unit]), 1),
+				    ("Gross Cash Margin per Unit", NAMEOF('4 - Customers'[Gross Cash Margin per Unit]), 2),
+				    ("Net Sales per Unit", NAMEOF('4 - Customers'[Net Sales per Unit]), 3)
+				}
+
+	annotation PBI_Id = 8237fd715306442cba90e61e12ba2a7b
+
